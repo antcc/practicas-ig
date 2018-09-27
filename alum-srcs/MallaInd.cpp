@@ -1,7 +1,7 @@
 // *********************************************************************
 // **
-// ** Informática Gráfica, curso 2016-17
-// ** Declaraciones de la clase Objeto3D.hpp
+// ** Informática Gráfica, curso 2018-19
+// ** Implementación de la clase MallaInd
 // **
 // *********************************************************************
 
@@ -11,10 +11,6 @@
 
 // Decide si usar glBegin/glVertex/glEnd (0) o glDrawElements (1), ambos en modo inmediato
 #define MODO_INMEDIATO_DRAW_ELEMENTS 1
-
-// *****************************************************************************
-// funciones auxiliares
-
 
 // *****************************************************************************
 // métodos de la clase MallaInd.
@@ -101,14 +97,14 @@ void MallaInd::visualizarDE_MI( ContextoVis & cv )
   // Multiplicamos por 3 ya que en cada posición hay una 3-upla con 3 índices
   glDrawElements(GL_TRIANGLES, 3L * tabla_caras.size(), GL_UNSIGNED_INT, tabla_caras.data());
 
+  /* NOTA: Si quisiéramos usar glDrawArrays (por ejemplo, para el modo puntos).
+   * glDrawArrays(GL_TRIANGLES, 0, 3L * tabla_vertices.size());
+   */
+
   glDisableClientState(GL_VERTEX_ARRAY);
   glDisableClientState(GL_COLOR_ARRAY);
 
 #endif
-
-   // AÑADIDO: visualizar en modo puntos con glDrawArrays para no repetir el mismo
-   // punto muchas veces. Tambien en modo puntos con glBegin/glEnd (solo hay que mirar
-   // los vértices)
 
 }
 
@@ -171,8 +167,6 @@ void MallaInd::visualizarGL( ContextoVis & cv )
 }
 // *****************************************************************************
 
-// *****************************************************************************
-
 Cubo::Cubo()
   : Cubo(1.0) { }
 
@@ -207,7 +201,7 @@ Cubo::Cubo(float longitud_arista)
 // *****************************************************************************
 
 Tetraedro::Tetraedro()
-  : Tetraedro(1.5) { }
+  : Tetraedro(1.0) { }
 
 Tetraedro::Tetraedro(float longitud_arista)
   : MallaInd( "malla tetraedro")

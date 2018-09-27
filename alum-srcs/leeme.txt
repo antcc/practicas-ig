@@ -1,8 +1,36 @@
+== Sistema operativo utilizado para compilar==
+
+Arch Linux 64-bit con núcleo 4.18.7-arch1-1-ARCH
+
+== Implementación de OpenGL y librerías auxiliares ==
+
+- mesa 18.2.0-1
+- glew 2.1.0-1
+- glfw-x11 3.2.1-1
+- libjpeg-turbo 2.0.0-1
+
+== Comentarios P1 ==
+
+- Se ha realizado la programación del cauce gráfico, empleando la clase ShaderProg.
+Los shaders se encuentran en los archivos 'simple_fs.glsl' y 'simple_vs.glsl'.
+
+- Se permite visualizar un cubo y un tetraedro (regular) centrados en un punto arbitrario
+y con longitud de aristas también arbitraria.
+
+- Se añade un coloreado básico de las caras de ambas figuras.
+
+- Con la tecla v/V se puede cambiar el modo de envío (inmediato <--> diferido).
+
+- Se permite cambiar la forma de envío dentro del modo inmediato con la macro
+MODO_INMEDIATO_DRAW_ELEMENTS.
+
+== Comentarios P2 ==
+
 == Cambios en el código proporcionado ==
 
 - Los datos 'private' de Objeto3D pasan a ser 'protected', para poder acceder
 a ellos desde las clases Cubo y Tetraedro.
 
-== Añadidos ==
+== Añadidos al código proporcionado ==
 
-- Tecla v/V para cambiar el modo de visualización (inmediato <--> diferido)
+- Método P1_Delete() para eliminar correctamente los objetos creados en la P1.

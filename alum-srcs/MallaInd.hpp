@@ -1,7 +1,7 @@
 // *********************************************************************
 // **
-// ** Informática Gráfica, curso 2016-17
-// ** Declaraciones de la clase Objeto3D.hpp
+// ** Informática Gráfica, curso 2018-19
+// ** Implementación de la clase MallaInd
 // **
 // *********************************************************************
 
