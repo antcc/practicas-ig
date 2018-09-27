@@ -1,8 +1,0 @@
-== Cambios en el código proporcionado ==
-
-- Los datos 'private' de Objeto3D pasan a ser 'protected', para poder acceder
-a ellos desde las clases Cubo y Tetraedro.
-
-== Añadidos ==
-
-- Tecla v/V para cambiar el modo de visualización (inmediato <--> diferido)
