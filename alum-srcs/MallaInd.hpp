@@ -38,9 +38,6 @@ class MallaInd : public Objeto3D
       // calculo de las normales de esta malla
       void calcular_normales();
 
-      // Crear VBOS necesarios
-      void crearVBOs();
-
       // visualizar con 'draw elements', en modo inmediato
       void visualizarDE_MI( ContextoVis & cv );
       // visualizar con 'draw elements', en modo diferido (con VBOS)
