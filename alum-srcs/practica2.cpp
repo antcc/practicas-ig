@@ -15,27 +15,41 @@
 
 using namespace std ;
 
+#define DEFAULT_PLY "../plys/big_dodge.ply"
+#define DEFAULT_REV "../plys/peon.ply"
+
 static unsigned objetoActivo2 = 0 ; // objeto activo: malla ply (0), malla revol (1)
 static constexpr int numObjetos2 = 2 ;
-
 static Objeto3D * objetos2[numObjetos2] = { nullptr, nullptr };
 
 // ---------------------------------------------------------------------
-// Función para implementar en la práctica 1 para inicialización.
+// Función para implementar en la práctica 2 para inicialización.
 // Se llama una vez al inicio, cuando ya se ha creado la ventana e
 // incializado OpenGL.
 
-void P2_Inicializar(  )
+void P2_Inicializar(int argc, char *argv[])
 {
+   string nom_ply = DEFAULT_PLY;
+   string nom_rev = DEFAULT_REV;
+
    cout << "Creando objetos de la práctica 2 .... " << flush ;
-   // COMPLETAR: práctica 2: inicializar objeto de revolución y objeto PLY (en 'objeto2')
-   // ...
+
+   if (argc > 1) {
+     nom_ply = argv[1];
+     if (argc > 2)
+       nom_rev = argv[2];
+   }
+
+   cout << nom_rev;
+
+   objetos2[0] = new MallaPLY(nom_ply);
+   //objetos2[1] = new MallaRevol(nom_rev,);
 
    cout << "hecho." << endl << flush ;
 }
 
 // ---------------------------------------------------------------------
-// Función invocada al pulsar una tecla con la práctica 1 activa:
+// Función invocada al pulsar una tecla con la práctica 2 activa:
 // (si la tecla no se procesa en el 'main').
 //
 //  - devuelve 'true' si la tecla se usa en esta práctica para cambiar
@@ -58,14 +72,17 @@ bool P2_FGE_PulsarTeclaCaracter( unsigned char tecla )
    return true ;
 }
 
+void P2_Delete() {
+  delete objetos2[0];
+  delete objetos2[1];
+}
+
 // ---------------------------------------------------------------------
-// Función a implementar en la práctica 1  para dibujar los objetos
+// Función a implementar en la práctica 2 para dibujar los objetos
 // se debe de usar el modo de dibujo que hay en el parámetro 'cv'
 // (se accede con 'cv.modoVisu')
 
 void P2_DibujarObjetos( ContextoVis & cv )
 {
-   // COMPLETAR: práctica 2: invocar a 'visualizarGL' para el objeto activo actual en 'objetos2'
-   // ...
-
+  objetos2[objetoActivo2]->visualizarGL(cv);
 }

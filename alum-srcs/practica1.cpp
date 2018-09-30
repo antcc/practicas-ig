@@ -60,7 +60,6 @@ void P1_Delete() {
   delete objeto[1];
 }
 
-
 // ---------------------------------------------------------------------
 // Función a implementar en la práctica 1  para dibujar los objetos
 

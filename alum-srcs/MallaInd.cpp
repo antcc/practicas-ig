@@ -12,6 +12,22 @@
 // Decide si usar glBegin/glVertex/glEnd (0) o glDrawElements (1), ambos en modo inmediato
 #define MODO_INMEDIATO_DRAW_ELEMENTS 0
 
+const Tupla3f COLOR = {0.02, 0.52, 0.51};
+
+// *****************************************************************************
+// funciones auxiliares
+
+GLuint VBO_Crear( GLuint tipo, GLuint tamanio, GLvoid * puntero )
+{
+  assert( tipo == GL_ARRAY_BUFFER || tipo == GL_ELEMENT_ARRAY_BUFFER );
+  GLuint id_vbo ;
+  glGenBuffers( 1, & id_vbo );
+  glBindBuffer( tipo, id_vbo );
+  glBufferData( tipo, tamanio, puntero, GL_STATIC_DRAW );
+  glBindBuffer( tipo, 0 );
+  return id_vbo ;
+}
+
 // *****************************************************************************
 // métodos de la clase MallaInd.
 
@@ -39,18 +55,7 @@ void MallaInd::calcular_normales()
 
 void MallaInd::setColorVertices() {
   for (int i = 0; i < num_vertices; i++)
-      color_vertices.push_back({0.0, 0.0, 1.0});
-}
-
-GLuint MallaInd::VBO_Crear( GLuint tipo, GLuint tamanio, GLvoid * puntero )
-{
-  assert( tipo == GL_ARRAY_BUFFER || tipo == GL_ELEMENT_ARRAY_BUFFER );
-  GLuint id_vbo ;
-  glGenBuffers( 1, & id_vbo );
-  glBindBuffer( tipo, id_vbo );
-  glBufferData( tipo, tamanio, puntero, GL_STATIC_DRAW );
-  glBindBuffer( tipo, 0 );
-  return id_vbo ;
+      color_vertices.push_back(COLOR);
 }
 
 void MallaInd::initVBOs() {

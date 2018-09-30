@@ -668,7 +668,7 @@ void Inicializar( int argc, char *argv[] )
    P1_Inicializar(  ) ;
 
    // inicializar práctica 2.
-   P2_Inicializar(  ) ;
+   P2_Inicializar(argc, argv) ;
 
    // inicializar la práctica 3
    P3_Inicializar(  );
@@ -682,6 +682,7 @@ void Inicializar( int argc, char *argv[] )
 
 void Delete() {
   P1_Delete();
+  P2_Delete();
 }
 
 // ---------------------------------------------------------------------

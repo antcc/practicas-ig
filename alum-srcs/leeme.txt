@@ -26,6 +26,10 @@ MODO_INMEDIATO_DRAW_ELEMENTS.
 
 == Comentarios P2 ==
 
+- Se pueden pasar como parámetros por línea de comandos tanto el nombre del archivo ply
+para contruir el objeto mallaPLY como el del archivo para construir el objeto mallaRevol.
+Si solo se pasa uno, se considera que es para el primero.
+
 == Cambios en el código proporcionado ==
 
 - Los datos 'private' de Objeto3D pasan a ser 'protected', para poder acceder
@@ -33,4 +37,6 @@ a ellos desde las clases Cubo y Tetraedro.
 
 == Añadidos al código proporcionado ==
 
-- Método P1_Delete() para eliminar correctamente los objetos creados en la P1.
+- Añadido un método Delete() en 'main.cpp' para eliminar correctamente los objetos
+creados en las diferentes prácticas. Cada práctica tiene su propio método para dicha
+eliminación.

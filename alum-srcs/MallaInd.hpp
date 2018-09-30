@@ -46,8 +46,6 @@ class MallaInd : public Objeto3D
       void visualizarDE_MI( ContextoVis & cv );
       // visualizar con 'draw elements', en modo diferido (con VBOS)
       void visualizarDE_VBOs( ContextoVis & cv );
-      // Crear VBOs
-      GLuint VBO_Crear( GLuint tipo, GLuint tamanio, GLvoid * puntero );
       // Inicializar VBOs
       void initVBOs();
       // Establecer colores de los vértices
