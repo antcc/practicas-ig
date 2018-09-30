@@ -23,6 +23,10 @@ class MallaInd : public Objeto3D
       std::vector<Tupla3i> tabla_caras;
       std::vector<Tupla3f> color_vertices;
 
+      // Atributos de la figura
+      unsigned num_vertices;
+      float longitud_arista;
+
       // Identificadores de vbo
       GLuint id_vbo_vertices;
       GLuint id_vbo_caras;
@@ -47,7 +51,7 @@ class MallaInd : public Objeto3D
       // Inicializar VBOs
       void initVBOs();
       // Establecer colores de los vértices
-      void setColorVertices();
+      virtual void setColorVertices();
 
    public:
       // crea una malla vacía (nombre: "malla indexada nueva vacía")
@@ -62,8 +66,7 @@ class MallaInd : public Objeto3D
 class Cubo : public MallaInd
 {
    protected:
-      static const int num_vertices = 8;
-      float longitud_arista;
+      //virtual void setColorVertices() override;
    public:
       Cubo();
       Cubo(float longitud_arista);
@@ -73,8 +76,7 @@ class Cubo : public MallaInd
 class Tetraedro : public MallaInd
 {
    protected:
-      static const int num_vertices = 4;
-      float longitud_arista;
+      //virtual void setColorVertices() override;
    public:
       Tetraedro();
       Tetraedro(float longitud_arista);

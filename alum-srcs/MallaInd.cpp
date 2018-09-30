@@ -10,7 +10,7 @@
 #include "MallaInd.hpp"   // declaración de 'ContextoVis'
 
 // Decide si usar glBegin/glVertex/glEnd (0) o glDrawElements (1), ambos en modo inmediato
-#define MODO_INMEDIATO_DRAW_ELEMENTS 1
+#define MODO_INMEDIATO_DRAW_ELEMENTS 0
 
 // *****************************************************************************
 // métodos de la clase MallaInd.
@@ -20,7 +20,9 @@ MallaInd::MallaInd( const std::string & nombreIni)
    // 'identificador' puesto a 0 por defecto, 'centro_oc' puesto a (0,0,0)
    ponerNombre(nombreIni);
    vbo_creado = false;
-   id_vbo_caras = id_vbo_vertices = 0;
+   id_vbo_caras = id_vbo_vertices = id_vbo_color_ver = 0;
+   tam_caras = tam_vertices = 0;
+   num_vertices = longitud_arista = 0;
 }
 
 MallaInd::MallaInd()
@@ -31,14 +33,13 @@ MallaInd::MallaInd()
 
 void MallaInd::calcular_normales()
 {
-   // COMPLETAR: en la práctica 2: calculo de las normales de la malla
+   // COMPLETAR: en la práctica 3: calculo de las normales de la malla
    // .......
 }
 
 void MallaInd::setColorVertices() {
-  for (int i = 0; i < tabla_vertices.size(); i++) {
-    color_vertices.push_back({0.0, 0.0, (float) i / (tabla_vertices.size() - 1)});
-  }
+  for (int i = 0; i < num_vertices; i++)
+      color_vertices.push_back({0.0, 0.0, 1.0});
 }
 
 GLuint MallaInd::VBO_Crear( GLuint tipo, GLuint tamanio, GLvoid * puntero )
@@ -53,7 +54,7 @@ GLuint MallaInd::VBO_Crear( GLuint tipo, GLuint tamanio, GLvoid * puntero )
 }
 
 void MallaInd::initVBOs() {
-  tam_vertices = sizeof(float) * 3L * tabla_vertices.size();
+  tam_vertices = sizeof(float) * 3L * num_vertices;
   tam_caras = sizeof(unsigned) * 3L * tabla_caras.size();
 
   id_vbo_vertices = VBO_Crear(GL_ARRAY_BUFFER, tam_vertices, tabla_vertices.data());
@@ -75,9 +76,13 @@ void MallaInd::visualizarDE_MI( ContextoVis & cv )
 
   glBegin(GL_TRIANGLES);
 
-  glColor3fv(Tupla3f{0.0, 0.0, 0.8});
   for (auto tupla : tabla_caras) {
+    // Para poner colores a cada cara, llamar aquí a glColor3fv
+    // (sobre un vector de colores de caras con num_vertices/3 entradas)
     for (int j = 0; j < 3; j++) {
+      if (color_vertices.size() > 0)
+        glColor3fv(color_vertices[tupla(j)]);
+
       glVertex3fv(tabla_vertices[tupla(j)]);
     }
   }
@@ -156,9 +161,6 @@ void MallaInd::visualizarGL( ContextoVis & cv )
 
    glPolygonMode(GL_FRONT_AND_BACK, mode);
 
-   // Color
-   setColorVertices();
-
    // Visualizar
    if (cv.usarVBOs)
      visualizarDE_VBOs(cv);
@@ -173,6 +175,7 @@ Cubo::Cubo()
 Cubo::Cubo(float longitud_arista)
   : MallaInd("malla cubo")
 {
+  num_vertices = 8;
   this->longitud_arista = longitud_arista;
   float l = longitud_arista / 2;
 
@@ -189,13 +192,16 @@ Cubo::Cubo(float longitud_arista)
   };
 
   tabla_caras = {
-    {0, 1, 2}, {0, 3, 2},
-    {3, 2, 6}, {3, 7, 6},
-    {4, 5, 1}, {4, 0, 1},
-    {4, 5, 6}, {4, 7, 6},
-    {1, 5, 6}, {1, 2, 6},
-    {0, 4, 7}, {0, 3, 7}
+    {0, 1, 2}, {3, 0, 2},
+    {3, 2, 6}, {7, 3, 6},
+    {5, 4, 1}, {1, 0, 4},
+    {4, 6, 5}, {4, 7, 6},
+    {1, 5, 6}, {2, 1, 6},
+    {4, 0, 7}, {3, 0, 7}
   };
+
+  // Color
+  setColorVertices();
 }
 
 // *****************************************************************************
@@ -206,6 +212,7 @@ Tetraedro::Tetraedro()
 Tetraedro::Tetraedro(float longitud_arista)
   : MallaInd( "malla tetraedro")
 {
+  num_vertices = 4;
   this->longitud_arista = longitud_arista;
   float l = longitud_arista / 2;
 
@@ -217,10 +224,14 @@ Tetraedro::Tetraedro(float longitud_arista)
   };
 
   tabla_caras = {
-    {3, 1, 0},
-    {2, 1, 3},
-    {0, 1, 2},
+    {3, 0, 1},
+    {2, 3, 1},
+    {1, 0, 2},
     {2, 0, 3}
   };
+
+  // Color
+  setColorVertices();
 }
+
 // *****************************************************************************
