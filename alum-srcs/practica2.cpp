@@ -33,14 +33,14 @@ void P2_Inicializar(int argc, char *argv[])
    string nom_rev = DEFAULT_REV;
 
    cout << "Creando objetos de la práctica 2 .... " << flush ;
+   cout << argc << endl;
 
    if (argc > 1) {
      nom_ply = argv[1];
+
      if (argc > 2)
        nom_rev = argv[2];
    }
-
-   cout << nom_rev;
 
    objetos2[0] = new MallaPLY(nom_ply);
    //objetos2[1] = new MallaRevol(nom_rev,);

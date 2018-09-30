@@ -9,6 +9,7 @@
 #define IG_PRACTICA2_HPP
 
 void P2_Inicializar(int argc, char *argv[]) ;
+void P2_Delete();
 bool P2_FGE_PulsarTeclaCaracter(  unsigned char tecla ) ;
 void P2_DibujarObjetos( ContextoVis & cv ) ;
 

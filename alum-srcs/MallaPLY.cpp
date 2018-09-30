@@ -17,9 +17,23 @@ using namespace std ;
 // *****************************************************************************
 
 MallaPLY::MallaPLY( const std::string & nombre_arch )
+  : MallaInd(string("malla leída del archivo '") + nombre_arch + "'" )
 {
-   ponerNombre(string("malla leída del archivo '") + nombre_arch + "'" );
-   ply::read(nombre_arch, vertices, caras);
+   vector<float> vertices;
+   vector<int> caras;
+
+   ply::read(nombre_arch.c_str(), vertices, caras);
+
+   for (int i = 0; i < vertices.size(); i += 3)
+    tabla_vertices.push_back({vertices[i], vertices[i+1], vertices[i+2]});
+
+    for (int i = 0; i < caras.size(); i+= 3)
+      tabla_caras.push_back({caras[i], caras[i+1], caras[i+2]});
+
+    num_vertices = vertices.size() / 3;
+
+    // Color
+    setColorVertices();
 
    // calcular la tabla de normales
    calcular_normales();
