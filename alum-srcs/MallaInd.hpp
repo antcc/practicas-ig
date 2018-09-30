@@ -25,7 +25,6 @@ class MallaInd : public Objeto3D
 
       // Atributos de la figura
       unsigned num_vertices;
-      float longitud_arista;
 
       // Identificadores de vbo
       GLuint id_vbo_vertices;
@@ -64,6 +63,7 @@ class MallaInd : public Objeto3D
 class Cubo : public MallaInd
 {
    protected:
+      float longitud_arista;
       //virtual void setColorVertices() override;
    public:
       Cubo();
@@ -74,6 +74,7 @@ class Cubo : public MallaInd
 class Tetraedro : public MallaInd
 {
    protected:
+      float longitud_arista;
       //virtual void setColorVertices() override;
    public:
       Tetraedro();

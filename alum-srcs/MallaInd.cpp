@@ -10,9 +10,9 @@
 #include "MallaInd.hpp"   // declaración de 'ContextoVis'
 
 // Decide si usar glBegin/glVertex/glEnd (0) o glDrawElements (1), ambos en modo inmediato
-#define MODO_INMEDIATO_DRAW_ELEMENTS 0
+#define MODO_INMEDIATO_DRAW_ELEMENTS 1
 
-const Tupla3f COLOR = {0.02, 0.52, 0.51};
+const Tupla3f DEFAULT_COLOR = {0.02, 0.52, 0.51};
 
 // *****************************************************************************
 // funciones auxiliares
@@ -38,7 +38,7 @@ MallaInd::MallaInd( const std::string & nombreIni)
    vbo_creado = false;
    id_vbo_caras = id_vbo_vertices = id_vbo_color_ver = 0;
    tam_caras = tam_vertices = 0;
-   num_vertices = longitud_arista = 0;
+   num_vertices = 0;
 }
 
 MallaInd::MallaInd()
@@ -55,7 +55,7 @@ void MallaInd::calcular_normales()
 
 void MallaInd::setColorVertices() {
   for (int i = 0; i < num_vertices; i++)
-      color_vertices.push_back(COLOR);
+      color_vertices.push_back({0.1, 0.1, (float) (i+1) / num_vertices});
 }
 
 void MallaInd::initVBOs() {

@@ -12,25 +12,68 @@
 #include <string>
 
 #include "MallaInd.hpp"   // declaración de 'Objeto3D'
+
 // ---------------------------------------------------------------------
 // clase para objetos gráficos genéricos
 
 class MallaRevol : public MallaInd
 {
-   private:
+   protected:
 
-   unsigned
-      nper , // numero de perfiles
-      nvp  ; // numero de vertices por perfil
+      unsigned nper; // numero de perfiles
+      unsigned nvp; // numero de vertices por perfil
+
+      void inicializarMallaRevol(const std::vector<Tupla3f> & perfil_original,
+                                             int nperfiles,
+                                             int num_verts_per,
+                                             bool crear_tapas,
+                                             bool cerrar_malla);
+
+      void crearMallaRevol(const std::vector<Tupla3f> & perfil_original,
+                           bool crear_tapas,
+                           bool cerrar_malla);
 
    public:
-      // crea una malla de revolucion
-      MallaRevol( const std::string & nombre_arch,
-                  const unsigned nperfiles,
-                  const bool     crear_tapas,
-                  const bool     cerrar_malla ) ;
+      MallaRevol(const std::string& nombre);
+
+      MallaRevol(const std::string & nombre_arch,
+                 const unsigned nperfiles,
+                 const bool crear_tapas,
+                 const bool cerrar_malla);
+};
 
 
-} ;
+// ---------------------------------------------------------------------
+// clases mallas indexadas por revolución de un perfil generado proceduralmente
+
+class Cilindro : public MallaRevol
+{
+  public:
+    // la base tiene el centro en el origen, el radio y la altura son 1
+    Cilindro(const int num_verts_per,
+             const unsigned nperfiles,
+             const bool crear_tapas,
+             const bool cerrar_malla);
+};
+
+class Cono : public MallaRevol
+{
+  public:
+    // La base tiene el centro en el origen, el radio y altura son 1
+    Cono(const int num_verts_per,
+         const unsigned nperfiles,
+         const bool crear_tapas,
+         const bool cerrar_malla);
+};
+
+class Esfera : public MallaRevol
+{
+  public:
+    // La esfera tiene el centro en el origen, el radio es la unidad
+    Esfera(const int num_verts_per,
+           const unsigned nperfiles,
+           const bool crear_tapas,
+           const bool cerrar_malla);
+};
 
 #endif

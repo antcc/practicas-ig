@@ -19,8 +19,8 @@ using namespace std ;
 #define DEFAULT_REV "../plys/peon.ply"
 
 static unsigned objetoActivo2 = 0 ; // objeto activo: malla ply (0), malla revol (1)
-static constexpr int numObjetos2 = 2 ;
-static Objeto3D * objetos2[numObjetos2] = { nullptr, nullptr };
+static constexpr int numObjetos2 = 5 ;
+static Objeto3D * objetos2[numObjetos2] = { nullptr, nullptr, nullptr, nullptr, nullptr };
 
 // ---------------------------------------------------------------------
 // Función para implementar en la práctica 2 para inicialización.
@@ -43,7 +43,10 @@ void P2_Inicializar(int argc, char *argv[])
    }
 
    objetos2[0] = new MallaPLY(nom_ply);
-   //objetos2[1] = new MallaRevol(nom_rev,);
+   objetos2[1] = new MallaRevol(nom_rev, 10, true, true);
+   objetos2[2] = new Cilindro(10, 10, true, true);
+   objetos2[3] = new Cono(10, 10, true, true);
+   objetos2[4] = new Esfera(10, 10, true, true);
 
    cout << "hecho." << endl << flush ;
 }
