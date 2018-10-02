@@ -141,7 +141,7 @@ void MallaRevol::crearMallaRevol(const std::vector<Tupla3f> & perfil_original,
       for (i = nvp - 1; i + nvp < num_vertices; i += nvp)
         tabla_caras.push_back({i, num_vertices - 1, i + nvp});
 
-      // Última cara
+      // Última cara (i = nper * nvp - 1)
       tabla_caras.push_back({i, num_vertices - 1, nvp - 1});
     }
   }
