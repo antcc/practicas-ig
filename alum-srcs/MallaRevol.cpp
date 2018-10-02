@@ -83,21 +83,87 @@ void MallaRevol::crearMallaRevol(const std::vector<Tupla3f> & perfil_original,
                                  bool cerrar_malla)
 {
 
+  int i, j;
+  float alpha = cerrar_malla ? 360.0 / nper : 360.0 / (nper -1);
+  Matriz4f m = MAT_Rotacion(alpha, 0, 1, 0);
+  vector<Tupla3f> aux = perfil_original;
+  tabla_vertices.insert(tabla_vertices.end(), aux.begin(), aux.end());
+
+  // Añadir vértices
+  for (i = 0; i < nper - 1; i++) {
+    aux = rotarPerfil(m, aux);
+    tabla_vertices.insert(tabla_vertices.end(), aux.begin(), aux.end());
+
+    // Añadir caras
+    for (j = 0; j < nvp - 1; j++) {
+      int k1 = i * nvp + j;
+      int k2 = i * nvp + j + 1;
+      int k3 = (i+1) * nvp + j + 1;
+      int k4 = (i+1) * nvp + j;
+
+      tabla_caras.push_back({k4, k2, k3});
+      tabla_caras.push_back({k4, k1, k2});
+    }
+  }
+
+  if (cerrar_malla) {
+    // Añadir caras (i = nper - 1)
+    for (j = 0; j < nvp - 1; j++) {
+      int k1 = i * nvp + j;
+      int k2 = i * nvp + j + 1;
+      int k3 = j + 1; // ((i+1) % nper) * nvp + j + 1
+      int k4 = j; // // ((i+1) % nper) * nvp + j
+
+      tabla_caras.push_back({k4, k2, k3});
+      tabla_caras.push_back({k4, k1, k2});
+    }
+  }
+
+  // Crear tapas
+  if (crear_tapas) {
+
+    // Cara inferior
+    auto primer_ver = tabla_vertices[0];
+    if (primer_ver(X) != 0) {
+      tabla_vertices.push_back({0.0, primer_ver(Y), 0.0});
+      num_vertices++;
+
+      for (i = 0; i + nvp < num_vertices; i += nvp)
+        tabla_caras.push_back({i, num_vertices - 1, (i + nvp) % (num_vertices - 1)});
+    }
+
+    // Cara superior
+    auto ult_ver = tabla_vertices[num_vertices - 2];
+    if (ult_ver(X) != 0) {
+      tabla_vertices.push_back({0.0, ult_ver(Y), 0.0});
+      num_vertices++;
+
+      for (i = nvp - 1; i + nvp < num_vertices; i += nvp)
+        tabla_caras.push_back({i, num_vertices - 1, i + nvp});
+
+      // Última cara
+      tabla_caras.push_back({i, num_vertices - 1, nvp - 1});
+    }
+  }
 }
 
 // *****************************************************************************
 
 Cilindro::Cilindro(const int num_verts_per,
                    const unsigned nperfiles,
+                   float radio_base,
+                   float altura,
                    const bool crear_tapas,
                    const bool cerrar_malla)
   : MallaRevol("malla por revolución de un cilindro")
 {
   vector<Tupla3f> perfil_original(num_verts_per);
+  r = radio_base;
+  h = altura;
 
   // Construir perfil
   for (int i = 0; i < num_verts_per; i++)
-    perfil_original[i] = {1.0, (float) i / (num_verts_per - 1), 0.0};
+    perfil_original[i] = {r, h * ((float) i / (num_verts_per - 1)), 0.0};
 
   inicializarMallaRevol(perfil_original, nperfiles, num_verts_per, crear_tapas, cerrar_malla);
 }
@@ -105,17 +171,22 @@ Cilindro::Cilindro(const int num_verts_per,
 // *****************************************************************************
 
 Cono::Cono(const int num_verts_per,
-     const unsigned nperfiles,
-     const bool crear_tapas,
-     const bool cerrar_malla)
+           const unsigned nperfiles,
+           float radio_base,
+           float altura,
+           const bool crear_tapas,
+           const bool cerrar_malla)
   : MallaRevol("malla por revolución de un cono")
 {
   vector<Tupla3f> perfil_original(num_verts_per);
+  r = radio_base;
+  h = altura;
 
   // Construir perfil
   for (int i = 0; i < num_verts_per; i++) {
-    float x = 1 - i / (num_verts_per - 1);
-    perfil_original[i] = {x, -1 * x + 1, 0.0};
+    // Para poner tapa arriba, dividimos por num_verts_per.
+    float x = (1 - (float) i / (num_verts_per - 1)) * r;
+    perfil_original[i] = {x, (- h / r) * x + h, 0.0};
   }
 
   inicializarMallaRevol(perfil_original, nperfiles, num_verts_per, crear_tapas, cerrar_malla);
@@ -124,17 +195,19 @@ Cono::Cono(const int num_verts_per,
 // *****************************************************************************
 
 Esfera::Esfera(const int num_verts_per,
-       const unsigned nperfiles,
-       const bool crear_tapas,
-       const bool cerrar_malla)
+               const unsigned nperfiles,
+               float radio,
+               const bool crear_tapas,
+               const bool cerrar_malla)
   : MallaRevol("malla por revolución de una esfera")
 {
   vector<Tupla3f> perfil_original(num_verts_per);
+  r = radio;
 
   // Construir perfil
   for (int i = 0; i < num_verts_per; i++) {
-    float y = -1 + (2 * i) / (num_verts_per - 1);
-    perfil_original[i] = {sqrt(1 - y * y), y, 0.0};
+    float y = r * (-1 + (float) 2 * i / (num_verts_per - 1));
+    perfil_original[i] = {sqrt(r * r - y * y), y, 0.0};
   }
 
   inicializarMallaRevol(perfil_original, nperfiles, num_verts_per, crear_tapas, cerrar_malla);

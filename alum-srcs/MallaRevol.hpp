@@ -48,30 +48,46 @@ class MallaRevol : public MallaInd
 
 class Cilindro : public MallaRevol
 {
+  protected:
+    float r; // Radio base
+    float h; // Altura
+
   public:
     // la base tiene el centro en el origen, el radio y la altura son 1
     Cilindro(const int num_verts_per,
              const unsigned nperfiles,
+             float radio_base,
+             float altura,
              const bool crear_tapas,
              const bool cerrar_malla);
 };
 
 class Cono : public MallaRevol
 {
+  protected:
+    float r; // Radio base
+    float h; // Altura
+
   public:
     // La base tiene el centro en el origen, el radio y altura son 1
     Cono(const int num_verts_per,
          const unsigned nperfiles,
+         float radio_base,
+         float altura,
          const bool crear_tapas,
          const bool cerrar_malla);
 };
 
 class Esfera : public MallaRevol
 {
+  protected:
+    float r; // Radio
+
   public:
     // La esfera tiene el centro en el origen, el radio es la unidad
     Esfera(const int num_verts_per,
            const unsigned nperfiles,
+           float radio,
            const bool crear_tapas,
            const bool cerrar_malla);
 };

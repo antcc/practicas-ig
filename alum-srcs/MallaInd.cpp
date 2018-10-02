@@ -41,22 +41,27 @@ MallaInd::MallaInd( const std::string & nombreIni)
    num_vertices = 0;
 }
 
+// -----------------------------------------------------------------------------
+
 MallaInd::MallaInd()
   : MallaInd("malla indexada, anónima") { }
 
 // -----------------------------------------------------------------------------
-// calcula las dos tablas de normales
 
 void MallaInd::calcular_normales()
 {
-   // COMPLETAR: en la práctica 3: calculo de las normales de la malla
+   // COMPLETAR: en la práctica 3: calculo de las dos tablas de normales de la malla
    // .......
 }
+
+// -----------------------------------------------------------------------------
 
 void MallaInd::setColorVertices() {
   for (int i = 0; i < num_vertices; i++)
       color_vertices.push_back({0.1, 0.1, (float) (i+1) / num_vertices});
 }
+
+// -----------------------------------------------------------------------------
 
 void MallaInd::initVBOs() {
   tam_vertices = sizeof(float) * 3L * num_vertices;
@@ -119,6 +124,7 @@ void MallaInd::visualizarDE_MI( ContextoVis & cv )
 }
 
 // ----------------------------------------------------------------------------
+
 void MallaInd::visualizarDE_VBOs( ContextoVis & cv )
 {
   if (!vbo_creado)
@@ -177,6 +183,8 @@ void MallaInd::visualizarGL( ContextoVis & cv )
 Cubo::Cubo()
   : Cubo(1.0) { }
 
+// -----------------------------------------------------------------------------
+
 Cubo::Cubo(float longitud_arista)
   : MallaInd("malla cubo")
 {
@@ -213,6 +221,8 @@ Cubo::Cubo(float longitud_arista)
 
 Tetraedro::Tetraedro()
   : Tetraedro(1.0) { }
+
+// -----------------------------------------------------------------------------
 
 Tetraedro::Tetraedro(float longitud_arista)
   : MallaInd( "malla tetraedro")
