@@ -680,11 +680,6 @@ void Inicializar( int argc, char *argv[] )
    P5_Inicializar( ventana_tam_x, ventana_tam_y );
 }
 
-void Delete() {
-  P1_Delete();
-  P2_Delete();
-}
-
 // ---------------------------------------------------------------------
 // bucle principal  de gestion de eventos GLFW
 

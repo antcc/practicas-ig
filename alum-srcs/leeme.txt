@@ -30,13 +30,11 @@ MODO_INMEDIATO_DRAW_ELEMENTS.
 para contruir el objeto mallaPLY como el del archivo para construir el objeto mallaRevol.
 Si solo se pasa uno, se considera que es para el primero.
 
+- El cilindro, el cono y la esfera pueden tener radio y/o altura variable.
+
+== Comentarios P3 ==
+
 == Cambios en el código proporcionado ==
 
 - Los datos 'private' de Objeto3D pasan a ser 'protected', para poder acceder
 a ellos desde las clases Cubo y Tetraedro.
-
-== Añadidos al código proporcionado ==
-
-- Añadido un método Delete() en 'main.cpp' para eliminar correctamente los objetos
-creados en las diferentes prácticas. Cada práctica tiene su propio método para dicha
-eliminación.

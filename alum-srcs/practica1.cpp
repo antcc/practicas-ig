@@ -55,11 +55,6 @@ bool P1_FGE_PulsarTeclaCaracter( unsigned char tecla )
    return true ;
 }
 
-void P1_Delete() {
-  delete objeto[0];
-  delete objeto[1];
-}
-
 // ---------------------------------------------------------------------
 // Función a implementar en la práctica 1  para dibujar los objetos
 

@@ -75,11 +75,6 @@ bool P2_FGE_PulsarTeclaCaracter( unsigned char tecla )
    return true ;
 }
 
-void P2_Delete() {
-  delete objetos2[0];
-  delete objetos2[1];
-}
-
 // ---------------------------------------------------------------------
 // Función a implementar en la práctica 2 para dibujar los objetos
 // se debe de usar el modo de dibujo que hay en el parámetro 'cv'

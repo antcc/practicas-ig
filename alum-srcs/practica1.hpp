@@ -9,7 +9,6 @@
 #define IG_PRACTICA1_HPP
 
 void P1_Inicializar(  ) ;
-void P1_Delete();
 bool P1_FGE_PulsarTeclaCaracter(  unsigned char tecla ) ;
 void P1_DibujarObjetos( ContextoVis & cv ) ;
 
