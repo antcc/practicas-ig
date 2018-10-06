@@ -14,8 +14,6 @@ Parametro.cpp
 Parametro.hpp
 cauce.cpp
 cauce.hpp
-grafo-escena.cpp
-grafo-escena.hpp
 makefile
 materiales.cpp
 materiales.hpp
@@ -23,6 +21,5 @@ practicas.hpp
 simple_fs.glsl
 simple_vs.glsl
 
-practica3.*
 practica4.*
 practica5.*
