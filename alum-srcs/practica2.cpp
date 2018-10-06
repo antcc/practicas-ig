@@ -18,7 +18,7 @@ using namespace std ;
 #define DEFAULT_PLY "../plys/big_dodge.ply"
 #define DEFAULT_REV "../plys/peon.ply"
 
-static unsigned objetoActivo2 = 0 ; // objeto activo: malla ply (0), malla revol (1)
+static unsigned objetoActivo2 = 0 ;
 static constexpr int numObjetos2 = 5 ;
 static Objeto3D * objetos2[numObjetos2] = { nullptr, nullptr, nullptr, nullptr, nullptr };
 
@@ -27,13 +27,12 @@ static Objeto3D * objetos2[numObjetos2] = { nullptr, nullptr, nullptr, nullptr, 
 // Se llama una vez al inicio, cuando ya se ha creado la ventana e
 // incializado OpenGL.
 
-void P2_Inicializar(int argc, char *argv[])
+void P2_Inicializar(int argc, char * argv[])
 {
    string nom_ply = DEFAULT_PLY;
    string nom_rev = DEFAULT_REV;
 
    cout << "Creando objetos de la práctica 2 .... " << flush ;
-   cout << argc << endl;
 
    if (argc > 1) {
      nom_ply = argv[1];
