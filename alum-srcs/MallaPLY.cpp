@@ -27,16 +27,16 @@ MallaPLY::MallaPLY( const std::string & nombre_arch )
    for (int i = 0; i + 2 < vertices.size(); i += 3)
     tabla_vertices.push_back({vertices[i], vertices[i+1], vertices[i+2]});
 
-    for (int i = 0; i + 2 < caras.size(); i+= 3)
-      tabla_caras.push_back({caras[i], caras[i+1], caras[i+2]});
+   for (int i = 0; i + 2 < caras.size(); i+= 3)
+     tabla_caras.push_back({caras[i], caras[i+1], caras[i+2]});
 
-    num_vertices = vertices.size() / 3;
+   num_vertices = vertices.size() / 3;
 
-    // Color
-    setColorVertices();
+  // Color
+  setColorVertices();
 
-   // calcular la tabla de normales
-   calcular_normales();
+  // calcular la tabla de normales
+  calcular_normales();
 }
 
 // *****************************************************************************
