@@ -6,5 +6,5 @@ Curso 2018/19.
 ## index
 
 P1. Visualización de modelos simples (cubo y tetraedro).    
-P2. Modelos PLY y poligonales.
+P2. Modelos PLY y poligonales.     
 P3. Modelos jerárquicos.
