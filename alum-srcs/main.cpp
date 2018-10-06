@@ -706,7 +706,6 @@ void BucleEventosGLFW()
       terminar_programa = terminar_programa || glfwWindowShouldClose( glfw_window ) ;
    }
 
-   Delete();
    glfwTerminate();
 }
 
