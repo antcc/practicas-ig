@@ -32,11 +32,11 @@ MallaPLY::MallaPLY( const std::string & nombre_arch )
 
    num_vertices = vertices.size() / 3;
 
-  // Color
-  setColorVertices();
+   // Color
+   setColorVertices();
 
-  // calcular la tabla de normales
-  calcular_normales();
+   // calcular la tabla de normales
+   calcular_normales();
 }
 
 // *****************************************************************************
