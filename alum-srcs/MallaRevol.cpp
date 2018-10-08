@@ -112,7 +112,7 @@ void MallaRevol::crearMallaRevol(const std::vector<Tupla3f> & perfil_original,
       int k1 = i * nvp + j;
       int k2 = i * nvp + j + 1;
       int k3 = j + 1; // ((i+1) % nper) * nvp + j + 1
-      int k4 = j; // // ((i+1) % nper) * nvp + j
+      int k4 = j; // ((i+1) % nper) * nvp + j
 
       tabla_caras.push_back({k4, k2, k3});
       tabla_caras.push_back({k4, k1, k2});
