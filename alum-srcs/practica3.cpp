@@ -9,13 +9,15 @@
 #include "tuplasg.hpp"   // Tupla3f
 #include "practicas.hpp"
 #include "practica3.hpp"
+#include "grafo-escena.hpp"
 
 using namespace std ;
 
-// COMPLETAR: práctica 3: declarar variables de la práctica 3 (static)
-// .................
-
-
+static bool p3_animaciones_activas = false;
+static int p3_grado_libertad_activo = 0;
+static constexpr int numObjetos3 = 1;
+static unsigned objetoActivo3 = 0 ;
+static NodoGrafoEscenaParam * objetos3[numObjetos3] = {nullptr};
 
 
 // ---------------------------------------------------------------------
@@ -26,14 +28,12 @@ using namespace std ;
 void P3_Inicializar(  )
 {
    cout << "Creando objetos de la práctica 3 .... " << flush ;
-   // COMPLETAR: práctica 3: inicialización de objetos de la práctica 3
-   // .................
-
+   objetos3[0] = new C();
    cout << "hecho." << endl << flush ;
 }
 
 // ---------------------------------------------------------------------
-// Función invocada al pulsar una tecla con la práctica 1 activa:
+// Función invocada al pulsar una tecla con la práctica 3 activa:
 // (si la tecla no se procesa en el 'main').
 //
 //  - devuelve 'true' si la tecla se usa en esta práctica para cambiar
@@ -48,68 +48,101 @@ bool P3_FGE_PulsarTeclaCaracter( unsigned char tecla )
    switch ( toupper( tecla ) )
    {
       case 'O' :
-         // COMPLETAR: práctica 3: activar siguiente objeto de la práctica
-         //           (solo en el caso de que se incluyan varios objetos en la práctica)
-         // ....
+        objetoActivo3 = (objetoActivo3 + 1) % numObjetos3 ;
+        cout << "práctica 3: nuevo objeto activo es " << objetoActivo3 ;
+        if ( objetos3[objetoActivo3] != nullptr )
+           cout << " (" << objetos3[objetoActivo3]->leerNombre() << ")." << endl ;
+        else
+           cout << " (objeto no creado)" << endl ;
+        res = true ;
 
-         break ;
+        break ;
 
       case 'A' :
-         // COMPLETAR: práctica 3: activar o desactivar animaciones
-         // ....
+         p3_animaciones_activas = !p3_animaciones_activas;
+         if (p3_animaciones_activas)
+           FijarFuncDesocupado(FGE_Desocupado);  // TODO: ¿es necesario?
+
+         cout << "práctica 3: animaciones "
+              << (p3_animaciones_activas ? "activadas" : "desactivadas") << endl;
+         res = true;
 
          break ;
 
       case 'G' :
-         // COMPLETAR: práctica 3: activar siguiente parámetro
-         // ....
+         if ( objetos3[objetoActivo3] != nullptr ) {
+           p3_grado_libertad_activo = (p3_grado_libertad_activo + 1) % objetos3[objetoActivo3]->numParametros();
+           cout << "prática 3: nuevo grado de libertad activo es " << p3_grado_libertad_activo
+                << endl;
+           res = true;
+         }
 
          break ;
 
       case 'R' :
-         // COMPLETAR: práctica 3: reset de animaciones
-         // ....
+         p3_animaciones_activas = false;
+
+         if (objetos3[objetoActivo3] != nullptr)
+           for (int i = 0; i < objetos3[objetoActivo3]->numParametros(); i++)
+             objetos3[objetoActivo3]->leerPtrParametro(i)->reset();
+
+         cout << "práctica 3: parámetros reseteados y animaciones desactivadas." << endl;
+         res = true;
 
          break ;
 
       case '>' :
-         // COMPLETAR: práctica 3: acelerar o incrementar parámetro
-         // ....
+         if (objetos3[objetoActivo3] != nullptr) {
+           if (p3_animaciones_activas) {
+
+           }
+
+           else {
+
+           }
+         }
+
+         res = true;
 
          break ;
 
-      case '<' :
-         // COMPLETAR: práctica 3: decelerar o decrementar parámetro
-         // ....
+      case '<' : //TODO
+         if (p3_animaciones_activas) {
+
+         }
+
+         else {
+
+         }
+
+         res = true;
 
          break ;
+
       default :
          break ;
-
    }
+
    return res ;
 }
 
 // ---------------------------------------------------------------------
-// Función a implementar en la práctica 3  para dibujar los objetos
-// se debe de usar el modo de dibujo que hay en el parámetro 'cv'
-// (se accede con 'cv.modoVisu')
 
 void P3_DibujarObjetos( ContextoVis & cv )
 {
-   // COMPLETAR: práctica 3: visualizar el objeto de la práctica 3
-   // ....
-
-
+  objetos3[objetoActivo3]->visualizarGL(cv);
 }
 
 //--------------------------------------------------------------------------
 
 bool P3_FGE_Desocupado()
 {
-   // COMPLETAR: práctica 3: si las animaciones están activadas,
-   // actualizar el objeto activo, forzar redibujado, devolver true.
-   // si las animaciones están desactivadas, devolver false.
-   // ....
+  if (!p3_animaciones_activas)
+    return false;
 
+  //TODO: actualizar el objeto activo
+
+  redibujar_ventana = true;
+
+  return true;
 }

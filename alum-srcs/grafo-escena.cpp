@@ -203,3 +203,8 @@ void NodoGrafoEscenaParam::siguienteCuadro()
 
 
 }
+
+C::C()
+{
+  
+}

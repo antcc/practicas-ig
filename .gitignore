@@ -10,8 +10,6 @@ Camara.cpp
 Camara.hpp
 CamaraInter.cpp
 CamaraInter.hpp
-Parametro.cpp
-Parametro.hpp
 cauce.cpp
 cauce.hpp
 makefile

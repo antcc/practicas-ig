@@ -106,7 +106,7 @@ class NodoGrafoEscena : public Objeto3D
 class NodoGrafoEscenaParam : public NodoGrafoEscena
 {
    protected:
-      // COMPLETAR: práctica 3: declarar vector de parámetros del nodo 
+      // COMPLETAR: práctica 3: declarar vector de parámetros del nodo
       // .......
 
 
@@ -121,6 +121,12 @@ class NodoGrafoEscenaParam : public NodoGrafoEscena
       // se usa cuando están activadas las animaciones, una vez antes de cada frame
       void siguienteCuadro();
 } ;
+
+class C : public NodoGrafoEscenaParam
+{
+  public:
+    C();
+};
 
 #endif // GRAFO_ESCENA_HPP
 

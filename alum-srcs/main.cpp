@@ -18,8 +18,6 @@
 
 // includes en ../include
 #include "aux.hpp"  // include cabeceras de opengl / glut / glut / glew
-
-
 #include "CamaraInter.hpp"
 
 // includes de archivos en el directorio de trabajo (de las prácticas)
@@ -44,7 +42,7 @@ constexpr int
 int
    ventana_tam_x     = 1024,     // ancho inicial y actual de la ventana, en pixels
    ventana_tam_y     = 1024,     // alto inicial actual de la ventana, en pixels
-   practicaActual    = 1 ,       // practica actual (cambiable por teclado) (1,2,3,4 o 5)
+   practicaActual    = 3 ,       // practica actual (cambiable por teclado) (1,2,3,4 o 5)
    mouse_pos_factor  = 1 ,       // factor de conversión para displays "retina" en macOS
    x_ant_mabd,                   // coord. de ratón X anterior en modo arrastrar con botón derecho pulsado
    y_ant_mabd ;                  // idem Y
@@ -108,8 +106,6 @@ void DibujarObjetos()
    using namespace std ;
    using namespace chrono ;
 
-
-
    switch( practicaActual )
    {
       case 1 :
@@ -131,8 +127,6 @@ void DibujarObjetos()
          cout << "El valor de 'practicaActual' (" << practicaActual  << ") es incorrecto" << endl ;
          break ;
    }
-
-
 }
 
 // -----------------------------------------------------------------------------
@@ -539,9 +533,6 @@ void Inicializa_GLFW( int argc, char * argv[] )
    // especificar que función se llamará ante un error de GLFW
    glfwSetErrorCallback( ErrorGLFW );
 
-
-
-
    // crear la ventana
    glfw_window = glfwCreateWindow( ventana_tam_x, ventana_tam_y,
                     "Practicas IG GIM (18-19)", nullptr, nullptr );
@@ -554,8 +545,6 @@ void Inicializa_GLFW( int argc, char * argv[] )
    }
    // establecer el contexto de la ventana como el contexto actual
    glfwMakeContextCurrent( glfw_window );
-
-
 
    // calcular el tamaño inicial de la ventana (ventana_tam_x/_y)
    int fbx, fby, wx, wy ;
@@ -584,7 +573,6 @@ void Inicializa_GLFW( int argc, char * argv[] )
    glfwSetMouseButtonCallback( glfw_window, FGE_ClickRaton );
    glfwSetCursorPosCallback  ( glfw_window, FGE_RatonMovido );
    glfwSetScrollCallback     ( glfw_window, FGE_Scroll );
-
 }
 
 // ---------------------------------------------------------------------
@@ -593,10 +581,8 @@ void Inicializa_GLFW( int argc, char * argv[] )
 void Inicializa_Vars( )
 {
    // inicializar práctica actual
-   practicaActual = 1 ;
-   contextoVis.modoVis = modoMateriales ;
-
-
+   practicaActual = 3 ;
+   contextoVis.modoVis = modoPuntos ;
 }
 
 // ---------------------------------------------------------------------
