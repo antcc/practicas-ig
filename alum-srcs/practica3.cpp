@@ -91,7 +91,7 @@ bool P3_FGE_PulsarTeclaCaracter( unsigned char tecla )
 
          break ;
 
-      case '>' :
+      case '>' : //TODO
          if (objetos3[objetoActivo3] != nullptr) {
            if (p3_animaciones_activas) {
 
@@ -100,22 +100,23 @@ bool P3_FGE_PulsarTeclaCaracter( unsigned char tecla )
            else {
 
            }
+
+           res = true;
          }
-
-         res = true;
-
          break ;
 
       case '<' : //TODO
-         if (p3_animaciones_activas) {
+         if (objetos3[objetoActivo3] != nullptr) {
+           if (p3_animaciones_activas) {
 
+           }
+
+           else {
+
+           }
+
+           res = true;
          }
-
-         else {
-
-         }
-
-         res = true;
 
          break ;
 
