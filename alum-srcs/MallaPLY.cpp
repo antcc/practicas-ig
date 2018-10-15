@@ -24,10 +24,10 @@ MallaPLY::MallaPLY( const std::string & nombre_arch )
 
    ply::read(nombre_arch.c_str(), vertices, caras);
 
-   for (int i = 0; i + 2 < vertices.size(); i += 3)
+   for (unsigned i = 0; i + 2 < vertices.size(); i += 3)
     tabla_vertices.push_back({vertices[i], vertices[i+1], vertices[i+2]});
 
-   for (int i = 0; i + 2 < caras.size(); i+= 3)
+   for (unsigned i = 0; i + 2 < caras.size(); i+= 3)
      tabla_caras.push_back({caras[i], caras[i+1], caras[i+2]});
 
    num_vertices = vertices.size() / 3;

@@ -47,7 +47,7 @@ MallaRevol::MallaRevol(const std::string & nombre_arch,
 
   ply::read_vertices(nombre_arch.c_str(), vertices);
 
-  for (int i = 0; i + 2 < vertices.size(); i += 3)
+  for (unsigned i = 0; i + 2 < vertices.size(); i += 3)
     perfil_original.push_back({vertices[i], vertices[i+1], vertices[i+2]});
 
   inicializarMallaRevol(perfil_original, nperfiles, vertices.size() / 3, crear_tapas,
@@ -57,8 +57,8 @@ MallaRevol::MallaRevol(const std::string & nombre_arch,
 // *****************************************************************************
 
 void MallaRevol::inicializarMallaRevol(const std::vector<Tupla3f> & perfil_original,
-                                       int nperfiles,
-                                       int num_verts_per,
+                                       unsigned nperfiles,
+                                       unsigned num_verts_per,
                                        bool crear_tapas,
                                        bool cerrar_malla)
 {
@@ -83,7 +83,7 @@ void MallaRevol::crearMallaRevol(const std::vector<Tupla3f> & perfil_original,
                                  bool cerrar_malla)
 {
 
-  int i, j;
+  unsigned i, j;
   float alpha = cerrar_malla ? 360.0 / nper : 360.0 / (nper -1);
   Matriz4f m = MAT_Rotacion(alpha, 0, 1, 0);
   vector<Tupla3f> aux = perfil_original;
@@ -149,7 +149,7 @@ void MallaRevol::crearMallaRevol(const std::vector<Tupla3f> & perfil_original,
 
 // *****************************************************************************
 
-Cilindro::Cilindro(const int num_verts_per,
+Cilindro::Cilindro(const unsigned num_verts_per,
                    const unsigned nperfiles,
                    float radio_base,
                    float altura,
@@ -162,7 +162,7 @@ Cilindro::Cilindro(const int num_verts_per,
   h = altura;
 
   // Construir perfil
-  for (int i = 0; i < num_verts_per; i++)
+  for (unsigned i = 0; i < num_verts_per; i++)
     perfil_original[i] = {r, h * ((float) i / (num_verts_per - 1)), 0.0};
 
   inicializarMallaRevol(perfil_original, nperfiles, num_verts_per, crear_tapas, cerrar_malla);
@@ -170,7 +170,7 @@ Cilindro::Cilindro(const int num_verts_per,
 
 // *****************************************************************************
 
-Cono::Cono(const int num_verts_per,
+Cono::Cono(const unsigned num_verts_per,
            const unsigned nperfiles,
            float radio_base,
            float altura,
@@ -183,7 +183,7 @@ Cono::Cono(const int num_verts_per,
   h = altura;
 
   // Construir perfil
-  for (int i = 0; i < num_verts_per; i++) {
+  for (unsigned i = 0; i < num_verts_per; i++) {
     // Para poner tapa arriba, dividimos por num_verts_per.
     float x = (1 - (float) i / (num_verts_per - 1)) * r;
     perfil_original[i] = {x, (- h / r) * x + h, 0.0};
@@ -194,7 +194,7 @@ Cono::Cono(const int num_verts_per,
 
 // *****************************************************************************
 
-Esfera::Esfera(const int num_verts_per,
+Esfera::Esfera(const unsigned num_verts_per,
                const unsigned nperfiles,
                float radio,
                const bool crear_tapas,
@@ -205,7 +205,7 @@ Esfera::Esfera(const int num_verts_per,
   r = radio;
 
   // Construir perfil
-  for (int i = 0; i < num_verts_per; i++) {
+  for (unsigned i = 0; i < num_verts_per; i++) {
     float y = r * (-1 + (float) 2 * i / (num_verts_per - 1));
     perfil_original[i] = {sqrt(r * r - y * y), y, 0.0};
   }

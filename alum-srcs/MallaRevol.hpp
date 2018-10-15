@@ -24,8 +24,8 @@ class MallaRevol : public MallaInd
       unsigned nvp; // numero de vertices por perfil
 
       void inicializarMallaRevol(const std::vector<Tupla3f> & perfil_original,
-                                             int nperfiles,
-                                             int num_verts_per,
+                                             unsigned nperfiles,
+                                             unsigned num_verts_per,
                                              bool crear_tapas,
                                              bool cerrar_malla);
 
@@ -54,7 +54,7 @@ class Cilindro : public MallaRevol
 
   public:
     // la base tiene el centro en el origen, el radio y la altura son 1
-    Cilindro(const int num_verts_per,
+    Cilindro(const unsigned num_verts_per,
              const unsigned nperfiles,
              float radio_base,
              float altura,
@@ -70,7 +70,7 @@ class Cono : public MallaRevol
 
   public:
     // La base tiene el centro en el origen, el radio y altura son 1
-    Cono(const int num_verts_per,
+    Cono(const unsigned num_verts_per,
          const unsigned nperfiles,
          float radio_base,
          float altura,
@@ -85,7 +85,7 @@ class Esfera : public MallaRevol
 
   public:
     // La esfera tiene el centro en el origen, el radio es la unidad
-    Esfera(const int num_verts_per,
+    Esfera(const unsigned num_verts_per,
            const unsigned nperfiles,
            float radio,
            const bool crear_tapas,

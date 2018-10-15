@@ -5,7 +5,7 @@
 #ifndef GRADO_LIBERTAD_HPP
 #define GRADO_LIBERTAD_HPP
 
-class Objeto3D ;
+class Objeto3D ; //TODO: ¿es necesario?
 
 // tipo usado para las funciones que calculan una matriz a partir de un flotante
 typedef std::function< Matriz4f( float )> TFuncionCMF  ;
@@ -21,8 +21,8 @@ class Parametro
 
     const std::string descripcion ;
     const bool acotado ;
-    const TFuncionCMF fun_calculo_matriz; // produce una nueva matriz a partir de un flotante
     Matriz4f * const ptr_mat ; // puntero a la matriz dentro del modelo
+    const TFuncionCMF fun_calculo_matriz; // produce una nueva matriz a partir de un flotante
     const float
       c, // valor inicial (y también central para grados acotados)
       s, // semiamplitud (si acotado), o factor de escala (si no acotado)

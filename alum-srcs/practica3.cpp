@@ -84,7 +84,7 @@ bool P3_FGE_PulsarTeclaCaracter( unsigned char tecla )
          p3_animaciones_activas = false;
 
          if (objetos3[objetoActivo3] != nullptr)
-           for (int i = 0; i < objetos3[objetoActivo3]->numParametros(); i++)
+           for (unsigned i = 0; i < objetos3[objetoActivo3]->numParametros(); i++)
              objetos3[objetoActivo3]->leerPtrParametro(i)->reset();
 
          cout << "práctica 3: parámetros reseteados y animaciones desactivadas." << endl;

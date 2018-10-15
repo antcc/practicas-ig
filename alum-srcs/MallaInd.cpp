@@ -57,7 +57,7 @@ void MallaInd::calcular_normales()
 // -----------------------------------------------------------------------------
 
 void MallaInd::setColorVertices() {
-  for (int i = 0; i < num_vertices; i++)
+  for (unsigned i = 0; i < num_vertices; i++)
       color_vertices.push_back({0.1, 0.1, (float) (i+1) / num_vertices});
 }
 
@@ -89,7 +89,7 @@ void MallaInd::visualizarDE_MI( ContextoVis & cv )
   for (auto tupla : tabla_caras) {
     // Para poner colores a cada cara, llamar aquí a glColor3fv
     // (sobre un vector de colores de caras con num_vertices/3 entradas)
-    for (int j = 0; j < 3; j++) {
+    for (unsigned j = 0; j < 3; j++) {
       if (color_vertices.size() > 0)
         glColor3fv(color_vertices[tupla(j)]);
 

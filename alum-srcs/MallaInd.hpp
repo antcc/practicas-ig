@@ -63,7 +63,7 @@ class Cubo : public MallaInd
 {
    protected:
       float longitud_arista;
-      //virtual void setColorVertices() override;
+
    public:
       Cubo();
       Cubo(float longitud_arista);
@@ -74,7 +74,7 @@ class Tetraedro : public MallaInd
 {
    protected:
       float longitud_arista;
-      //virtual void setColorVertices() override;
+
    public:
       Tetraedro();
       Tetraedro(float longitud_arista);
