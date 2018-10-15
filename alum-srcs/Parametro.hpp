@@ -15,9 +15,9 @@ typedef std::function< Matriz4f( float )> TFuncionCMF  ;
 class Parametro
 {
    private:
-    static constexpr float a = 1;
-    static constexpr float v0 = 1;
-    static constexpr float incremento = 1;
+    static constexpr float a = 0.01;
+    static constexpr float v0 = 0.1;
+    static constexpr float incremento = 0.1;
 
     const std::string descripcion ;
     const bool acotado ;

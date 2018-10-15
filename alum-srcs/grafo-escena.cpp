@@ -22,6 +22,7 @@
 #include "matrices-tr.hpp"
 #include "shaders.hpp"
 #include "grafo-escena.hpp"
+#include "MallaRevol.hpp"
 
 using namespace std ;
 
@@ -60,7 +61,7 @@ EntradaNGE::EntradaNGE( Material * pMaterial )
 // -----------------------------------------------------------------------------
 // Destructor de una entrada
 
-EntradaNGE::~EntradaNGE()
+EntradaNGE::~EntradaNGE() //TODO: ¿hay que hacer algo?
 {
    /**  no fnciona debido a que se hacen copias (duplicados) de punteros
    if ( tipo == TipoEntNGE::transformacion )
@@ -204,18 +205,23 @@ Parametro * NodoGrafoEscenaParam::leerPtrParametro( unsigned i )
 
 void NodoGrafoEscenaParam::siguienteCuadro()
 {
-  for (auto param : parametros)
+  for (auto &param : parametros)
     param.siguiente_cuadro();
 }
 
 // *****************************************************************************
 // Nodo raíz del modelo
 // *****************************************************************************
-
 C::C()
 {
   ponerNombre("raíz del modelo jerárquico");
-// se fijan los subárboles del nodo raíz (guardar TODOS los punteros a matrices de los grados de libertad)
 
-// se fijan los parámetros (grados de libertad)
+  Matriz4f m = MAT_Ident();
+  auto ptr_p1 = leerPtrMatriz(agregar(m));
+  agregar(new MallaRevol("../plys/peon.ply", 50, true, true));
+
+  Parametro p1("rotación del peón", ptr_p1,
+               [=](float v) {return MAT_Rotacion(v, 1, 0, 0);},
+               true, 180, 180, 0.1);
+  parametros.push_back(p1);
 }

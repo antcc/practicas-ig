@@ -61,7 +61,7 @@ bool P3_FGE_PulsarTeclaCaracter( unsigned char tecla )
          p3_animaciones_activas = !p3_animaciones_activas;
 
          if (p3_animaciones_activas)
-           FijarFuncDesocupado(FGE_Desocupado);  // TODO: ¿es necesario?
+           FijarFuncDesocupado(FGE_Desocupado);
 
          cout << "práctica 3: animaciones "
               << (p3_animaciones_activas ? "activadas" : "desactivadas") << endl;
@@ -73,8 +73,9 @@ bool P3_FGE_PulsarTeclaCaracter( unsigned char tecla )
          if ( objetos3[objetoActivo3] != nullptr ) {
            p3_grado_libertad_activo = (p3_grado_libertad_activo + 1) %
                                       objetos3[objetoActivo3]->numParametros();
-           cout << "prática 3: nuevo grado de libertad activo es " << p3_grado_libertad_activo
-                << endl;
+           cout << "prática 3: nuevo grado de libertad activo es '"
+                << objetos3[objetoActivo3]->leerPtrParametro(p3_grado_libertad_activo)->leer_descripcion()
+                << "'" << endl;
            res = true;
          }
 
