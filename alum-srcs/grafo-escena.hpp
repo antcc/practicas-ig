@@ -106,8 +106,7 @@ class NodoGrafoEscena : public Objeto3D
 class NodoGrafoEscenaParam : public NodoGrafoEscena
 {
    protected:
-      // COMPLETAR: práctica 3: declarar vector de parámetros del nodo
-      // .......
+     std::vector<Parametro> parametros;
 
 
    public:

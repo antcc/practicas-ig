@@ -176,35 +176,34 @@ bool NodoGrafoEscena::buscarObjeto
 // Nodo del grafo de escena, con una lista añadida de parámetros
 // *****************************************************************************
 
-
 // -----------------------------------------------------------------------------
 // devuelve el numero de grados de libertad
 int NodoGrafoEscenaParam::numParametros()
 {
-   // COMPLETAR: práctica 3: indicar cuantos parámetros hay
-   // ........
-
+  return parametros.size();
 }
 // -----------------------------------------------------------------------------
 
 // devuelve un puntero al i-ésimo grado de libertad
 Parametro * NodoGrafoEscenaParam::leerPtrParametro( unsigned i )
 {
-   // COMPLETAR: práctica 3: devolver puntero al i-ésimo parámetro
-   // ........
-
+  if (i >= 0 && i < parametros.size())
+    return &parametros[i];
+  return nullptr;
 }
 // -----------------------------------------------------------------------------
 
 void NodoGrafoEscenaParam::siguienteCuadro()
 {
-   // COMPLETAR: práctica 3: actualizar todos los parámetros al siguiente cuadro
-   // ........
-
-
+  for (auto param : parametros)
+    param.siguiente_cuadro();
 }
+
+// *****************************************************************************
+// Nodo raíz del modelo
+// *****************************************************************************
 
 C::C()
 {
-  
+
 }
