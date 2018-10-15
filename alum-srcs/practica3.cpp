@@ -14,7 +14,7 @@
 using namespace std ;
 
 static bool p3_animaciones_activas = false;
-static int p3_grado_libertad_activo = 0;
+static unsigned p3_grado_libertad_activo = 0;
 static constexpr int numObjetos3 = 1;
 static unsigned objetoActivo3 = 0;
 static NodoGrafoEscenaParam * objetos3[numObjetos3] = {nullptr};
@@ -27,7 +27,7 @@ static NodoGrafoEscenaParam * objetos3[numObjetos3] = {nullptr};
 void P3_Inicializar(  )
 {
    cout << "Creando objetos de la práctica 3 .... " << flush ;
-   objetos3[0] = new C();
+   objetos3[0] = new C;
    cout << "hecho." << endl << flush ;
 }
 
@@ -101,7 +101,6 @@ bool P3_FGE_PulsarTeclaCaracter( unsigned char tecla )
              param_activo->acelerar();
              cout << "práctica 3: el grado de libertad activo es " << p3_grado_libertad_activo
                   << ", con velocidad " << param_activo->leer_velocidad_actual() << endl;
-
            }
 
            else {
