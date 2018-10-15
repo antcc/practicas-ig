@@ -6,7 +6,7 @@
 // *********************************************************************
 
 #include "aux.hpp"
-#include "tuplasg.hpp"   // Tupla3f
+#include "tuplasg.hpp"
 #include "practicas.hpp"
 #include "practica3.hpp"
 #include "grafo-escena.hpp"
@@ -16,9 +16,8 @@ using namespace std ;
 static bool p3_animaciones_activas = false;
 static int p3_grado_libertad_activo = 0;
 static constexpr int numObjetos3 = 1;
-static unsigned objetoActivo3 = 0 ;
+static unsigned objetoActivo3 = 0;
 static NodoGrafoEscenaParam * objetos3[numObjetos3] = {nullptr};
-
 
 // ---------------------------------------------------------------------
 // Función para implementar en la práctica 3 para inicialización.
@@ -43,7 +42,7 @@ void P3_Inicializar(  )
 
 bool P3_FGE_PulsarTeclaCaracter( unsigned char tecla )
 {
-   bool res = false  ; // valor devuelto (true si se ha procesado tecla)
+   bool res = false  ;
 
    switch ( toupper( tecla ) )
    {
@@ -60,6 +59,7 @@ bool P3_FGE_PulsarTeclaCaracter( unsigned char tecla )
 
       case 'A' :
          p3_animaciones_activas = !p3_animaciones_activas;
+
          if (p3_animaciones_activas)
            FijarFuncDesocupado(FGE_Desocupado);  // TODO: ¿es necesario?
 
@@ -71,7 +71,8 @@ bool P3_FGE_PulsarTeclaCaracter( unsigned char tecla )
 
       case 'G' :
          if ( objetos3[objetoActivo3] != nullptr ) {
-           p3_grado_libertad_activo = (p3_grado_libertad_activo + 1) % objetos3[objetoActivo3]->numParametros();
+           p3_grado_libertad_activo = (p3_grado_libertad_activo + 1) %
+                                      objetos3[objetoActivo3]->numParametros();
            cout << "prática 3: nuevo grado de libertad activo es " << p3_grado_libertad_activo
                 << endl;
            res = true;
@@ -91,28 +92,41 @@ bool P3_FGE_PulsarTeclaCaracter( unsigned char tecla )
 
          break ;
 
-      case '>' : //TODO
+      case '>' :
          if (objetos3[objetoActivo3] != nullptr) {
+           auto param_activo = objetos3[objetoActivo3]->leerPtrParametro(p3_grado_libertad_activo);
+
            if (p3_animaciones_activas) {
+             param_activo->acelerar();
+             cout << "práctica 3: el grado de libertad activo es " << p3_grado_libertad_activo
+                  << ", con velocidad " << param_activo->leer_velocidad_actual() << endl;
 
            }
 
            else {
-
+             param_activo->incrementar();
+             cout << "práctica 3: el grado de libertad activo es " << p3_grado_libertad_activo
+                  << ", con valor " << param_activo->leer_valor_actual() << endl;
            }
 
            res = true;
          }
          break ;
 
-      case '<' : //TODO
+      case '<' :
          if (objetos3[objetoActivo3] != nullptr) {
-           if (p3_animaciones_activas) {
+           auto param_activo = objetos3[objetoActivo3]->leerPtrParametro(p3_grado_libertad_activo);
 
+           if (p3_animaciones_activas) {
+             param_activo->decelerar();
+             cout << "práctica 3: el grado de libertad activo es " << p3_grado_libertad_activo
+                  << ", con velocidad " << param_activo->leer_velocidad_actual() << endl;
            }
 
            else {
-
+             param_activo->decrementar();
+             cout << "práctica 3: el grado de libertad activo es " << p3_grado_libertad_activo
+                  << ", con valor " << param_activo->leer_valor_actual() << endl;
            }
 
            res = true;
@@ -141,7 +155,8 @@ bool P3_FGE_Desocupado()
   if (!p3_animaciones_activas)
     return false;
 
-  //TODO: actualizar el objeto activo
+  if (objetos3[objetoActivo3] != nullptr)
+    objetos3[objetoActivo3]->siguienteCuadro();
 
   redibujar_ventana = true;
 
