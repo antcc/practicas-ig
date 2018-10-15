@@ -22,9 +22,6 @@
 #ifndef GRAFO_ESCENA_HPP
 #define GRAFO_ESCENA_HPP
 
-//#include <obj-gra.hpp>
-//#include <materiales.hpp>
-
 #include "matrices-tr.hpp"
 #include "materiales.hpp"
 #include "Objeto3D.hpp"
@@ -32,7 +29,7 @@
 // *********************************************************************
 // declaración adelantada de estructura para un nodo del grafo de escena
 
-class NodoGrafoEscena ;
+class NodoGrafoEscena ; //TODO: ¿es necesario?
 
 // *********************************************************************
 // tipo enumerado con los tipos de entradas del nodo del grafo de escena
@@ -50,6 +47,7 @@ struct EntradaNGE
       Matriz4f * matriz ;  // ptr. a matriz 4x4 transf. (propietario)
       Material * material ; // ptr. a material (no propietario)
    } ;
+
    // constructores (uno por tipo)
    EntradaNGE( Objeto3D * pObjeto ) ;      // (copia solo puntero)
    EntradaNGE( const Matriz4f & pMatriz ); // (crea copia en el heap)
@@ -63,39 +61,42 @@ struct EntradaNGE
 class NodoGrafoEscena : public Objeto3D
 {
    protected:
-   // COMPLETAR: práctica 3: definir variables y métodos privados del nodo
-   // .......
+
+     std::vector<EntradaNGE> entradas;
 
    public:
 
-   NodoGrafoEscena() ;
+     NodoGrafoEscena() ;
 
-   // visualiza usando OpenGL
-   virtual void visualizarGL( ContextoVis & cv ) ;
-   void fijarColorNodo( const Tupla3f & nuevo_color ) ;
+     // visualiza usando OpenGL
+     virtual void visualizarGL( ContextoVis & cv ) ;
+     void fijarColorNodo( const Tupla3f & nuevo_color ) ;
 
-   // calcular y obtener la caja englobante
-   //virtual CajaEngf cajaEnglobante() ;
+     // calcular y obtener la caja englobante
+     //virtual CajaEngf cajaEnglobante() ;
 
-   // añadir una entrada al final, hace copia de la entrada
-   // devuelve indice de la entrada dentro del vector de entradas
-   unsigned agregar( const EntradaNGE & entrada );
+     // añadir una entrada al final, hace copia de la entrada
+     // devuelve indice de la entrada dentro del vector de entradas
+     unsigned agregar( const EntradaNGE & entrada );
 
-   // construir una entrada y añadirla (al final)
-   unsigned agregar( Objeto3D * pObjeto ); // objeto (copia solo puntero)
-   unsigned agregar( const Matriz4f & pMatriz ); // matriz (copia objeto)
-   unsigned agregar( Material * pMaterial ); // material (copia solo puntero)
+     // construir una entrada y añadirla (al final)
+     unsigned agregar( Objeto3D * pObjeto ); // objeto (copia solo puntero)
+     unsigned agregar( const Matriz4f & pMatriz ); // matriz (copia objeto)
+     unsigned agregar( Material * pMaterial ); // material (copia solo puntero)
 
-   // devuelve el puntero a la matriz en la i-ésima entrada
-   Matriz4f * leerPtrMatriz( unsigned iEnt );
+     // devuelve el puntero a la matriz en la i-ésima entrada
+     Matriz4f * leerPtrMatriz( unsigned iEnt );
 
-   // método para buscar un objeto con un identificador
-   virtual bool buscarObjeto( const int ident_busc, const Matriz4f & mmodelado,
-                    Objeto3D ** objeto, Tupla3f & centro_wc )  ;
+     // método para buscar un objeto con un identificador
+     virtual bool
+     buscarObjeto(const int ident_busc, // identificador a buscar
+                  const Matriz4f & mmodelado, // matriz de modelado
+                  Objeto3D ** objeto, // (salida) puntero al puntero al objeto
+                  Tupla3f & centro_wc); // (salida) centro del objeto en coordenadas del mundo)
 
-   // si 'centro_calculado' es 'false', recalcula el centro usando los centros
-   // de los hijos (el punto medio de la caja englobante de los centros de hijos)
-   virtual void calcularCentroOC() ;
+     // si 'centro_calculado' es 'false', recalcula el centro usando los centros
+     // de los hijos (el punto medio de la caja englobante de los centros de hijos)
+     virtual void calcularCentroOC() ;
 
 } ;
 
@@ -108,10 +109,9 @@ class NodoGrafoEscenaParam : public NodoGrafoEscena
    protected:
      std::vector<Parametro> parametros;
 
-
    public:
       // devuelve el número de parámetros
-      int numParametros();
+      unsigned numParametros();
 
       // devuelve un puntero al i-ésimo parámetro (i < numParametros())
       Parametro * leerPtrParametro( unsigned i ) ;

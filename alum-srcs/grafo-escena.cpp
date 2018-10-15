@@ -81,16 +81,26 @@ EntradaNGE::~EntradaNGE()
 
 void NodoGrafoEscena::visualizarGL( ContextoVis & cv )
 {
-   // COMPLETAR: práctica 3: recorrer las entradas y visualizar el nodo
-   // ........
+  glMatrixMode(GL_MODELVIEW);
+  glPushMatrix();
 
+  for (unsigned i = 0; i < entradas.size(); i++) {
+    if (entradas[i].tipo == TipoEntNGE::objeto) {
+      entradas[i].objeto->visualizarGL(cv);
+    }
+    else if (entradas[i].tipo == TipoEntNGE::transformacion) {
+      glMatrixMode(GL_MODELVIEW);
+      glMultMatrixf(*(entradas[i].matriz));
+    }
+  }
+
+  glMatrixMode(GL_MODELVIEW);
+  glPopMatrix();
 }
 // -----------------------------------------------------------------------------
 
 NodoGrafoEscena::NodoGrafoEscena()
 {
-   // COMPLETAR: práctica 3: inicializar un nodo vacío (sin entradas)
-   // ........
 
 }
 // -----------------------------------------------------------------------------
@@ -108,9 +118,8 @@ void NodoGrafoEscena::fijarColorNodo( const Tupla3f & nuevo_color )
 
 unsigned NodoGrafoEscena::agregar( const EntradaNGE & entrada )
 {
-   // COMPLETAR: práctica 3: agregar la entrada al nodo, devolver índice de la entrada
-   // ........
-
+  entradas.push_back(entrada);
+  return entradas.size() - 1;
 }
 // -----------------------------------------------------------------------------
 // construir una entrada y añadirla (al final)
@@ -138,10 +147,13 @@ unsigned NodoGrafoEscena::agregar( Material * pMaterial )
 // devuelve el puntero a la matriz en la i-ésima entrada
 Matriz4f * NodoGrafoEscena::leerPtrMatriz( unsigned indice )
 {
-   // COMPLETAR: práctica 3: devolver puntero la matriz en ese índice
-   //   (debe de dar error y abortar si no hay una matriz en esa entrada)
-   // ........
+  if (indice >= 0 && indice < entradas.size())
+    if (entradas[indice].tipo == TipoEntNGE::transformacion && entradas[indice].matriz != nullptr)
+      return entradas[indice].matriz;
 
+  cout << "ERROR: práctica 3: no hay un puntero válido a una transformación en la entrada "
+       << indice << endl << "Abortando..." << endl;
+  exit(1); //TODO: ¿necesario?
 }
 // -----------------------------------------------------------------------------
 // si 'centro_calculado' es 'false', recalcula el centro usando los centros
@@ -159,17 +171,13 @@ void NodoGrafoEscena::calcularCentroOC()
 // -----------------------------------------------------------------------------
 // método para buscar un objeto con un identificador y devolver un puntero al mismo
 
-bool NodoGrafoEscena::buscarObjeto
-(
-   const int         ident_busc, // identificador a buscar
-   const Matriz4f &  mmodelado,  // matriz de modelado
-   Objeto3D       ** objeto,     // (salida) puntero al puntero al objeto
-   Tupla3f &         centro_wc   // (salida) centro del objeto en coordenadas del mundo
-)
+bool NodoGrafoEscena::buscarObjeto(const int ident_busc,
+                                   const Matriz4f & mmodelado,
+                                   Objeto3D ** objeto,
+                                   Tupla3f & centro_wc)
 {
    // COMPLETAR: práctica 5: buscar un sub-objeto con un identificador
    // ........
-
 }
 
 // *****************************************************************************
@@ -178,12 +186,12 @@ bool NodoGrafoEscena::buscarObjeto
 
 // -----------------------------------------------------------------------------
 // devuelve el numero de grados de libertad
-int NodoGrafoEscenaParam::numParametros()
+unsigned NodoGrafoEscenaParam::numParametros()
 {
   return parametros.size();
 }
-// -----------------------------------------------------------------------------
 
+// -----------------------------------------------------------------------------
 // devuelve un puntero al i-ésimo grado de libertad
 Parametro * NodoGrafoEscenaParam::leerPtrParametro( unsigned i )
 {
@@ -191,6 +199,7 @@ Parametro * NodoGrafoEscenaParam::leerPtrParametro( unsigned i )
     return &parametros[i];
   return nullptr;
 }
+
 // -----------------------------------------------------------------------------
 
 void NodoGrafoEscenaParam::siguienteCuadro()
@@ -205,5 +214,8 @@ void NodoGrafoEscenaParam::siguienteCuadro()
 
 C::C()
 {
+  ponerNombre("raíz del modelo jerárquico");
+// se fijan los subárboles del nodo raíz (guardar TODOS los punteros a matrices de los grados de libertad)
 
+// se fijan los parámetros (grados de libertad)
 }
