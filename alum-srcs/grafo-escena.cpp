@@ -23,6 +23,7 @@
 #include "shaders.hpp"
 #include "grafo-escena.hpp"
 #include "MallaRevol.hpp"
+#include "MallaPLY.hpp"
 
 using namespace std ;
 
@@ -102,7 +103,6 @@ void NodoGrafoEscena::visualizarGL( ContextoVis & cv )
 
 NodoGrafoEscena::NodoGrafoEscena()
 {
-
 }
 // -----------------------------------------------------------------------------
 
@@ -154,7 +154,7 @@ Matriz4f * NodoGrafoEscena::leerPtrMatriz( unsigned indice )
 
   cout << "ERROR: práctica 3: no hay un puntero válido a una transformación en la entrada "
        << indice << endl << "Abortando..." << endl;
-  exit(1); //TODO: ¿necesario?
+  exit(EXIT_FAILURE);
 }
 // -----------------------------------------------------------------------------
 // si 'centro_calculado' es 'false', recalcula el centro usando los centros
@@ -209,19 +209,38 @@ void NodoGrafoEscenaParam::siguienteCuadro()
     param.siguiente_cuadro();
 }
 
+MallaTendedor::Tira::Tira() {
+  agregar(MAT_Rotacion(90, 0, 0, 1));
+  agregar(MAT_Escalado(0.5, 35, 0.5));
+  agregar(new Cilindro(50, 50, 1, 1, true, true));
+}
+
+MallaTendedor::MallaTendedor() {
+  // FALTA HACER TRES TIRAS ESPECIALES PARA EL BORDE (CLASS TIRABORDE)
+  for (int i = 0; i < num_tiras; i++) {
+    agregar(new Tira);
+    agregar(MAT_Traslacion(0, 0, 4));
+  }
+}
+
 // *****************************************************************************
 // Nodo raíz del modelo
 // *****************************************************************************
-C::C()
+Tendedor::Tendedor()
 {
+  /**
+   * EJE X --> Rojo
+   * EJE Y --> Verde
+   * EJE Z --> Azul
+   */
+
   ponerNombre("raíz del modelo jerárquico");
 
-  Matriz4f m = MAT_Ident();
-  auto ptr_p1 = leerPtrMatriz(agregar(m));
-  agregar(new MallaRevol("../plys/peon.ply", 50, true, true));
+  // Escalar toda la figura
+  agregar(MAT_Escalado(0.05, 0.05, 0.05));
 
-  Parametro p1("rotación del peón", ptr_p1,
-               [=](float v) {return MAT_Rotacion(v, 1, 0, 0);},
-               true, 180, 180, 0.1);
-  parametros.push_back(p1);
+  // Parte central del tendedor
+  agregar(new MallaTendedor);
+  agregar(MAT_Escalado(-1, 1, 1));
+  agregar(new MallaTendedor);
 }

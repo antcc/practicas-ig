@@ -27,7 +27,7 @@ static NodoGrafoEscenaParam * objetos3[numObjetos3] = {nullptr};
 void P3_Inicializar(  )
 {
    cout << "Creando objetos de la práctica 3 .... " << flush ;
-   objetos3[0] = new C;
+   objetos3[0] = new Tendedor;
    cout << "hecho." << endl << flush ;
 }
 

@@ -61,7 +61,6 @@ struct EntradaNGE
 class NodoGrafoEscena : public Objeto3D
 {
    protected:
-
      std::vector<EntradaNGE> entradas;
 
    public:
@@ -121,10 +120,23 @@ class NodoGrafoEscenaParam : public NodoGrafoEscena
       void siguienteCuadro();
 } ;
 
-class C : public NodoGrafoEscenaParam
+class MallaTendedor : public NodoGrafoEscena {
+  protected:
+    static constexpr unsigned num_tiras = 8;
+
+    class Tira : public NodoGrafoEscena {
+      public:
+        Tira();
+    };
+
+  public:
+    MallaTendedor();
+};
+
+class Tendedor : public NodoGrafoEscenaParam
 {
   public:
-    C();
+    Tendedor();
 };
 
 #endif // GRAFO_ESCENA_HPP

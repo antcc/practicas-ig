@@ -15,8 +15,7 @@ Parametro::Parametro(const std::string & p_descripcion,
   : descripcion(p_descripcion), acotado(p_acotado), ptr_mat(p_ptr_mat),
     fun_calculo_matriz(p_fun_calculo_matriz), c(p_c), s(p_s), f(p_f)
 {
-  valor_norm = 0;
-  velocidad = v0;
+  reset();
 }
 
 // -----------------------------------------------------------------------------
