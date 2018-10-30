@@ -23,7 +23,6 @@
 #include "shaders.hpp"
 #include "grafo-escena.hpp"
 #include "MallaRevol.hpp"
-#include "MallaPLY.hpp"
 
 using namespace std ;
 
@@ -211,16 +210,54 @@ void NodoGrafoEscenaParam::siguienteCuadro()
 
 MallaTendedor::Tira::Tira() {
   agregar(MAT_Rotacion(90, 0, 0, 1));
-  agregar(MAT_Escalado(0.5, 35, 0.5));
+  agregar(MAT_Escalado(grosor_tira, longitud_tira, grosor_tira));
   agregar(new Cilindro(50, 50, 1, 1, true, true));
 }
 
+MallaTendedor::TiraBorde::TiraBorde() {
+  agregar(MAT_Escalado(1, grosor_tira_borde, grosor_tira_borde));
+  agregar(new Tira);
+}
+
+MallaTendedor::TiraBordeEsquina::TiraBordeEsquina() {
+  agregar(new TiraBorde);
+  agregar(MAT_Traslacion(-(Tira::longitud_tira + 1), 0, 0));
+  agregar(MAT_Escalado(1.5, 1.5, 1.5));
+  agregar(new Esfera(50, 50, 1, true, true));
+
+  agregar(MAT_Traslacion((Tira::longitud_tira + 1) / 1.5, 0, 0));
+  agregar(new Esfera(50, 50, 1, true, true));
+}
+
 MallaTendedor::MallaTendedor() {
-  // FALTA HACER TRES TIRAS ESPECIALES PARA EL BORDE (CLASS TIRABORDE)
-  for (int i = 0; i < num_tiras; i++) {
+  // Malla principal y dos bordes
+  agregar(new TiraBorde);
+  agregar(MAT_Traslacion(0, 0, espacio_tiras));
+  for (unsigned i = 0; i < num_tiras; i++) {
     agregar(new Tira);
-    agregar(MAT_Traslacion(0, 0, 4));
+    agregar(MAT_Traslacion(0, 0, espacio_tiras));
   }
+  agregar(new TiraBorde);
+
+  // Tercer borde
+  agregar(MAT_Traslacion(-Tira::longitud_tira, 0, 0));
+  agregar(MAT_Rotacion(-90, 0, 1, 0));
+  agregar(new TiraBordeEsquina);
+}
+
+constexpr float MallaTendedor::longitud_tira() {
+  return Tira::longitud_tira;
+}
+
+AlaTendedor::AlaTendedor() {
+  agregar(new MallaTendedor);
+  agregar(MAT_Traslacion(- MallaTendedor::longitud_tira(), 0, 0));
+  indice_ala = agregar(MAT_Rotacion(-10, 0, 0, 1)); // matriz para rotación del ala
+  agregar(new MallaTendedor);
+}
+
+Matriz4f* AlaTendedor::matriz_ala() {
+  return leerPtrMatriz(indice_ala);
 }
 
 // *****************************************************************************
@@ -240,7 +277,19 @@ Tendedor::Tendedor()
   agregar(MAT_Escalado(0.05, 0.05, 0.05));
 
   // Parte central del tendedor
-  agregar(new MallaTendedor);
-  agregar(MAT_Escalado(-1, 1, 1));
-  agregar(new MallaTendedor);
+  auto ala1 = new AlaTendedor;
+  agregar(ala1);
+  agregar(MAT_Escalado(-1, 1, 1));  // espejo
+  auto ala2 = new AlaTendedor;
+  agregar(ala2);
+
+  Parametro p1("rotación del primer ala", ala1->matriz_ala(),
+               [=](float v) {return MAT_Rotacion(v, 0, 0, 1);},
+               true, -95, 85, 0.1);
+  parametros.push_back(p1);
+
+  Parametro p2("rotación del segundo ala", ala2->matriz_ala(),
+               [=](float v) {return MAT_Rotacion(v, 0, 0, 1);},
+               true, -95, 85, 0.1);
+  parametros.push_back(p2);
 }
