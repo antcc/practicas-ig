@@ -320,9 +320,9 @@ void FGE_PulsarTeclaEspecial( GLFWwindow* window, int key, int scancode, int act
 
    // si la tecla tiene 'nombre', entonces no la consideramos tecla especial
    // (es una tecla tipo 'carácter', el evento lo gestiona la otra f.g.e, la de tecla tipo carácter)
-   const char * keyname = glfwGetKeyName( key, scancode ) ;
-   if ( keyname != nullptr )
-      return ;
+  // const char * keyname = glfwGetKeyName( key, scancode ) ;
+   //if ( keyname != nullptr )
+   //  return ;
 
    bool redisp = false ;
 

@@ -123,7 +123,7 @@ class NodoGrafoEscenaParam : public NodoGrafoEscena
 class MallaTendedor : public NodoGrafoEscena {
   protected:
     static constexpr unsigned num_tiras = 8;
-    static constexpr float espacio_tiras = 4.0;
+    static constexpr float esp_tiras = 4.0;
 
     class Tira : public NodoGrafoEscena {
       public:
@@ -143,16 +143,43 @@ class MallaTendedor : public NodoGrafoEscena {
         TiraBordeEsquina();
     };
 
+    friend class Armazon;
+
   public:
     MallaTendedor();
     static constexpr float longitud_tira();
+    static constexpr float numero_tiras();
+    static constexpr float espacio_tiras();
+};
+
+class Armazon : public NodoGrafoEscena {
+  public:
+    Armazon();
+};
+
+class Pata : public NodoGrafoEscena {
+    unsigned indice_pata;
+    static constexpr float angulo_inicial = 140.0;
+  public:
+    Pata();
+    Matriz4f* matriz_pata();
 };
 
 class AlaTendedor : public NodoGrafoEscena {
     unsigned indice_ala;
+    static constexpr float angulo_inicial = -10.0;
   public:
     AlaTendedor();
     Matriz4f* matriz_ala();
+};
+
+class TendedorMitad : public NodoGrafoEscena {
+    Matriz4f* m_ala;
+    Matriz4f* m_pata;
+  public:
+    TendedorMitad();
+    Matriz4f* matriz_ala();
+    Matriz4f* matriz_pata();
 };
 
 class Tendedor : public NodoGrafoEscenaParam

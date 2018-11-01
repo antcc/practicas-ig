@@ -229,35 +229,77 @@ MallaTendedor::TiraBordeEsquina::TiraBordeEsquina() {
   agregar(new Esfera(50, 50, 1, true, true));
 }
 
-MallaTendedor::MallaTendedor() {
-  // Malla principal y dos bordes
-  agregar(new TiraBorde);
-  agregar(MAT_Traslacion(0, 0, espacio_tiras));
-  for (unsigned i = 0; i < num_tiras; i++) {
-    agregar(new Tira);
-    agregar(MAT_Traslacion(0, 0, espacio_tiras));
-  }
-  agregar(new TiraBorde);
+Armazon::Armazon() {
+  // Los dos primeros bordes
+  agregar(new MallaTendedor::TiraBorde);
+  agregar(MAT_Traslacion(0, 0, (MallaTendedor::numero_tiras() + 1) * MallaTendedor::espacio_tiras()));
+  agregar(new MallaTendedor::TiraBorde);
 
   // Tercer borde
-  agregar(MAT_Traslacion(-Tira::longitud_tira, 0, 0));
+  agregar(MAT_Traslacion(-MallaTendedor::longitud_tira(), 0, 0));
   agregar(MAT_Rotacion(-90, 0, 1, 0));
-  agregar(new TiraBordeEsquina);
+  agregar(new MallaTendedor::TiraBordeEsquina);
+}
+
+MallaTendedor::MallaTendedor() {
+  // Malla principal y dos bordes
+  agregar(new Armazon);
+  for (unsigned i = 0; i < num_tiras; i++) {
+    agregar(MAT_Traslacion(0, 0, esp_tiras));
+    agregar(new Tira);
+  }
 }
 
 constexpr float MallaTendedor::longitud_tira() {
   return Tira::longitud_tira;
 }
 
+constexpr float MallaTendedor::numero_tiras() {
+  return num_tiras;
+}
+
+constexpr float MallaTendedor::espacio_tiras() {
+  return esp_tiras;
+}
+
 AlaTendedor::AlaTendedor() {
   agregar(new MallaTendedor);
   agregar(MAT_Traslacion(- MallaTendedor::longitud_tira(), 0, 0));
-  indice_ala = agregar(MAT_Rotacion(-10, 0, 0, 1)); // matriz para rotación del ala
+  indice_ala = agregar(MAT_Rotacion(angulo_inicial, 0, 0, 1)); // matriz para rotación del ala
   agregar(new MallaTendedor);
 }
 
 Matriz4f* AlaTendedor::matriz_ala() {
   return leerPtrMatriz(indice_ala);
+}
+
+Pata::Pata() {
+  agregar(MAT_Traslacion(-MallaTendedor::longitud_tira(), 0, 0));
+  indice_pata = agregar(MAT_Rotacion(angulo_inicial, 0, 0, 1)); // matriz para rotación de la pata
+  agregar(MAT_Escalado(2, 1, 1));
+  agregar(new Armazon);
+}
+
+Matriz4f* Pata::matriz_pata() {
+  return leerPtrMatriz(indice_pata);
+}
+
+TendedorMitad::TendedorMitad() {
+  auto ala = new AlaTendedor;
+  m_ala = ala->matriz_ala();
+  agregar(ala);
+
+  auto pata = new Pata;
+  m_pata = pata->matriz_pata();
+  agregar(pata);
+}
+
+Matriz4f* TendedorMitad::matriz_ala() {
+  return m_ala;
+}
+
+Matriz4f* TendedorMitad::matriz_pata() {
+  return m_pata;
 }
 
 // *****************************************************************************
@@ -273,23 +315,52 @@ Tendedor::Tendedor()
 
   ponerNombre("raíz del modelo jerárquico");
 
-  // Escalar toda la figura
-  agregar(MAT_Escalado(0.05, 0.05, 0.05));
+  // Rotar todo el tendedor
+  auto p_rot1 = leerPtrMatriz(agregar(MAT_Ident()));
 
-  // Parte central del tendedor
-  auto ala1 = new AlaTendedor;
-  agregar(ala1);
-  agregar(MAT_Escalado(-1, 1, 1));  // espejo
-  auto ala2 = new AlaTendedor;
-  agregar(ala2);
+  // Posicionamiento inicial del tendedor
+  agregar(MAT_Escalado(0.025, 0.025, 0.025));
+  agregar(MAT_Traslacion(0, 0, -18));
 
-  Parametro p1("rotación del primer ala", ala1->matriz_ala(),
+  // --- Parte central del tendedor ---
+
+  // Mitad izquierda
+  auto izqda = new TendedorMitad;
+  agregar(izqda);
+
+  // Espejo
+  agregar(MAT_Escalado(-1, 1, 1));
+
+  // Mitad derecha
+  auto dcha = new TendedorMitad;
+  agregar(dcha);
+
+  // --- Grados de libertad ---
+
+  Parametro p1("rotación del primer ala", izqda->matriz_ala(),
                [=](float v) {return MAT_Rotacion(v, 0, 0, 1);},
-               true, -95, 85, 0.1);
+               true, -95, 85, 0.05);
   parametros.push_back(p1);
 
-  Parametro p2("rotación del segundo ala", ala2->matriz_ala(),
+  Parametro p2("rotación del segundo ala", dcha->matriz_ala(),
                [=](float v) {return MAT_Rotacion(v, 0, 0, 1);},
-               true, -95, 85, 0.1);
+               true, -95, 85, 0.05);
   parametros.push_back(p2);
+
+  Parametro p3("rotación de la primera pata", izqda->matriz_pata(),
+               [=](float v) {return MAT_Rotacion(v, 0, 0, 1);},
+               true, 160, 20, 0.05);
+  parametros.push_back(p3);
+
+  Parametro p4("rotación de la segunda pata", dcha->matriz_pata(),
+               [=](float v) {return MAT_Rotacion(v, 0, 0, 1);},
+               true, 160, 20, 0.05);
+  parametros.push_back(p4);
+
+  Parametro p5("rotación de toda la figura", p_rot1,
+               [=](float v) {return MAT_Rotacion(v, 0, 1, 0);},
+               false, 0, 20, 0);
+  parametros.push_back(p5);
+
+
 }
