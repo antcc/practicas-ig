@@ -235,10 +235,10 @@ MallaTendedor::TiraBordeEsquina::TiraBordeEsquina() {
   agregar(new TiraBorde);
   agregar(MAT_Traslacion(-(Tira::longitud_tira + 1), 0, 0));
   agregar(MAT_Escalado(1.5, 1.5, 1.5));
-  agregar(new Esfera(50, 50, 1, true, true));
+  agregar(new Esfera(50, 50, 1, false, true));
 
   agregar(MAT_Traslacion((Tira::longitud_tira + 1) / 1.5, 0, 0));
-  agregar(new Esfera(50, 50, 1, true, true));
+  agregar(new Esfera(50, 50, 1, false, true));
 }
 
 Armazon::Armazon() {

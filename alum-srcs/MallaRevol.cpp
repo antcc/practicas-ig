@@ -127,8 +127,11 @@ void MallaRevol::crearMallaRevol(const std::vector<Tupla3f> & perfil_original,
       tabla_vertices.push_back({0.0, primer_ver(Y), 0.0});
       num_vertices++;
 
-      for (i = 0; i + nvp < num_vertices; i += nvp)
-        tabla_caras.push_back({i, num_vertices - 1, (i + nvp) % (num_vertices - 1)});
+      for (i = 0; i + nvp < num_vertices - 1; i += nvp)
+        tabla_caras.push_back({i, num_vertices - 1, i + nvp});
+
+      if (cerrar_malla) // Última cara (i = (nper - 1) * nvp)
+        tabla_caras.push_back({i, num_vertices - 1, 0});
     }
 
     // Cara superior
@@ -140,8 +143,8 @@ void MallaRevol::crearMallaRevol(const std::vector<Tupla3f> & perfil_original,
       for (i = nvp - 1; i + nvp < num_vertices; i += nvp)
         tabla_caras.push_back({i, num_vertices - 1, i + nvp});
 
-      // Última cara (i = nper * nvp - 1)
-      tabla_caras.push_back({i, num_vertices - 1, nvp - 1});
+      if (cerrar_malla) // Última cara (i = nper * nvp - 1)
+        tabla_caras.push_back({i, num_vertices - 1, nvp - 1});
     }
   }
 }
