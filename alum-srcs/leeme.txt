@@ -33,6 +33,22 @@ Si solo se pasa uno, se considera que es para el primero.
 
 - El cilindro, el cono y la esfera pueden tener radio y/o altura variable.
 
+== Comentarios P2 ==
+
+- Se opta por declarar clases anidadas para limitar el ámbito de las mismas, pues existen solo con el objetivo de crear objetos compuestos a partir de ellas.
+
+- Hay distintos métodos de coloreado:
+
+  a) Gradiente. Si asignamos 0 a la macro TEST_COLOREADO, obtendremos el objeto coloreado mediante
+  un gradiente azul-negro. Este es el método por defecto de coloreado de objetos de MallaInd.
+
+  b) Color plano en cada nodo. Si asignamos 1 a la macro TEST_COLOREADO, obtendremos las patas del
+  tendedor coloreadas de un color plano, y el resto del objeto coloreado con el gradiente ya
+  mencionado. Notemos que se puede modificar el código para colorear otros nodos de otros colores,
+  sin más que llamar a la función fijarColorNodo en el constructor del nodo deseado.
+
+  c) Un vértice de cada color en cada objeto simple (coloreado manual). Mediante una llamada a setColorVertices en objetos de MallaInd de un nodo, podemos especificar un vector de colores que correspondan a cada vértice del objeto. Hay que realizar esta llamada manualmente para cada objeto de MallaInd que queramos colorear así, y asegurarse de que el vector de colores que pasamos tiene tantas entradas como vértices tiene el objeto.
+
 == Cambios en el código proporcionado ==
 
 - Los datos 'private' de Objeto3D pasan a ser 'protected', para poder acceder

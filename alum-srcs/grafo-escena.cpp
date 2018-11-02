@@ -235,10 +235,18 @@ MallaTendedor::TiraBordeEsquina::TiraBordeEsquina() {
   agregar(new TiraBorde);
   agregar(MAT_Traslacion(-(Tira::longitud_tira + 1), 0, 0));
   agregar(MAT_Escalado(1.5, 1.5, 1.5));
-  agregar(new Esfera(50, 50, 1, false, true));
-
+  auto esfera1 = new Esfera(50, 50, 1, false, true);
+  agregar(esfera1);
+  auto esfera2 = new Esfera(50, 50, 1, false, true);
   agregar(MAT_Traslacion((Tira::longitud_tira + 1) / 1.5, 0, 0));
-  agregar(new Esfera(50, 50, 1, false, true));
+  agregar(esfera2);
+
+  /* EJEMPLO DE COLOREADO MANUAL */
+  std::vector<Tupla3f> colores;
+  for (unsigned i = 0; i < esfera1->numero_vertices(); i++)
+    colores.push_back({(float) (i+1) / esfera1->numero_vertices(), 0.1, 0.1});
+  esfera1->setColorVertices(&colores);
+  esfera2->setColorVertices(&colores);
 }
 
 Armazon::Armazon() {
