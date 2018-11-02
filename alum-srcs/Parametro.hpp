@@ -5,7 +5,7 @@
 #ifndef GRADO_LIBERTAD_HPP
 #define GRADO_LIBERTAD_HPP
 
-class Objeto3D ; //TODO: ¿es necesario?
+class Objeto3D;
 
 // tipo usado para las funciones que calculan una matriz a partir de un flotante
 typedef std::function< Matriz4f( float )> TFuncionCMF  ;

@@ -361,6 +361,4 @@ Tendedor::Tendedor()
                [=](float v) {return MAT_Rotacion(v, 0, 1, 0);},
                false, 0, 20, 0);
   parametros.push_back(p5);
-
-
 }

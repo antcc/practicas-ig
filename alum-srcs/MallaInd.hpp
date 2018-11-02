@@ -47,7 +47,7 @@ class MallaInd : public Objeto3D
       // Inicializar VBOs
       void initVBOs();
       // Establecer colores de los vértices
-      virtual void setColorVertices();
+      virtual void setColorVertices(std::vector<Tupla3f> * colores);
 
    public:
       // crea una malla vacía (nombre: "malla indexada nueva vacía")
@@ -66,7 +66,8 @@ class Cubo : public MallaInd
 
    public:
       Cubo();
-      Cubo(float longitud_arista);
+      Cubo(float longitud_arista,
+           std::vector<Tupla3f> * colores);
 };
 // ---------------------------------------------------------------------
 
@@ -77,7 +78,8 @@ class Tetraedro : public MallaInd
 
    public:
       Tetraedro();
-      Tetraedro(float longitud_arista);
+      Tetraedro(float longitud_arista,
+                std::vector<Tupla3f> * colores);
 };
 
 

@@ -16,7 +16,8 @@ using namespace std ;
 
 // *****************************************************************************
 
-MallaPLY::MallaPLY( const std::string & nombre_arch )
+MallaPLY::MallaPLY(const std::string & nombre_arch,
+                   std::vector<Tupla3f> * colores)
   : MallaInd(string("malla leída del archivo '") + nombre_arch + "'" )
 {
    vector<float> vertices;
@@ -33,7 +34,7 @@ MallaPLY::MallaPLY( const std::string & nombre_arch )
    num_vertices = vertices.size() / 3;
 
    // Color
-   setColorVertices();
+   setColorVertices(colores);
 
    // calcular la tabla de normales
    calcular_normales();

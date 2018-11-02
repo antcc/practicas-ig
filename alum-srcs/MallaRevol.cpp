@@ -31,7 +31,6 @@ vector<Tupla3f> rotarPerfil(const Matriz4f& m,
 MallaRevol::MallaRevol(const string& nombre)
   : MallaInd(nombre)
 {
-
 }
 
 // *****************************************************************************
@@ -39,7 +38,8 @@ MallaRevol::MallaRevol(const string& nombre)
 MallaRevol::MallaRevol(const std::string & nombre_arch,
                        const unsigned nperfiles,
                        const bool crear_tapas,
-                       const bool cerrar_malla)
+                       const bool cerrar_malla,
+                       std::vector<Tupla3f> * colores)
   : MallaInd(string("malla por revolución del perfil en '"+ nombre_arch + "'" ))
 {
   vector<float> vertices;
@@ -51,7 +51,7 @@ MallaRevol::MallaRevol(const std::string & nombre_arch,
     perfil_original.push_back({vertices[i], vertices[i+1], vertices[i+2]});
 
   inicializarMallaRevol(perfil_original, nperfiles, vertices.size() / 3, crear_tapas,
-                        cerrar_malla);
+                        cerrar_malla, colores);
 }
 
 // *****************************************************************************
@@ -60,7 +60,8 @@ void MallaRevol::inicializarMallaRevol(const std::vector<Tupla3f> & perfil_origi
                                        unsigned nperfiles,
                                        unsigned num_verts_per,
                                        bool crear_tapas,
-                                       bool cerrar_malla)
+                                       bool cerrar_malla,
+                                       std::vector<Tupla3f> * colores)
 {
   nper = nperfiles;
   nvp = num_verts_per;
@@ -70,7 +71,7 @@ void MallaRevol::inicializarMallaRevol(const std::vector<Tupla3f> & perfil_origi
   crearMallaRevol(perfil_original, crear_tapas, cerrar_malla);
 
   // Color
-  setColorVertices();
+  setColorVertices(colores);
 
   // calcular la tabla de normales
   calcular_normales();
@@ -154,7 +155,8 @@ Cilindro::Cilindro(const unsigned num_verts_per,
                    float radio_base,
                    float altura,
                    const bool crear_tapas,
-                   const bool cerrar_malla)
+                   const bool cerrar_malla,
+                   std::vector<Tupla3f> * colores)
   : MallaRevol("malla por revolución de un cilindro")
 {
   vector<Tupla3f> perfil_original(num_verts_per);
@@ -165,7 +167,8 @@ Cilindro::Cilindro(const unsigned num_verts_per,
   for (unsigned i = 0; i < num_verts_per; i++)
     perfil_original[i] = {r, h * ((float) i / (num_verts_per - 1)), 0.0};
 
-  inicializarMallaRevol(perfil_original, nperfiles, num_verts_per, crear_tapas, cerrar_malla);
+  inicializarMallaRevol(perfil_original, nperfiles, num_verts_per,
+                        crear_tapas, cerrar_malla, colores);
 }
 
 // *****************************************************************************
@@ -175,7 +178,8 @@ Cono::Cono(const unsigned num_verts_per,
            float radio_base,
            float altura,
            const bool crear_tapas,
-           const bool cerrar_malla)
+           const bool cerrar_malla,
+           std::vector<Tupla3f> * colores)
   : MallaRevol("malla por revolución de un cono")
 {
   vector<Tupla3f> perfil_original(num_verts_per);
@@ -189,7 +193,8 @@ Cono::Cono(const unsigned num_verts_per,
     perfil_original[i] = {x, (- h / r) * x + h, 0.0};
   }
 
-  inicializarMallaRevol(perfil_original, nperfiles, num_verts_per, crear_tapas, cerrar_malla);
+  inicializarMallaRevol(perfil_original, nperfiles, num_verts_per,
+                        crear_tapas, cerrar_malla, colores);
 }
 
 // *****************************************************************************
@@ -198,7 +203,8 @@ Esfera::Esfera(const unsigned num_verts_per,
                const unsigned nperfiles,
                float radio,
                const bool crear_tapas,
-               const bool cerrar_malla)
+               const bool cerrar_malla,
+               std::vector<Tupla3f> * colores)
   : MallaRevol("malla por revolución de una esfera")
 {
   vector<Tupla3f> perfil_original(num_verts_per);
@@ -210,5 +216,6 @@ Esfera::Esfera(const unsigned num_verts_per,
     perfil_original[i] = {sqrt(r * r - y * y), y, 0.0};
   }
 
-  inicializarMallaRevol(perfil_original, nperfiles, num_verts_per, crear_tapas, cerrar_malla);
+  inicializarMallaRevol(perfil_original, nperfiles, num_verts_per,
+                        crear_tapas, cerrar_malla, colores);
 }

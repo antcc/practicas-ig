@@ -31,7 +31,7 @@ GLuint VBO_Crear( GLuint tipo, GLuint tamanio, GLvoid * puntero )
 // *****************************************************************************
 // métodos de la clase MallaInd.
 
-MallaInd::MallaInd( const std::string & nombreIni)
+MallaInd::MallaInd(const std::string & nombreIni)
 {
    // 'identificador' puesto a 0 por defecto, 'centro_oc' puesto a (0,0,0)
    ponerNombre(nombreIni);
@@ -56,9 +56,16 @@ void MallaInd::calcular_normales()
 
 // -----------------------------------------------------------------------------
 
-void MallaInd::setColorVertices() {
-  for (unsigned i = 0; i < num_vertices; i++)
+void MallaInd::setColorVertices(std::vector<Tupla3f> * colores)
+{
+  if (colores == nullptr) {
+    for (unsigned i = 0; i < num_vertices; i++)
       color_vertices.push_back({0.1, 0.1, (float) (i+1) / num_vertices});
+  }
+  else {
+    for (unsigned i = 0; i < num_vertices; i++)
+      color_vertices.push_back(colores->at(i));
+  }
 }
 
 // -----------------------------------------------------------------------------
@@ -181,11 +188,12 @@ void MallaInd::visualizarGL( ContextoVis & cv )
 // *****************************************************************************
 
 Cubo::Cubo()
-  : Cubo(1.0) { }
+  : Cubo(1.0, nullptr) { }
 
 // -----------------------------------------------------------------------------
 
-Cubo::Cubo(float longitud_arista)
+Cubo::Cubo(float longitud_arista,
+           std::vector<Tupla3f> * colores)
   : MallaInd("malla cubo")
 {
   num_vertices = 8;
@@ -214,17 +222,18 @@ Cubo::Cubo(float longitud_arista)
   };
 
   // Color
-  setColorVertices();
+  setColorVertices(colores);
 }
 
 // *****************************************************************************
 
 Tetraedro::Tetraedro()
-  : Tetraedro(1.0) { }
+  : Tetraedro(1.0, nullptr) { }
 
 // -----------------------------------------------------------------------------
 
-Tetraedro::Tetraedro(float longitud_arista)
+Tetraedro::Tetraedro(float longitud_arista,
+                     std::vector<Tupla3f> * colores)
   : MallaInd( "malla tetraedro")
 {
   num_vertices = 4;
@@ -246,7 +255,7 @@ Tetraedro::Tetraedro(float longitud_arista)
   };
 
   // Color
-  setColorVertices();
+  setColorVertices(colores);
 }
 
 // *****************************************************************************

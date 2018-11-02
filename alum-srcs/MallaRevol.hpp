@@ -19,15 +19,15 @@
 class MallaRevol : public MallaInd
 {
    protected:
-
       unsigned nper; // numero de perfiles
       unsigned nvp; // numero de vertices por perfil
 
-      void inicializarMallaRevol(const std::vector<Tupla3f> & perfil_original,
-                                             unsigned nperfiles,
-                                             unsigned num_verts_per,
-                                             bool crear_tapas,
-                                             bool cerrar_malla);
+      void inicializarMallaRevol(const std::vector<Tupla3f>& perfil_original,
+                                 unsigned nperfiles,
+                                 unsigned num_verts_per,
+                                 bool crear_tapas,
+                                 bool cerrar_malla,
+                                 std::vector<Tupla3f> * colores);
 
       void crearMallaRevol(const std::vector<Tupla3f> & perfil_original,
                            bool crear_tapas,
@@ -39,7 +39,8 @@ class MallaRevol : public MallaInd
       MallaRevol(const std::string & nombre_arch,
                  const unsigned nperfiles,
                  const bool crear_tapas,
-                 const bool cerrar_malla);
+                 const bool cerrar_malla,
+                 std::vector<Tupla3f> * colores);
 };
 
 
@@ -59,7 +60,8 @@ class Cilindro : public MallaRevol
              float radio_base,
              float altura,
              const bool crear_tapas,
-             const bool cerrar_malla);
+             const bool cerrar_malla,
+             std::vector<Tupla3f> * colores);
 };
 
 class Cono : public MallaRevol
@@ -75,7 +77,8 @@ class Cono : public MallaRevol
          float radio_base,
          float altura,
          const bool crear_tapas,
-         const bool cerrar_malla);
+         const bool cerrar_malla,
+         std::vector<Tupla3f> * colores);
 };
 
 class Esfera : public MallaRevol
@@ -89,7 +92,8 @@ class Esfera : public MallaRevol
            const unsigned nperfiles,
            float radio,
            const bool crear_tapas,
-           const bool cerrar_malla);
+           const bool cerrar_malla,
+           std::vector<Tupla3f> * colores);
 };
 
 #endif
