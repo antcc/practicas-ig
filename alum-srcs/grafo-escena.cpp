@@ -61,7 +61,7 @@ EntradaNGE::EntradaNGE( Material * pMaterial )
 // -----------------------------------------------------------------------------
 // Destructor de una entrada
 
-EntradaNGE::~EntradaNGE() //TODO: ¿hay que hacer algo?
+EntradaNGE::~EntradaNGE()
 {
    /**  no fnciona debido a que se hacen copias (duplicados) de punteros
    if ( tipo == TipoEntNGE::transformacion )
@@ -211,7 +211,7 @@ void NodoGrafoEscenaParam::siguienteCuadro()
 MallaTendedor::Tira::Tira() {
   agregar(MAT_Rotacion(90, 0, 0, 1));
   agregar(MAT_Escalado(grosor_tira, longitud_tira, grosor_tira));
-  agregar(new Cilindro(50, 50, 1, 1, true, true));
+  agregar(new Cilindro(50, 50, 1, 1, true, true, nullptr));
 }
 
 MallaTendedor::TiraBorde::TiraBorde() {
@@ -223,10 +223,10 @@ MallaTendedor::TiraBordeEsquina::TiraBordeEsquina() {
   agregar(new TiraBorde);
   agregar(MAT_Traslacion(-(Tira::longitud_tira + 1), 0, 0));
   agregar(MAT_Escalado(1.5, 1.5, 1.5));
-  agregar(new Esfera(50, 50, 1, true, true));
+  agregar(new Esfera(50, 50, 1, true, true, nullptr));
 
   agregar(MAT_Traslacion((Tira::longitud_tira + 1) / 1.5, 0, 0));
-  agregar(new Esfera(50, 50, 1, true, true));
+  agregar(new Esfera(50, 50, 1, true, true, nullptr));
 }
 
 Armazon::Armazon() {
