@@ -17,7 +17,8 @@ Los shaders se encuentran en los archivos 'simple_fs.glsl' y 'simple_vs.glsl'.
 - Se permite visualizar un cubo y un tetraedro (regular) centrados en un punto arbitrario
 y con longitud de aristas también arbitraria.
 
-- Se añade la posibilidad de colorear un objeto de la clase MallaInd.
+- Se añade la posibilidad de colorear un objeto de la clase MallaInd, mediante los métodos
+fijarColorNodo y setColorVertices.
 
 - Con la tecla v/V se puede cambiar el modo de envío (inmediato <--> diferido).
 
