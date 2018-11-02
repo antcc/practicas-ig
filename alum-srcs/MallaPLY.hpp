@@ -19,8 +19,7 @@ class MallaPLY : public MallaInd
 {
    public:
       // carga una malla de revolucion
-      MallaPLY(const std::string & nombre_arch,
-               std::vector<Tupla3f> * colores) ;
+      MallaPLY(const std::string & nombre_arch) ;
 } ;
 
 #endif

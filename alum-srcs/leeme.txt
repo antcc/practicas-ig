@@ -1,10 +1,10 @@
 == Sistema operativo utilizado para compilar==
 
-Arch Linux 64-bit con núcleo 4.18.7-arch1-1-ARCH
+Arch Linux 64-bit con núcleo 4.18.12-arch1-1-ARCH
 
 == Implementación de OpenGL y librerías auxiliares ==
 
-- mesa 18.2.0-1
+- mesa 18.2.3-1
 - glew 2.1.0-1
 - glfw-x11 3.2.1-1
 - libjpeg-turbo 2.0.0-1
@@ -17,7 +17,7 @@ Los shaders se encuentran en los archivos 'simple_fs.glsl' y 'simple_vs.glsl'.
 - Se permite visualizar un cubo y un tetraedro (regular) centrados en un punto arbitrario
 y con longitud de aristas también arbitraria.
 
-- Se añade un coloreado básico de las caras de ambas figuras.
+- Se añade la posibilidad de colorear un objeto de la clase MallaInd.
 
 - Con la tecla v/V se puede cambiar el modo de envío (inmediato <--> diferido).
 
@@ -32,9 +32,10 @@ Si solo se pasa uno, se considera que es para el primero.
 
 - El cilindro, el cono y la esfera pueden tener radio y/o altura variable.
 
-== Comentarios P3 ==
-
 == Cambios en el código proporcionado ==
 
 - Los datos 'private' de Objeto3D pasan a ser 'protected', para poder acceder
 a ellos desde las clases Cubo y Tetraedro.
+
+- Se añade un método virtual a Objeto3D llamado 'fijarColorNodo', para proporcionar compatibilidad
+en la implementación (recursiva) del método homónimo en NodoGrafoEscena.

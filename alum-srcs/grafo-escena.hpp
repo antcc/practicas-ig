@@ -62,6 +62,7 @@ class NodoGrafoEscena : public Objeto3D
 {
    protected:
      std::vector<EntradaNGE> entradas;
+     Tupla3f color;
 
    public:
 
@@ -69,7 +70,7 @@ class NodoGrafoEscena : public Objeto3D
 
      // visualiza usando OpenGL
      virtual void visualizarGL( ContextoVis & cv ) ;
-     void fijarColorNodo( const Tupla3f & nuevo_color ) ;
+     virtual void fijarColorNodo(const Tupla3f& color) ;
 
      // calcular y obtener la caja englobante
      //virtual CajaEngf cajaEnglobante() ;
@@ -96,7 +97,6 @@ class NodoGrafoEscena : public Objeto3D
      // si 'centro_calculado' es 'false', recalcula el centro usando los centros
      // de los hijos (el punto medio de la caja englobante de los centros de hijos)
      virtual void calcularCentroOC() ;
-
 } ;
 
 // ---------------------------------------------------------------------

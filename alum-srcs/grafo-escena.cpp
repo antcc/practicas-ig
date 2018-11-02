@@ -26,6 +26,10 @@
 
 using namespace std ;
 
+#define TEST_COLOREADO 1
+
+const Tupla3f DEFAULT_COLOR = {0.02, 0.52, 0.51};
+
 // *********************************************************************
 // Entrada del nodo del Grafo de Escena
 
@@ -107,9 +111,17 @@ NodoGrafoEscena::NodoGrafoEscena()
 
 void NodoGrafoEscena::fijarColorNodo( const Tupla3f & nuevo_color )
 {
-   // COMPLETAR: práctica 3: asignarle un color plano al nodo, distinto del padre
-   // ........
+  /* NOTA: Para colorear cada vértice de un color hay que llamar a la función
+     setColorVertices desde el constructor de la figura que se desee, en vez de
+     usar esta. */
 
+  if (nuevo_color != color) {
+    color = nuevo_color;
+    for (auto entrada : entradas) {
+      if (entrada.tipo == TipoEntNGE::objeto)
+        entrada.objeto->fijarColorNodo(color);
+    }
+  }
 }
 
 // -----------------------------------------------------------------------------
@@ -211,7 +223,7 @@ void NodoGrafoEscenaParam::siguienteCuadro()
 MallaTendedor::Tira::Tira() {
   agregar(MAT_Rotacion(90, 0, 0, 1));
   agregar(MAT_Escalado(grosor_tira, longitud_tira, grosor_tira));
-  agregar(new Cilindro(50, 50, 1, 1, true, true, nullptr));
+  agregar(new Cilindro(50, 50, 1, 1, true, true));
 }
 
 MallaTendedor::TiraBorde::TiraBorde() {
@@ -223,10 +235,10 @@ MallaTendedor::TiraBordeEsquina::TiraBordeEsquina() {
   agregar(new TiraBorde);
   agregar(MAT_Traslacion(-(Tira::longitud_tira + 1), 0, 0));
   agregar(MAT_Escalado(1.5, 1.5, 1.5));
-  agregar(new Esfera(50, 50, 1, true, true, nullptr));
+  agregar(new Esfera(50, 50, 1, true, true));
 
   agregar(MAT_Traslacion((Tira::longitud_tira + 1) / 1.5, 0, 0));
-  agregar(new Esfera(50, 50, 1, true, true, nullptr));
+  agregar(new Esfera(50, 50, 1, true, true));
 }
 
 Armazon::Armazon() {
@@ -277,7 +289,12 @@ Pata::Pata() {
   agregar(MAT_Traslacion(-MallaTendedor::longitud_tira(), 0, 0));
   indice_pata = agregar(MAT_Rotacion(angulo_inicial, 0, 0, 1)); // matriz para rotación de la pata
   agregar(MAT_Escalado(2, 1, 1));
-  agregar(new Armazon);
+  auto armazon = new Armazon;
+  agregar(armazon);
+
+#if TEST_COLOREADO == 1
+  armazon->fijarColorNodo(DEFAULT_COLOR);
+#endif
 }
 
 Matriz4f* Pata::matriz_pata() {

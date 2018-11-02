@@ -9,8 +9,8 @@
 #define IG_MALLAIND_HPP
 
 #include <vector>          // usar std::vector
-
 #include "Objeto3D.hpp"   // declaración de 'Objeto3D'
+
 // ---------------------------------------------------------------------
 // clase para objetos gráficos genéricos
 
@@ -46,8 +46,6 @@ class MallaInd : public Objeto3D
       void visualizarDE_VBOs( ContextoVis & cv );
       // Inicializar VBOs
       void initVBOs();
-      // Establecer colores de los vértices
-      virtual void setColorVertices(std::vector<Tupla3f> * colores);
 
    public:
       // crea una malla vacía (nombre: "malla indexada nueva vacía")
@@ -56,6 +54,12 @@ class MallaInd : public Objeto3D
       MallaInd(const std::string & nombreIni);
       // visualizar el objeto con OpenGL
       virtual void visualizarGL( ContextoVis & cv ) ;
+      // número de vértices de la malla
+      unsigned numero_vertices() const;
+      // Establecer colores de los vértices
+      void setColorVertices(std::vector<Tupla3f> * colores = nullptr);
+      // Fijar el mismo color para todos los vértices
+      virtual void fijarColorNodo(const Tupla3f& color);
 } ;
 // ---------------------------------------------------------------------
 
@@ -66,9 +70,9 @@ class Cubo : public MallaInd
 
    public:
       Cubo();
-      Cubo(float longitud_arista,
-           std::vector<Tupla3f> * colores);
+      Cubo(float longitud_arista);
 };
+
 // ---------------------------------------------------------------------
 
 class Tetraedro : public MallaInd
@@ -78,9 +82,7 @@ class Tetraedro : public MallaInd
 
    public:
       Tetraedro();
-      Tetraedro(float longitud_arista,
-                std::vector<Tupla3f> * colores);
+      Tetraedro(float longitud_arista);
 };
-
 
 #endif

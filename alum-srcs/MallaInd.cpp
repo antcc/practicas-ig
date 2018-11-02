@@ -12,8 +12,6 @@
 // Decide si usar glBegin/glVertex/glEnd (0) o glDrawElements (1), ambos en modo inmediato
 #define MODO_INMEDIATO_DRAW_ELEMENTS 1
 
-const Tupla3f DEFAULT_COLOR = {0.02, 0.52, 0.51};
-
 // *****************************************************************************
 // funciones auxiliares
 
@@ -52,20 +50,6 @@ void MallaInd::calcular_normales()
 {
    // COMPLETAR: en la práctica 3: calculo de las dos tablas de normales de la malla
    // .......
-}
-
-// -----------------------------------------------------------------------------
-
-void MallaInd::setColorVertices(std::vector<Tupla3f> * colores)
-{
-  if (colores == nullptr) {
-    for (unsigned i = 0; i < num_vertices; i++)
-      color_vertices.push_back({0.1, 0.1, (float) (i+1) / num_vertices});
-  }
-  else {
-    for (unsigned i = 0; i < num_vertices; i++)
-      color_vertices.push_back(colores->at(i));
-  }
 }
 
 // -----------------------------------------------------------------------------
@@ -185,15 +169,45 @@ void MallaInd::visualizarGL( ContextoVis & cv )
    else
      visualizarDE_MI(cv);
 }
-// *****************************************************************************
-
-Cubo::Cubo()
-  : Cubo(1.0, nullptr) { }
 
 // -----------------------------------------------------------------------------
 
-Cubo::Cubo(float longitud_arista,
-           std::vector<Tupla3f> * colores)
+unsigned MallaInd::numero_vertices() const {
+  return num_vertices;
+}
+
+// -----------------------------------------------------------------------------
+
+void MallaInd::setColorVertices(std::vector<Tupla3f> * colores)
+{
+  if (colores != nullptr) {
+    color_vertices.clear();
+    for (unsigned i = 0; i < num_vertices; i++)
+      color_vertices.push_back(colores->at(i));
+  }
+
+  else if (color_vertices.size() == 0) { // Gradiente
+    for (unsigned i = 0; i < num_vertices; i++)
+      color_vertices.push_back({0.1, 0.1, (float) (i+1) / num_vertices});
+  }
+}
+
+// -----------------------------------------------------------------------------
+
+void MallaInd::fijarColorNodo(const Tupla3f& color) {
+  color_vertices.clear();
+  for (unsigned i = 0; i < num_vertices; i++)
+    color_vertices.push_back(color);
+}
+
+// *****************************************************************************
+
+Cubo::Cubo()
+  : Cubo(1.0) { }
+
+// -----------------------------------------------------------------------------
+
+Cubo::Cubo(float longitud_arista)
   : MallaInd("malla cubo")
 {
   num_vertices = 8;
@@ -222,18 +236,17 @@ Cubo::Cubo(float longitud_arista,
   };
 
   // Color
-  setColorVertices(colores);
+  setColorVertices();
 }
 
 // *****************************************************************************
 
 Tetraedro::Tetraedro()
-  : Tetraedro(1.0, nullptr) { }
+  : Tetraedro(1.0) { }
 
 // -----------------------------------------------------------------------------
 
-Tetraedro::Tetraedro(float longitud_arista,
-                     std::vector<Tupla3f> * colores)
+Tetraedro::Tetraedro(float longitud_arista)
   : MallaInd( "malla tetraedro")
 {
   num_vertices = 4;
@@ -255,7 +268,7 @@ Tetraedro::Tetraedro(float longitud_arista,
   };
 
   // Color
-  setColorVertices(colores);
+  setColorVertices();
 }
 
 // *****************************************************************************
