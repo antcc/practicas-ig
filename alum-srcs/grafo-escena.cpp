@@ -26,7 +26,7 @@
 
 using namespace std ;
 
-#define TEST_COLOREADO 1
+#define TEST_COLOREADO 0
 
 const Tupla3f DEFAULT_COLOR = {0.02, 0.52, 0.51};
 
@@ -327,6 +327,63 @@ Matriz4f* TendedorMitad::matriz_pata() {
   return m_pata;
 }
 
+Caja::PlanoCaja::PlanoCaja() {
+  agregar(MAT_Traslacion(0, 0.5, 0));
+  indice_plano = agregar(MAT_Ident()); // matriz de rotación de una cara de la caja
+  agregar(MAT_Escalado(4, 4, 4));
+  agregar(new Plano());
+}
+
+Matriz4f* Caja::PlanoCaja::matriz_plano() {
+  return leerPtrMatriz(indice_plano);
+}
+
+Caja::Caja() {
+  // Detrás
+  agregar(MAT_Traslacion(0, 0, -2));
+  auto p1 = new PlanoCaja;
+  agregar(p1);
+
+  // Delante
+  agregar(MAT_Traslacion(0, 0, 4));
+  auto p2 = new PlanoCaja;
+  agregar(p2);
+
+  // Derecha
+  agregar(MAT_Traslacion(2, 0, -2));
+  agregar(MAT_Rotacion(90, 0, 1, 0));
+  auto p3 = new PlanoCaja;
+  agregar(p3);
+
+  // Izquierda
+  agregar(MAT_Traslacion(0, 0, -4));
+  auto p4 = new PlanoCaja;
+  agregar(p4);
+
+  // Debajo
+  agregar(MAT_Traslacion(0, -1.5, 1.5));
+  agregar(MAT_Rotacion(90, 1, 0, 0));
+  agregar(new PlanoCaja);
+
+  // Parámetros
+  m_caja.push_back(p1->matriz_plano());
+  sentido.push_back(-1);
+  m_caja.push_back(p2->matriz_plano());
+  sentido.push_back(1);
+  m_caja.push_back(p3->matriz_plano());
+  sentido.push_back(1);
+  m_caja.push_back(p4->matriz_plano());
+  sentido.push_back(-1);
+};
+
+vector<Matriz4f*> Caja::matrices_caja() {
+  return m_caja;
+}
+
+vector<int> Caja::sentido_giro() {
+  return sentido;
+}
+
 // *****************************************************************************
 // Nodo raíz del modelo
 // *****************************************************************************
@@ -339,6 +396,10 @@ Tendedor::Tendedor()
    */
 
   ponerNombre("raíz del modelo jerárquico");
+
+  // Unboxing del objeto
+  auto caja = new Caja;
+  agregar(caja);
 
   // Rotar todo el tendedor
   auto p_rot1 = leerPtrMatriz(agregar(MAT_Ident()));
@@ -382,8 +443,17 @@ Tendedor::Tendedor()
                true, 160, 20, 0.05);
   parametros.push_back(p4);
 
-  Parametro p5("rotación de toda la figura", p_rot1,
+  Parametro p5("rotación de todo el tendedor en el eje Y", p_rot1,
                [=](float v) {return MAT_Rotacion(v, 0, 1, 0);},
                false, 0, 20, 0);
   parametros.push_back(p5);
+
+  auto m_caja = caja->matrices_caja();
+  auto sentido_giro = caja->sentido_giro();
+  for (unsigned i = 0; i < 4; i++) {
+    Parametro p("rotación de la cara " + to_string(i) + " de la caja", m_caja[i],
+                [=](float v) {return MAT_Rotacion(v, 1, 0, 0);},
+                true, sentido_giro[i] * 45, 45, 0.05);
+    parametros.push_back(p);
+  }
 }

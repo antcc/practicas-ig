@@ -25,6 +25,9 @@ fijarColorNodo y setColorVertices.
 - Se permite cambiar la forma de envío dentro del modo inmediato con la macro
 MODO_INMEDIATO_DRAW_ELEMENTS.
 
+- Se añade una clase Plano que representa una cara de un cubo (un plano). Se hace uso de ella
+en el modelo jerárquico de la P3.
+
 == Comentarios P2 ==
 
 - Se pueden pasar como parámetros por línea de comandos tanto el nombre del archivo ply
@@ -33,9 +36,9 @@ Si solo se pasa uno, se considera que es para el primero.
 
 - El cilindro, el cono y la esfera pueden tener radio y/o altura variable.
 
-== Comentarios P2 ==
+== Comentarios P3 ==
 
-- Se opta por declarar clases anidadas para limitar el ámbito de las mismas, pues existen 
+- Se opta por declarar clases anidadas para limitar el ámbito de las mismas, pues existen
 solo con el objetivo de crear objetos compuestos a partir de ellas.
 
 - Hay distintos métodos de coloreado:
@@ -48,10 +51,10 @@ solo con el objetivo de crear objetos compuestos a partir de ellas.
   mencionado. Notemos que se puede modificar el código para colorear otros nodos de otros colores,
   sin más que llamar a la función fijarColorNodo en el constructor del nodo deseado.
 
-  c) Un vértice de cada color en cada objeto simple (coloreado manual). Mediante una llamada a 
+  c) Un vértice de cada color en cada objeto simple (coloreado manual). Mediante una llamada a
   setColorVertices en objetos de MallaInd de un nodo, podemos especificar un vector de colores que
   correspondan a cada vértice del objeto. Hay que realizar esta llamada manualmente para cada objeto
-  de MallaInd que queramos colorear así, y asegurarse de que el vector de colores que pasamos tiene 
+  de MallaInd que queramos colorear así, y asegurarse de que el vector de colores que pasamos tiene
   tantas entradas como vértices tiene el objeto.
 
 == Cambios en el código proporcionado ==
@@ -61,4 +64,3 @@ a ellos desde las clases Cubo y Tetraedro.
 
 - Se añade un método virtual a Objeto3D llamado 'fijarColorNodo', para proporcionar compatibilidad
 en la implementación (recursiva) del método homónimo en NodoGrafoEscena.
-

@@ -85,4 +85,16 @@ class Tetraedro : public MallaInd
       Tetraedro(float longitud_arista);
 };
 
+// ---------------------------------------------------------------------
+
+class Plano : public MallaInd
+{
+   protected:
+      float longitud_arista;
+
+   public:
+      Plano();
+      Plano(float longitud_arista);
+};
+
 #endif

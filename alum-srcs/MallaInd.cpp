@@ -272,3 +272,28 @@ Tetraedro::Tetraedro(float longitud_arista)
 }
 
 // *****************************************************************************
+
+Plano::Plano()
+  : Plano(1.0) { }
+
+// -----------------------------------------------------------------------------
+
+Plano::Plano(float longitud_arista)
+  : MallaInd("malla plano")
+{
+  num_vertices = 4;
+  this->longitud_arista = longitud_arista;
+  float l = longitud_arista / 2;
+
+  tabla_vertices = {
+    l * Tupla3f{-1.0, -1.0, 0.0},
+    l * Tupla3f{-1.0, 1.0, 0.0},
+    l * Tupla3f{1.0, 1.0, 0.0},
+    l * Tupla3f{1.0, -1.0, 0.0},
+  };
+
+  tabla_caras = { {0, 1, 2}, {3, 0, 2} };
+
+  // Color
+  setColorVertices();
+}

@@ -145,7 +145,8 @@ bool P3_FGE_PulsarTeclaCaracter( unsigned char tecla )
 
 void P3_DibujarObjetos( ContextoVis & cv )
 {
-  objetos3[objetoActivo3]->visualizarGL(cv);
+  if (objetos3[objetoActivo3] != nullptr)
+    objetos3[objetoActivo3]->visualizarGL(cv);
 }
 
 //--------------------------------------------------------------------------
