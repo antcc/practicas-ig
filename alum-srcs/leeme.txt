@@ -46,10 +46,9 @@ solo con el objetivo de crear objetos compuestos a partir de ellas.
   a) Gradiente. Si asignamos 0 a la macro TEST_COLOREADO, obtendremos el objeto coloreado mediante
   un gradiente azul-negro. Este es el método por defecto de coloreado de objetos de MallaInd.
 
-  b) Color plano en cada nodo. Si asignamos 1 a la macro TEST_COLOREADO, obtendremos las patas del
-  tendedor coloreadas de un color plano, y el resto del objeto coloreado con el gradiente ya
-  mencionado. Notemos que se puede modificar el código para colorear otros nodos de otros colores,
-  sin más que llamar a la función fijarColorNodo en el constructor del nodo deseado.
+  b) Color plano en cada nodo. Si asignamos 1 a la macro TEST_COLOREADO, obtendremos la caja que envuelve al tendedor coloreada de un color plano, y el resto del objeto coloreado con el
+  gradiente ya mencionado. Notemos que se puede modificar el código para colorear otros nodos de
+  otros colores, sin más que llamar a la función fijarColorNodo en el constructor del nodo deseado.
 
   c) Un vértice de cada color en cada objeto simple (coloreado manual). Mediante una llamada a
   setColorVertices en objetos de MallaInd de un nodo, podemos especificar un vector de colores que

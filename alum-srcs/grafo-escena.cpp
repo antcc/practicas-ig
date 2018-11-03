@@ -26,7 +26,7 @@
 
 using namespace std ;
 
-#define TEST_COLOREADO 0
+#define TEST_COLOREADO 1
 
 const Tupla3f DEFAULT_COLOR = {0.02, 0.52, 0.51};
 
@@ -297,12 +297,7 @@ Pata::Pata() {
   agregar(MAT_Traslacion(-MallaTendedor::longitud_tira(), 0, 0));
   indice_pata = agregar(MAT_Rotacion(angulo_inicial, 0, 0, 1)); // matriz para rotación de la pata
   agregar(MAT_Escalado(2, 1, 1));
-  auto armazon = new Armazon;
-  agregar(armazon);
-
-#if TEST_COLOREADO == 1
-  armazon->fijarColorNodo(DEFAULT_COLOR);
-#endif
+  agregar(new Armazon);
 }
 
 Matriz4f* Pata::matriz_pata() {
@@ -329,9 +324,14 @@ Matriz4f* TendedorMitad::matriz_pata() {
 
 Caja::PlanoCaja::PlanoCaja() {
   agregar(MAT_Traslacion(0, 0.5, 0));
-  indice_plano = agregar(MAT_Ident()); // matriz de rotación de una cara de la caja
+  indice_plano = agregar(MAT_Ident()); // matriz de traslación de una cara de la caja
   agregar(MAT_Escalado(4, 4, 4));
-  agregar(new Plano());
+  auto plano = new Plano;
+  agregar(plano);
+
+#if TEST_COLOREADO == 1
+  plano->fijarColorNodo(DEFAULT_COLOR);
+#endif
 }
 
 Matriz4f* Caja::PlanoCaja::matriz_plano() {
@@ -363,25 +363,25 @@ Caja::Caja() {
   // Debajo
   agregar(MAT_Traslacion(0, -1.5, 1.5));
   agregar(MAT_Rotacion(90, 1, 0, 0));
-  agregar(new PlanoCaja);
+  auto p5 = new PlanoCaja;
+  agregar(p5);
 
-  // Parámetros
-  m_caja.push_back(p1->matriz_plano());
-  sentido.push_back(-1);
+// Encima
+  agregar(MAT_Traslacion(0, 0, -4));
+  auto p6 = new PlanoCaja;
+  agregar(p6);
+
+  // Parámetros (el orden importa para el sentido de desplazamientos)
   m_caja.push_back(p2->matriz_plano());
-  sentido.push_back(1);
+  m_caja.push_back(p1->matriz_plano());
   m_caja.push_back(p3->matriz_plano());
-  sentido.push_back(1);
   m_caja.push_back(p4->matriz_plano());
-  sentido.push_back(-1);
+  m_caja.push_back(p5->matriz_plano());
+  m_caja.push_back(p6->matriz_plano());
 };
 
 vector<Matriz4f*> Caja::matrices_caja() {
   return m_caja;
-}
-
-vector<int> Caja::sentido_giro() {
-  return sentido;
 }
 
 // *****************************************************************************
@@ -448,12 +448,14 @@ Tendedor::Tendedor()
                false, 0, 20, 0);
   parametros.push_back(p5);
 
-  auto m_caja = caja->matrices_caja();
-  auto sentido_giro = caja->sentido_giro();
-  for (unsigned i = 0; i < 4; i++) {
-    Parametro p("rotación de la cara " + to_string(i) + " de la caja", m_caja[i],
-                [=](float v) {return MAT_Rotacion(v, 1, 0, 0);},
-                true, sentido_giro[i] * 45, 45, 0.05);
+  auto m_caja = caja->matrices_caja(); // punteros a las matrices de traslación de la caja
+
+  for (unsigned i = 0; i < 6; i++) {
+    int sentido = i % 2 == 0 ? 1 : -1;
+
+    Parametro p("traslación de la cara " + to_string(i+1) + " de la caja", m_caja[i],
+                [=](float v) {return MAT_Traslacion(0, 0, v);},
+                true, sentido * 15, sentido * 15, 0.025);
     parametros.push_back(p);
   }
 }

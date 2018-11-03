@@ -25,7 +25,6 @@
 #include "matrices-tr.hpp"
 #include "materiales.hpp"
 #include "Objeto3D.hpp"
-#include "Parametro.hpp"
 
 // *********************************************************************
 // declaración adelantada de estructura para un nodo del grafo de escena
@@ -185,7 +184,6 @@ class TendedorMitad : public NodoGrafoEscena {
 
 class Caja : public NodoGrafoEscena {
     std::vector<Matriz4f*> m_caja;
-    std::vector<int> sentido;
 
     class PlanoCaja : public NodoGrafoEscena {
         unsigned indice_plano;
@@ -197,7 +195,6 @@ class Caja : public NodoGrafoEscena {
   public:
     Caja();
     std::vector<Matriz4f*> matrices_caja();
-    std::vector<int> sentido_giro();
 };
 
 class Tendedor : public NodoGrafoEscenaParam
