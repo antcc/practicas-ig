@@ -1,0 +1,84 @@
+\documentclass[11pt,a4paper]{article}
+
+% Packages
+\usepackage[utf8]{inputenc}
+\usepackage[spanish, es-tabla, es-lcroman]{babel}
+\usepackage{caption}
+\usepackage{listings}
+\usepackage{adjustbox}
+\usepackage{amssymb, amsmath, amsthm}
+\usepackage[margin=1in]{geometry}
+\usepackage[shortlabels]{enumitem}
+\usepackage{xcolor}
+\usepackage{soul}
+\usepackage{listings}
+
+% Meta
+\title{Informática Gráfica: práctica 3}
+\author{Antonio Coín Castro}
+\date{\today}
+
+% Custom
+\providecommand{\abs}[1]{\lvert#1\rvert}
+\setlength\parindent{0pt}
+\definecolor{Light}{gray}{.90}
+\newcommand\ddfrac[2]{\frac{\displaystyle #1}{\displaystyle #2}}
+
+% Listings
+\lstset{literate=   % listings config
+  {á}{{\'a}}1 {é}{{\'e}}1 {í}{{\'i}}1 {ó}{{\'o}}1 {ú}{{\'u}}1
+  {Á}{{\'A}}1 {É}{{\'E}}1 {Í}{{\'I}}1 {Ó}{{\'O}}1 {Ú}{{\'U}}1
+  {à}{{\`a}}1 {è}{{\`e}}1 {ì}{{\`i}}1 {ò}{{\`o}}1 {ù}{{\`u}}1
+  {À}{{\`A}}1 {È}{{\'E}}1 {Ì}{{\`I}}1 {Ò}{{\`O}}1 {Ù}{{\`U}}1
+  {ä}{{\"a}}1 {ë}{{\"e}}1 {ï}{{\"i}}1 {ö}{{\"o}}1 {ü}{{\"u}}1
+  {Ä}{{\"A}}1 {Ë}{{\"E}}1 {Ï}{{\"I}}1 {Ö}{{\"O}}1 {Ü}{{\"U}}1
+  {â}{{\^a}}1 {ê}{{\^e}}1 {î}{{\^i}}1 {ô}{{\^o}}1 {û}{{\^u}}1
+  {Â}{{\^A}}1 {Ê}{{\^E}}1 {Î}{{\^I}}1 {Ô}{{\^O}}1 {Û}{{\^U}}1
+  {œ}{{\oe}}1 {Œ}{{\OE}}1 {æ}{{\ae}}1 {Æ}{{\AE}}1 {ß}{{\ss}}1
+  {ű}{{\H{u}}}1 {Ű}{{\H{U}}}1 {ő}{{\H{o}}}1 {Ő}{{\H{O}}}1
+  {ç}{{\c c}}1 {Ç}{{\c C}}1 {ø}{{\o}}1 {å}{{\r a}}1 {Å}{{\r A}}1
+  {€}{{\EUR}}1 {£}{{\pounds}}1 {ñ}{{\~{n}}}1
+}
+
+\lstset{    %listings config
+  language=C++,
+  belowcaptionskip=1\baselineskip,
+  breaklines=true,
+  frame=L,
+  xleftmargin=0.1in,
+  %otherkeywords={},
+  showstringspaces=false,
+  backgroundcolor=\color{white},
+  basicstyle=\footnotesize\ttfamily,
+  keywordstyle=\bfseries\color{purple!90!black},
+  commentstyle=\itshape\color{gray!85!},
+  identifierstyle=\color{blue!80!black},
+  stringstyle=\color{green!60!black},
+}
+
+\begin{document}
+\maketitle
+
+\section*{Modelo jerárquico}
+
+El modelo jerárquico que se pretende representar es un tendedor dentro de una caja. Inicialmente solo es visible la caja (si es opaca), y se va desplazando hacia fuera para dar paso al tendedor. Por su parte, este último puede girar y realizar los movimientos básicos que puede hacer un tendedor portátil normal y corriente.
+
+\section*{Lista de parámetros}
+
+Todos los parámetros comparten la misma velocidad inicial, incremento y aceleración, que son $0.1$, $0.1$ y $0.01$, respectivamente. En total hay 11 parámetros o grados de libertad:
+
+\begin{itemize}
+  \item \textbf{Desplazamiento de las paredes de la caja (x6).} Hay un desplazamiento en el eje correspondiente por cada lado del cubo que engloba el tendedor, que afecta únicamente a ese lado. Es acotado, tiene valor inicial $\pm 15$ y semiamplitud $\pm 15$, dependiendo del sentido en el que se desplace. Tiene frecuencia $0.025$.
+  \item \textbf{Rotación del tendedor.} Rotación de todo el tendedor respecto al eje Y. Afecta a todo el tendedor. No es acotado, tiene ángulo inicial $0$ y factor de escala $20$. 
+  \item \textbf{Rotación del ala del tendedor (x2).} Rotación de la malla más alejada del centro (hay dos) con respecto al eje Z. Afecta únicamente a dicha malla. Es acotado, con ángulo inicial $160$, semiamplitud $20$ y frecuencia $0.05$.
+  \item \textbf{Rotación de la pata del tendedor (x2).} Rotación de la pata del tendedor (hay dos) con respecto al eje Z. Afecta únicamente a la pata. Es acotado, con ángulo inicial $-95$, semiamplitud $85$ y frecuencia $0.05$.
+\end{itemize}
+
+\newpage
+
+\section*{Grafo PHIGS}
+\begin{center}
+	\includegraphics[width=45em]{Tendedor.pdf}
+\end{center}
+
+\end{document}
