@@ -162,6 +162,7 @@ void MallaInd::visualizarGL( ContextoVis & cv )
    }
 
    glPolygonMode(GL_FRONT_AND_BACK, mode);
+   glShadeModel(GL_SMOOTH);
 
    // Visualizar
    if (cv.usarVBOs)
@@ -180,8 +181,8 @@ unsigned MallaInd::numero_vertices() const {
 
 void MallaInd::setColorVertices(std::vector<Tupla3f> * colores)
 {
+  color_vertices.clear();
   if (colores != nullptr) {
-    color_vertices.clear();
     for (unsigned i = 0; i < num_vertices; i++)
       color_vertices.push_back(colores->at(i));
   }
