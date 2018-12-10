@@ -100,8 +100,8 @@ void MallaRevol::crearMallaRevol(const std::vector<Tupla3f> & perfil_original,
       int k3 = (i+1) * nvp + j + 1;
       int k4 = (i+1) * nvp + j;
 
-      tabla_caras.push_back({k4, k2, k3});
-      tabla_caras.push_back({k4, k1, k2});
+      tabla_caras.push_back({k4, k3, k2});
+      tabla_caras.push_back({k4, k2, k1});
     }
   }
 
@@ -113,8 +113,8 @@ void MallaRevol::crearMallaRevol(const std::vector<Tupla3f> & perfil_original,
       int k3 = j + 1; // ((i+1) % nper) * nvp + j + 1
       int k4 = j; // ((i+1) % nper) * nvp + j
 
-      tabla_caras.push_back({k4, k2, k3});
-      tabla_caras.push_back({k4, k1, k2});
+      tabla_caras.push_back({k4, k3, k2});
+      tabla_caras.push_back({k4, k2, k1});
     }
   }
 
@@ -141,10 +141,10 @@ void MallaRevol::crearMallaRevol(const std::vector<Tupla3f> & perfil_original,
       num_vertices++;
 
       for (i = nvp - 1; i + nvp < num_vertices; i += nvp)
-        tabla_caras.push_back({i, num_vertices - 1, i + nvp});
+        tabla_caras.push_back({i, i + nvp, num_vertices - 1});
 
       if (cerrar_malla) // Última cara (i = nper * nvp - 1)
-        tabla_caras.push_back({i, num_vertices - 1, nvp - 1});
+        tabla_caras.push_back({i, nvp - 1, num_vertices - 1});
     }
   }
 }
