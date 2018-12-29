@@ -70,9 +70,6 @@ void MallaRevol::inicializarMallaRevol(const std::vector<Tupla3f> & perfil_origi
 
   // Color
   setColorVertices();
-
-  // calcular la tabla de normales
-  calcular_normales();
 }
 
 // *****************************************************************************

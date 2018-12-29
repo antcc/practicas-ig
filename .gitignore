@@ -13,11 +13,6 @@ CamaraInter.hpp
 cauce.cpp
 cauce.hpp
 makefile
-materiales.cpp
-materiales.hpp
-practicas.hpp
 simple_fs.glsl
 simple_vs.glsl
-
-practica4.*
 practica5.*

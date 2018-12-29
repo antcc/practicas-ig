@@ -34,6 +34,7 @@ MallaInd::MallaInd(const std::string & nombreIni)
    // 'identificador' puesto a 0 por defecto, 'centro_oc' puesto a (0,0,0)
    ponerNombre(nombreIni);
    vbo_creado = false;
+   normales_creadas = false;
    id_vbo_caras = id_vbo_vertices = id_vbo_color_ver = 0;
    tam_caras = tam_vertices = 0;
    num_vertices = 0;
@@ -48,8 +49,32 @@ MallaInd::MallaInd()
 
 void MallaInd::calcular_normales()
 {
-   // COMPLETAR: en la práctica 3: calculo de las dos tablas de normales de la malla
-   // .......
+  //Inicializar normales de vértices
+  normales_vertices.insert(normales_vertices.begin(), tabla_vertices.size(), {0.0, 0.0 ,0.0});
+
+  // Normales de caras
+  for (auto cara : tabla_caras) {
+    Tupla3f
+      a = tabla_vertices[cara(Y)] - tabla_vertices[cara(X)],
+      b = tabla_vertices[cara(Z)] - tabla_vertices[cara(X)],
+      v = a.cross(b);
+
+    if (v.lengthSq() > 0.0)
+      v = v.normalized();
+
+    normales_caras.push_back(v);
+
+    // Normales de vértices
+    for (int i = 0; i < 3; i++)
+      normales_vertices[cara(i)] = normales_vertices[cara(i)] + v;
+  }
+
+  // Normales de vértices (normalización)
+  for (auto &nv : normales_vertices)
+    if (nv.lengthSq() > 0.0)
+      nv = nv.normalized();
+
+  normales_creadas = true;
 }
 
 // -----------------------------------------------------------------------------
@@ -102,10 +127,6 @@ void MallaInd::visualizarDE_MI( ContextoVis & cv )
 
   // Multiplicamos por 3 ya que en cada posición hay una 3-upla con 3 índices
   glDrawElements(GL_TRIANGLES, 3L * tabla_caras.size(), GL_UNSIGNED_INT, tabla_caras.data());
-
-  /* NOTA: Si quisiéramos usar glDrawArrays (por ejemplo, para el modo puntos).
-   * glDrawArrays(GL_TRIANGLES, 0, 3L * tabla_vertices.size());
-   */
 
   glDisableClientState(GL_VERTEX_ARRAY);
   glDisableClientState(GL_COLOR_ARRAY);
@@ -163,6 +184,10 @@ void MallaInd::visualizarGL( ContextoVis & cv )
 
    glPolygonMode(GL_FRONT_AND_BACK, mode);
    glShadeModel(GL_SMOOTH);
+
+   // Normales
+   if (!normales_creadas)
+     calcular_normales();
 
    // Visualizar
    if (cv.usarVBOs)

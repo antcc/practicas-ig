@@ -23,6 +23,10 @@ class MallaInd : public Objeto3D
       std::vector<Tupla3i> tabla_caras;
       std::vector<Tupla3f> color_vertices;
 
+      // Tablas de normales
+      std::vector<Tupla3f> normales_caras;
+      std::vector<Tupla3f> normales_vertices;
+
       // Atributos de la figura
       unsigned num_vertices;
 
@@ -35,8 +39,9 @@ class MallaInd : public Objeto3D
       unsigned tam_vertices;
       unsigned tam_caras;
 
-      // Guarda si ya se han creado los vbos para modo diferido
+      // Guarda si ya se han creado VBOs y normales
       bool vbo_creado;
+      bool normales_creadas;
 
       // calculo de las normales de esta malla
       void calcular_normales();
