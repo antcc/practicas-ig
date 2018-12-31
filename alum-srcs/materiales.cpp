@@ -116,7 +116,7 @@ Textura::~Textura( )
 //----------------------------------------------------------------------
 // por ahora, se asume la unidad de texturas #0
 
-void Textura::activar(  )
+void Textura::activar()
 {
    // Activar funcionalidad de openGL para texturas
    glEnable(GL_TEXTURE_2D);
@@ -433,7 +433,7 @@ void FuenteLuzDireccional::activar() {
     glRotatef( longi, 0.0, 1.0, 0.0 );
     // (2) rotación lati (β) grados en torno al eje X-
     glRotatef( lati, -1.0, 0.0, 0.0 );
-    // (1) hacer l i : = ( 0, 0, 1 ) (paralela eje Z+)
+    // (1) hacer l_i : = ( 0, 0, 1 ) (paralela eje Z+)
     glLightfv( GL_LIGHT0+ind_fuente, GL_POSITION, z);
 
   glPopMatrix();
@@ -512,8 +512,8 @@ void ColFuentesLuz::activar()
    * Configuración del MIL
    */
 
-  // glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_FALSE) // true = observador local, false = inf
-  // glLightModeli(GL_LIGHT_MODEL_COLOR_CONTROL, GL_SEPARATE_SPECULAR_COLOR) // diapos 159 T3
+  // glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_FALSE); // true = observador local, false = inf
+  // glLightModeli(GL_LIGHT_MODEL_COLOR_CONTROL, GL_SEPARATE_SPECULAR_COLOR); // diapos 159 T3
 
   for (FuenteLuz * fuente : vpf)
     fuente->activar();
@@ -561,6 +561,6 @@ ColeccionFuentesP4::ColeccionFuentesP4()
   const VectorRGB color1 = {0.5, 0.4, 0.1, 1.0};
   const VectorRGB color2 = {0.4, 0.4, 0.4, 1.0};
 
-  insertar(new FuenteLuzDireccional(-10.0, 30.0, color1));
+  insertar(new FuenteLuzDireccional(-20.0, 30.0, color1));
   insertar(new FuenteLuzPosicional({0.0, 3.0, 3.0}, color2));
 }

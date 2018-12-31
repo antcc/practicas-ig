@@ -477,7 +477,7 @@ Tendedor::Tendedor()
 
 Lata::Lata() {
   ponerNombre("lata coke");
-  
+
   agregar(new MaterialTapasLata);
   agregar(new MallaRevol("../plys/lata-psup.ply", 30, false, false, true));
   agregar(new MaterialLata);

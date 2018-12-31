@@ -260,7 +260,6 @@ void MallaInd::visualizarGL( ContextoVis & cv )
    }
 
    glPolygonMode(GL_FRONT_AND_BACK, mode);
-   // glEnable(GL_NORMALIZE); // permite enviar normales de longitud arbitraria
 
    // Visualizar
    if (cv.usarVBOs)
