@@ -120,6 +120,9 @@ class NodoGrafoEscenaParam : public NodoGrafoEscena
       void siguienteCuadro();
 } ;
 
+// ---------------------------------------------------------------------
+// clases para el grafo de escena de la P3
+
 class MallaTendedor : public NodoGrafoEscena {
   protected:
     static constexpr unsigned num_tiras = 8;
@@ -201,6 +204,14 @@ class Tendedor : public NodoGrafoEscenaParam
 {
   public:
     Tendedor();
+};
+
+// ---------------------------------------------------------------------
+// clases para el grafo de escena de la P4
+
+class Lata : public NodoGrafoEscena {
+  public:
+    Lata();
 };
 
 #endif // GRAFO_ESCENA_HPP

@@ -42,10 +42,10 @@ void P2_Inicializar(int argc, char * argv[])
    }
 
    objetos2[0] = new MallaPLY(nom_ply);
-   objetos2[1] = new MallaRevol(nom_rev, 50, true, true);
-   objetos2[2] = new Cilindro(50, 50, 1.0, 2.0, true, true);
-   objetos2[3] = new Cono(50, 50, 1.0, 2.0, true, true);
-   objetos2[4] = new Esfera(50, 50, 1.0, false, true);
+   objetos2[1] = new MallaRevol(nom_rev, 50, true, true, true);
+   objetos2[2] = new Cilindro(50, 50, 1.0, 2.0, true, true, true);
+   objetos2[3] = new Cono(50, 50, 1.0, 2.0, true, true, true);
+   objetos2[4] = new Esfera(50, 50, 1.0, false, true, true);
 
    cout << "hecho." << endl << flush ;
 }

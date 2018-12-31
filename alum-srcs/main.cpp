@@ -42,7 +42,7 @@ constexpr int
 int
    ventana_tam_x     = 1024,     // ancho inicial y actual de la ventana, en pixels
    ventana_tam_y     = 1024,     // alto inicial actual de la ventana, en pixels
-   practicaActual    = 3 ,       // practica actual (cambiable por teclado) (1,2,3,4 o 5)
+   practicaActual    = 4 ,       // practica actual (cambiable por teclado) (1,2,3,4 o 5)
    mouse_pos_factor  = 1 ,       // factor de conversión para displays "retina" en macOS
    x_ant_mabd,                   // coord. de ratón X anterior en modo arrastrar con botón derecho pulsado
    y_ant_mabd ;                  // idem Y
@@ -273,8 +273,13 @@ void FGE_PulsarTeclaCaracter( GLFWwindow* window, unsigned int codepoint )
          cout << "modo de visualización cambiado a: '" << nombreModo[contextoVis.modoVis] << "'" << endl << flush ;
          break ;
       case 'V' :
-         contextoVis.usarVBOs = !contextoVis.usarVBOs;
-         cout << "forma de envío cambiada a: '" << (contextoVis.usarVBOs ? "modo diferido" : "modo inmediato") << "'" << endl << flush;
+         if (contextoVis.modoVis == modoIluminacionPlano) {
+          cout << "este modo de visualización no admite modo diferido." << endl << flush;
+         }
+         else {
+           contextoVis.usarVBOs = !contextoVis.usarVBOs;
+           cout << "forma de envío cambiada a: '" << (contextoVis.usarVBOs ? "modo diferido" : "modo inmediato") << "'" << endl << flush;
+         }
          break;
 
       default:
@@ -581,7 +586,7 @@ void Inicializa_GLFW( int argc, char * argv[] )
 void Inicializa_Vars( )
 {
    // inicializar práctica actual
-   practicaActual = 3 ;
+   practicaActual = 4 ;
    contextoVis.modoVis = modoAlambre;
 }
 

@@ -23,6 +23,7 @@
 #include "shaders.hpp"
 #include "grafo-escena.hpp"
 #include "MallaRevol.hpp"
+#include "MallaPLY.hpp"
 
 using namespace std ;
 
@@ -86,6 +87,7 @@ EntradaNGE::~EntradaNGE()
 
 void NodoGrafoEscena::visualizarGL( ContextoVis & cv )
 {
+  cv.pilaMateriales.push();
   glMatrixMode(GL_MODELVIEW);
   glPushMatrix();
 
@@ -93,20 +95,29 @@ void NodoGrafoEscena::visualizarGL( ContextoVis & cv )
     if (entradas[i].tipo == TipoEntNGE::objeto) {
       entradas[i].objeto->visualizarGL(cv);
     }
+
     else if (entradas[i].tipo == TipoEntNGE::transformacion) {
       glMatrixMode(GL_MODELVIEW);
       glMultMatrixf(*(entradas[i].matriz));
+    }
+
+    else if (entradas[i].tipo == TipoEntNGE::material) {
+      cv.pilaMateriales.activarMaterial(entradas[i].material);
     }
   }
 
   glMatrixMode(GL_MODELVIEW);
   glPopMatrix();
+  cv.pilaMateriales.pop();
 }
+
 // -----------------------------------------------------------------------------
 
 NodoGrafoEscena::NodoGrafoEscena()
 {
+
 }
+
 // -----------------------------------------------------------------------------
 
 void NodoGrafoEscena::fijarColorNodo( const Tupla3f & nuevo_color )
@@ -223,7 +234,7 @@ void NodoGrafoEscenaParam::siguienteCuadro()
 MallaTendedor::Tira::Tira() {
   agregar(MAT_Rotacion(90, 0, 0, 1));
   agregar(MAT_Escalado(grosor_tira, longitud_tira, grosor_tira));
-  agregar(new Cilindro(50, 50, 1, 1, true, true));
+  agregar(new Cilindro(50, 50, 1, 1, true, true, true));
 }
 
 MallaTendedor::TiraBorde::TiraBorde() {
@@ -235,9 +246,9 @@ MallaTendedor::TiraBordeEsquina::TiraBordeEsquina() {
   agregar(new TiraBorde);
   agregar(MAT_Traslacion(-(Tira::longitud_tira + 1), 0, 0));
   agregar(MAT_Escalado(1.5, 1.5, 1.5));
-  auto esfera1 = new Esfera(50, 50, 1, false, true);
+  auto esfera1 = new Esfera(50, 50, 1, false, true, true);
   agregar(esfera1);
-  auto esfera2 = new Esfera(50, 50, 1, false, true);
+  auto esfera2 = new Esfera(50, 50, 1, false, true, true);
   agregar(MAT_Traslacion((Tira::longitud_tira + 1) / 1.5, 0, 0));
   agregar(esfera2);
 
@@ -385,7 +396,7 @@ vector<Matriz4f*> Caja::matrices_caja() {
 }
 
 // *****************************************************************************
-// Nodo raíz del modelo
+// Nodo raíz del modelo P3
 // *****************************************************************************
 Tendedor::Tendedor()
 {
@@ -458,4 +469,19 @@ Tendedor::Tendedor()
                 true, sentido * 15, sentido * 15, 0.025);
     parametros.push_back(p);
   }
+}
+
+// *****************************************************************************
+// Clases para la escena P4
+// *****************************************************************************
+
+Lata::Lata() {
+  ponerNombre("lata coke");
+  
+  agregar(new MaterialTapasLata);
+  agregar(new MallaRevol("../plys/lata-psup.ply", 30, false, false, true));
+  agregar(new MaterialLata);
+  agregar(new MallaRevol("../plys/lata-pcue.ply", 30, false, false, true));
+  agregar(new MaterialTapasLata);
+  agregar(new MallaRevol("../plys/lata-pinf.ply", 30, false, false, true));
 }

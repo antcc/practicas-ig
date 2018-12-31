@@ -27,13 +27,19 @@ class MallaInd : public Objeto3D
       std::vector<Tupla3f> normales_caras;
       std::vector<Tupla3f> normales_vertices;
 
+      // Coordenadas de texturas
+      std::vector<Tupla2f> texturas;
+
       // Atributos de la figura
       unsigned num_vertices;
+      bool usar_texturas;
 
       // Identificadores de vbo
       GLuint id_vbo_vertices;
       GLuint id_vbo_caras;
       GLuint id_vbo_color_ver;
+      GLuint id_vbo_normales;
+      GLuint id_vbo_texturas;
 
       // Tamaño en bytes de las tablas
       unsigned tam_vertices;
@@ -49,6 +55,8 @@ class MallaInd : public Objeto3D
       void visualizarDE_MI( ContextoVis & cv );
       // visualizar con 'draw elements', en modo diferido (con VBOS)
       void visualizarDE_VBOs( ContextoVis & cv );
+      // Visualizar con glBegin/glEnd en modo inmediato
+      void visualizarDE_MI_Plano(ContextoVis & cv);
       // Inicializar VBOs
       void initVBOs();
 

@@ -26,11 +26,13 @@ class MallaRevol : public MallaInd
                                  unsigned nperfiles,
                                  unsigned num_verts_per,
                                  bool crear_tapas,
-                                 bool cerrar_malla);
+                                 bool cerrar_malla,
+                                 bool crear_texturas);
 
       void crearMallaRevol(const std::vector<Tupla3f> & perfil_original,
                            bool crear_tapas,
-                           bool cerrar_malla);
+                           bool cerrar_malla,
+                           bool crear_texturas);
 
    public:
       MallaRevol(const std::string& nombre);
@@ -38,7 +40,8 @@ class MallaRevol : public MallaInd
       MallaRevol(const std::string & nombre_arch,
                  const unsigned nperfiles,
                  const bool crear_tapas,
-                 const bool cerrar_malla);
+                 const bool cerrar_malla,
+                 const bool crear_texturas);
 };
 
 
@@ -58,7 +61,8 @@ class Cilindro : public MallaRevol
              float radio_base,
              float altura,
              const bool crear_tapas,
-             const bool cerrar_malla);
+             const bool cerrar_malla,
+             const bool crear_texturas);
 };
 
 class Cono : public MallaRevol
@@ -74,7 +78,8 @@ class Cono : public MallaRevol
          float radio_base,
          float altura,
          const bool crear_tapas,
-         const bool cerrar_malla);
+         const bool cerrar_malla,
+         const bool crear_texturas);
 };
 
 class Esfera : public MallaRevol
@@ -88,7 +93,8 @@ class Esfera : public MallaRevol
            const unsigned nperfiles,
            float radio,
            const bool crear_tapas,
-           const bool cerrar_malla);
+           const bool cerrar_malla,
+           const bool crear_texturas);
 };
 
 #endif
