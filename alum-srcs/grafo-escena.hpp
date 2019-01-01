@@ -214,6 +214,11 @@ class Lata : public NodoGrafoEscena {
     Lata();
 };
 
+class Peones : public NodoGrafoEscena {
+  public:
+    Peones();
+};
+
 #endif // GRAFO_ESCENA_HPP
 
 // *********************************************************************

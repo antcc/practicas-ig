@@ -31,7 +31,7 @@ void P4_Inicializar(  )
    cout << "Creando objetos de la práctica 4 .... " << flush ;
    cf4 = new ColeccionFuentesP4;
    objetos4[0] = new Lata;
-   //objetos4[1] = new Peones();
+   objetos4[1] = new Peones;
    cout << "hecho." << endl << flush ;
 }
 
@@ -47,7 +47,7 @@ void P4_Inicializar(  )
 bool P4_FGE_PulsarTeclaCaracter( unsigned char tecla )
 {
    bool res = false  ; // valor devuelto: es true solo cuando se ha procesado alguna tecla
-   FuenteLuzDireccional *fuente_dir;
+   FuenteLuzDireccional * fuente_dir;
 
    switch ( toupper( tecla ) )
    {

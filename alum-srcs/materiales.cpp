@@ -77,8 +77,7 @@ void PilaMateriales::pop(  )
 Textura::Textura( const std::string & nombreArchivoJPG )
 {
   enviada = false;
-  glGenTextures(1, &ident_textura);
-  modo_gen_ct = mgct_desactivada;  // coordenadas automáticas desactivadas por defecto
+  modo_gen_ct = mgct_desactivada;  // coord automáticas desactivadas por defecto
   imagen = new jpg::Imagen(nombreArchivoJPG);
 }
 
@@ -86,6 +85,9 @@ Textura::Textura( const std::string & nombreArchivoJPG )
 
 void Textura::enviar()
 {
+   glGenTextures(1, &ident_textura);
+   glBindTexture(GL_TEXTURE_2D, ident_textura);
+
    gluBuild2DMipmaps
    (
      GL_TEXTURE_2D,
@@ -123,10 +125,9 @@ void Textura::activar()
 
    // Enviar a la GPU la primera vez
    if (!enviada)
-    enviar();
-
-   // Activar textura
-   glBindBuffer(GL_TEXTURE_2D, ident_textura);
+     enviar();
+   else
+     glBindTexture(GL_TEXTURE_2D, ident_textura);
 
    // Generación automática de coordenadas
    if (modo_gen_ct == mgct_desactivada) {
@@ -156,7 +157,8 @@ void Textura::activar()
    }
 
    // Opciones de textura
-   // glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST) // diapos 160 T3
+   // glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST); // diapos 160 T3
+   // glLightModeli(GL_LIGHT_MODEL_COLOR_CONTROL, GL_SEPARATE_SPECULAR_COLOR); // diapos 159 T3
 }
 
 // *********************************************************************
@@ -189,10 +191,10 @@ Material::Material()
 
 Material::Material( const std::string & nombreArchivoJPG )
 {
-   iluminacion    = false ;
+   iluminacion    = true ;
    tex            = new Textura( nombreArchivoJPG ) ;
 
-   color = {0.0,0.0,0.0,1.0};
+   color = {0.0, 0.0, 0.0, 1.0};
 
    del.emision   = VectorRGB(0.0,0.0,0.0,1.0);
    del.ambiente  = VectorRGB( 0.0, 0.0, 0.0, 1.0);
@@ -207,7 +209,7 @@ Material::Material( const std::string & nombreArchivoJPG )
    del.exp_brillo = 1.0;
    tra.exp_brillo = 1.0;
 
-   ponerNombre("material con textura sin iluminación");
+   ponerNombre("material con textura e iluminación por defecto");
 }
 
 // ---------------------------------------------------------------------
@@ -320,8 +322,6 @@ std::string Material::nombre() const
 
 void Material::activar()
 {
-  // Colores del material
-
   if (iluminacion) {
     // Cara delantera
     glMaterialfv(GL_FRONT, GL_EMISSION, del.emision); // M_E
@@ -339,11 +339,12 @@ void Material::activar()
   }
 
   else {
+    // TODO: cambiar
     glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, color);
   }
-  // glLightModelf(GL_LIGHT_MODEL_AMBIENT, color) // A_G, por defecto {0.2,0.2,0.2,1.0}
 
-  // glDisable(GL_COLOR_MATERIAL) // diapos 109 T3
+  // glLightModelf(GL_LIGHT_MODEL_AMBIENT, color); // A_G, por defecto {0.2,0.2,0.2,1.0}
+  // glDisable(GL_COLOR_MATERIAL); // diapos 109 T3
 
   // Activar textura
   if (tex == NULL)
@@ -400,8 +401,10 @@ void FuenteLuzPosicional::activar() {
   if (ind_fuente == -1)
     return;  // No activable
 
+  Tupla4f pos_homogenea = {posicion(X), posicion(Y), posicion(Z), 1.0};
+
   preActivar();
-  glLightfv( GL_LIGHT0+ind_fuente, GL_POSITION, posicion );
+  glLightfv( GL_LIGHT0+ind_fuente, GL_POSITION, pos_homogenea );
 }
 
 //----------------------------------------------------------------------
@@ -513,10 +516,9 @@ void ColFuentesLuz::activar()
    */
 
   // glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_FALSE); // true = observador local, false = inf
-  // glLightModeli(GL_LIGHT_MODEL_COLOR_CONTROL, GL_SEPARATE_SPECULAR_COLOR); // diapos 159 T3
 
-  for (FuenteLuz * fuente : vpf)
-    fuente->activar();
+  for (unsigned i = 0; i < vpf.size(); i++)
+    vpf[i]->activar();
 
   for (unsigned i = vpf.size(); i < max_num_fuentes; i++)
     glDisable(GL_LIGHT0+i);
@@ -545,13 +547,31 @@ ColFuentesLuz::~ColFuentesLuz()
 //**********************************************************************
 
 MaterialLata::MaterialLata()
-  : Material(new Textura("../imgs/lata-coke.jpg"), 0.2, 1.0, 1.0, 10.0)
+  : Material(new Textura("../imgs/lata-coke.jpg"), 0.2, 1.0, 1.0, 1.0)
 {
 
 }
 
 MaterialTapasLata::MaterialTapasLata()
-  : Material(NULL, 0.2, 1.0, 1.0, 5.0)
+  : Material(NULL, 0.2, 1.0, 1.0, 1.0)
+{
+
+}
+
+MaterialPeonNegro::MaterialPeonNegro()
+  : Material(NULL, 0.2, 0.1, 1.0, 1.0)
+{
+
+}
+
+MaterialPeonBlanco::MaterialPeonBlanco()
+  : Material(NULL, 0.2, 0.1, 1.0, 1.0)
+{
+
+}
+
+MaterialPeonMadera::MaterialPeonMadera()
+  : Material(new TexturaXY("../imgs/text-madera.jpg"), 0.2, 1.0, 1.0, 1.0)
 {
 
 }

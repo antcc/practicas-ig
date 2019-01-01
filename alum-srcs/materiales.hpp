@@ -147,7 +147,7 @@ class Material
      // (el color se pasa como parámetro)
      Material( const float r, const float g, const float b );
 
-     // crea un material con una textura asociada, y con la iluminación desactivada.
+     // crea un material con una textura asociada, y con la iluminación activada.
      // 'nombreArchivoJPG' nombre del archivo que contiene la imagen de text.
      Material( const std::string & nombreArchivoJPG ) ;
 
@@ -163,7 +163,7 @@ class Material
      ~Material() ;
 
      // activa un material (por ahora en el cauce fijo)
-     void activar( ) ;
+     void activar() ;
 
      // poner y leer el nombre del material
      void ponerNombre( const std::string & nuevo_nombre );

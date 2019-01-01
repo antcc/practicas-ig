@@ -52,7 +52,7 @@ MallaInd::MallaInd()
 void MallaInd::calcular_normales()
 {
   //Inicializar normales de vértices
-  normales_vertices.insert(normales_vertices.begin(), tabla_vertices.size(), {0.0, 0.0 ,0.0});
+  normales_vertices.insert(normales_vertices.begin(), num_vertices, {0.0, 0.0 , 0.0});
 
   // Normales de caras
   for (auto cara : tabla_caras) {
@@ -149,18 +149,15 @@ void MallaInd::visualizarDE_MI( ContextoVis & cv )
 
 #else
 
-  glEnableClientState(GL_VERTEX_ARRAY);
-  glVertexPointer(3, GL_FLOAT, 0, tabla_vertices.data());
-
   // Especificar y habilitar puntero a colores o normales
 
   if (usar_texturas) {
-    glNormalPointer( GL_FLOAT, 0, normales_vertices.data() );
     glEnableClientState( GL_NORMAL_ARRAY );
+    glNormalPointer( GL_FLOAT, 0, normales_vertices.data() );
 
     if (texturas.size() > 0) {
-    glTexCoordPointer(2, GL_FLOAT, 0, texturas.data());
-    glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+      glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+      glTexCoordPointer(2, GL_FLOAT, 0, texturas.data());
     }
   }
 
@@ -169,13 +166,15 @@ void MallaInd::visualizarDE_MI( ContextoVis & cv )
     glEnableClientState( GL_COLOR_ARRAY );
   }
 
+  glEnableClientState(GL_VERTEX_ARRAY);
+  glVertexPointer(3, GL_FLOAT, 0, tabla_vertices.data());
   // Multiplicamos por 3 ya que en cada posición hay una 3-upla con 3 índices
   glDrawElements(GL_TRIANGLES, 3L * tabla_caras.size(), GL_UNSIGNED_INT, tabla_caras.data());
 
   glDisableClientState(GL_VERTEX_ARRAY);
-  glDisableClientState(GL_NORMAL_ARRAY);
-  glDisableClientState(GL_TEXTURE_COORD_ARRAY);
   glDisableClientState(GL_COLOR_ARRAY);
+  glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+  glDisableClientState(GL_NORMAL_ARRAY);
 
 #endif
 
