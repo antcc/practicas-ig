@@ -120,7 +120,7 @@ void MallaRevol::crearMallaRevol(const std::vector<Tupla3f> & perfil_original,
   }
 
   // Coordenadas de textura
-  if (crear_texturas) {
+  if (crear_texturas && !cerrar_malla) {
     d.push_back(0.0);
     for (unsigned i = 1; i < nvp; i++)
       d.push_back(d[i-1] + sqrt((perfil_original[i] - perfil_original[i-1]).lengthSq()));

@@ -221,7 +221,7 @@ Material::Material( Textura * text, float ka, float kd, float ks, float exp )
   iluminacion = true;
   tex = text;
 
-  color = 
+  color =
   del.emision =
   tra.emision = {0.0, 0.0, 0.0, 1.0};
 
@@ -347,6 +347,7 @@ void Material::activar()
 
   else {
     // TODO: cambiar
+    glDisable(GL_LIGHTING);
     glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, color);
   }
 

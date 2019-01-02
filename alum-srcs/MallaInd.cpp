@@ -230,8 +230,10 @@ void MallaInd::visualizarGL( ContextoVis & cv )
    // Texturas
    usar_texturas = cv.modoVis == modoIluminacionPlano || cv.modoVis == modoIluminacionSuave;
 
-   if (!usar_texturas)
+   if (!usar_texturas) {
      glDisable(GL_LIGHTING);
+     glDisable(GL_TEXTURE_2D);
+   }
    else if (!normales_creadas)
      calcular_normales();
 

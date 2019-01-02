@@ -183,8 +183,8 @@ void VisualizarFrame()
    // hacer que la ventana GLFW sea la ventana actual
    glfwMakeContextCurrent( glfw_window );
 
-   // Activar shader
-   shaders->activar();
+   // Activar shader (NO ESTÁ PROGRAMADO, si lo activamos no funcionan las luces)
+   //shaders->activar();
 
    DibujarEscena();  // ordenes OpenGL para dibujar la escena correspondiente a la práctica actual
 
