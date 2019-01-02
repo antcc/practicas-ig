@@ -221,6 +221,7 @@ Material::Material( Textura * text, float ka, float kd, float ks, float exp )
   iluminacion = true;
   tex = text;
 
+  color = 
   del.emision =
   tra.emision = {0.0, 0.0, 0.0, 1.0};
 
@@ -244,7 +245,7 @@ Material::Material( Textura * text, float ka, float kd, float ks, float exp )
 // en el lugar de textura (textura == NULL)
 Material::Material( const Tupla3f & colorAmbDif, float ks, float exp )
 {
-  VectorRGB color = {colorAmbDif(R), colorAmbDif(G), colorAmbDif(B), 1.0};
+  color = {colorAmbDif(R), colorAmbDif(G), colorAmbDif(B), 1.0};
 
   iluminacion = true;
   tex = NULL;
@@ -322,6 +323,12 @@ std::string Material::nombre() const
 
 void Material::activar()
 {
+  // Activar textura
+  if (tex == NULL)
+    glDisable(GL_TEXTURE_2D);
+  else
+    tex->activar();
+
   if (iluminacion) {
     // Cara delantera
     glMaterialfv(GL_FRONT, GL_EMISSION, del.emision); // M_E
@@ -345,12 +352,6 @@ void Material::activar()
 
   // glLightModelf(GL_LIGHT_MODEL_AMBIENT, color); // A_G, por defecto {0.2,0.2,0.2,1.0}
   // glDisable(GL_COLOR_MATERIAL); // diapos 109 T3
-
-  // Activar textura
-  if (tex == NULL)
-    glDisable(GL_TEXTURE_2D);
-  else
-    tex->activar();
 }
 
 //**********************************************************************
