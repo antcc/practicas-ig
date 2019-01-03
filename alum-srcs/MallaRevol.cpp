@@ -127,7 +127,7 @@ void MallaRevol::crearMallaRevol(const std::vector<Tupla3f> & perfil_original,
 
     for (unsigned i = 0; i < nper; i++)
       for (unsigned j = 0; j < nvp; j++)
-        texturas.push_back({(float) i / (nper - 1), (float) d[j] / d[nvp - 1]});
+        texturas.push_back({(float) i / (nper - 1), 1 - (float) d[j] / d[nvp - 1]});
   }
 
   // Crear tapas

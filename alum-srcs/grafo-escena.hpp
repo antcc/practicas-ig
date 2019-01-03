@@ -215,6 +215,22 @@ class Lata : public NodoGrafoEscena {
 };
 
 class Peones : public NodoGrafoEscena {
+  protected:
+    class PeonNegro : public NodoGrafoEscena {
+      public:
+        PeonNegro();
+    };
+
+    class PeonBlanco : public NodoGrafoEscena {
+      public:
+        PeonBlanco();
+    };
+
+    class PeonMadera : public NodoGrafoEscena {
+      public:
+        PeonMadera();
+    };
+
   public:
     Peones();
 };

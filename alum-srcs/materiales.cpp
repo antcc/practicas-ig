@@ -156,9 +156,7 @@ void Textura::activar()
      }
    }
 
-   // Opciones de textura
-   // glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST); // diapos 160 T3
-   // glLightModeli(GL_LIGHT_MODEL_COLOR_CONTROL, GL_SEPARATE_SPECULAR_COLOR); // diapos 159 T3
+   //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST); // diapos 160 T3
 }
 
 // *********************************************************************
@@ -330,6 +328,8 @@ void Material::activar()
     tex->activar();
 
   if (iluminacion) {
+    glEnable(GL_LIGHTING);
+
     // Cara delantera
     glMaterialfv(GL_FRONT, GL_EMISSION, del.emision); // M_E
     glMaterialfv(GL_FRONT, GL_AMBIENT, del.ambiente); // M_A
@@ -346,11 +346,11 @@ void Material::activar()
   }
 
   else {
-    // TODO: cambiar
     glDisable(GL_LIGHTING);
-    glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, color);
+    glColor4fv(color);
   }
 
+  glLightModeli(GL_LIGHT_MODEL_COLOR_CONTROL, GL_SEPARATE_SPECULAR_COLOR); // permite M_S en textura
   // glLightModelf(GL_LIGHT_MODEL_AMBIENT, color); // A_G, por defecto {0.2,0.2,0.2,1.0}
   // glDisable(GL_COLOR_MATERIAL); // diapos 109 T3
 }
@@ -371,8 +371,9 @@ FuenteLuz::FuenteLuz( const VectorRGB & p_color )
 
 //----------------------------------------------------------------------
 
-FuenteLuz::~FuenteLuz() {
-  // empty destructor
+FuenteLuz::~FuenteLuz()
+{
+
 }
 
 //----------------------------------------------------------------------
@@ -513,11 +514,7 @@ void ColFuentesLuz::activar()
 {
   glEnable(GL_LIGHTING);
 
-  /**
-   * Configuración del MIL
-   */
-
-  // glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_FALSE); // true = observador local, false = inf
+  //glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_FALSE); // true = observador local, false = inf
 
   for (unsigned i = 0; i < vpf.size(); i++)
     vpf[i]->activar();
@@ -549,40 +546,40 @@ ColFuentesLuz::~ColFuentesLuz()
 //**********************************************************************
 
 MaterialLata::MaterialLata()
-  : Material(new Textura("../imgs/lata-coke.jpg"), 0.2, 1.0, 1.0, 1.0)
+  : Material(new Textura("../imgs/lata-coke.jpg"), 0.2, 1.0, 0.5, 1.0)
 {
 
 }
 
 MaterialTapasLata::MaterialTapasLata()
-  : Material(NULL, 0.2, 1.0, 1.0, 1.0)
+  : Material(NULL, 0.2, 1.0, 0.5, 1.0)
 {
 
 }
 
 MaterialPeonNegro::MaterialPeonNegro()
-  : Material(NULL, 0.2, 0.1, 1.0, 1.0)
+  : Material(NULL, 0.0, 0.05, 0.2, 1.0)
 {
 
 }
 
 MaterialPeonBlanco::MaterialPeonBlanco()
-  : Material(NULL, 0.2, 0.1, 1.0, 1.0)
+  : Material(NULL, 0.8, 0.8, 1.0, 5.0)
 {
 
 }
 
 MaterialPeonMadera::MaterialPeonMadera()
-  : Material(new TexturaXY("../imgs/text-madera.jpg"), 0.2, 1.0, 1.0, 1.0)
+  : Material(new TexturaXY("../imgs/text-madera.jpg"), 0.2, 1.0, 0.4, 1.0)
 {
 
 }
 
 ColeccionFuentesP4::ColeccionFuentesP4()
 {
-  const VectorRGB color1 = {0.5, 0.4, 0.1, 1.0};
+  const VectorRGB color1 = {0.4, 0.4, 0.4, 1.0};
   const VectorRGB color2 = {0.4, 0.4, 0.4, 1.0};
 
-  insertar(new FuenteLuzDireccional(-20.0, 30.0, color1));
+  insertar(new FuenteLuzDireccional(-10.0, 30.0, color1));
   insertar(new FuenteLuzPosicional({0.0, 3.0, 3.0}, color2));
 }

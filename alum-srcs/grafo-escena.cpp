@@ -488,20 +488,28 @@ Lata::Lata() {
   agregar(new MallaRevol("../plys/lata-pinf.ply", 30, false, false, true));
 }
 
+Peones::PeonNegro::PeonNegro() {
+  agregar(new MaterialPeonNegro);
+  agregar(new MallaRevol("../plys/peon.ply", 30, true, false, true));
+}
+
+Peones::PeonBlanco::PeonBlanco() {
+  agregar(new MaterialPeonBlanco);
+  agregar(new MallaRevol("../plys/peon.ply", 30, true, false, true));
+}
+
+Peones::PeonMadera::PeonMadera() {
+  agregar(new MaterialPeonMadera);
+  agregar(new MallaRevol("../plys/peon.ply", 30, true, false, false));
+}
+
 Peones::Peones() {
   ponerNombre("peones");
 
   agregar(MAT_Escalado(0.5, 0.5, 0.5));
-
-  agregar(new MaterialPeonNegro);
-  agregar(new MallaRevol("../plys/peon.ply", 30, true, false, true));
-
+  agregar(new PeonNegro);
   agregar(MAT_Traslacion(2.0, 0.0, 1.0));
-  agregar(new MaterialPeonBlanco);
-  agregar(new MallaRevol("../plys/peon.ply", 30, true, false, true));
-
+  agregar(new PeonBlanco);
   agregar(MAT_Traslacion(-4.0, 0.0, -2.0));
-  agregar(new MaterialPeonMadera);
-  agregar(new MallaRevol("../plys/peon.ply", 30, true, false, false));
-
+  agregar(new PeonMadera);
 }

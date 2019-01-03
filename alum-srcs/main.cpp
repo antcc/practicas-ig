@@ -184,7 +184,8 @@ void VisualizarFrame()
    glfwMakeContextCurrent( glfw_window );
 
    // Activar shader (NO ESTÁ PROGRAMADO, si lo activamos no funcionan las luces)
-   //shaders->activar();
+   if (contextoVis.usarShader)
+     shaders->activar();
 
    DibujarEscena();  // ordenes OpenGL para dibujar la escena correspondiente a la práctica actual
 
