@@ -220,7 +220,7 @@ class FuenteLuz
 
 class FuenteLuzPosicional : public FuenteLuz {
   protected:
-    Tupla3f posicion;
+    Tupla4f posicion;
 
   public:
 

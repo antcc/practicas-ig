@@ -164,15 +164,13 @@ void Textura::activar()
 TexturaXY::TexturaXY( const std::string & nom )
   : Textura(nom)
 {
-  modo_gen_ct = mgct_coords_ojo;
+  modo_gen_ct = mgct_coords_ojo;  // por ejemplo
 
   coefs_s[0] = 1.0;
-  for (unsigned i = 1; i < 4; i++)
-    coefs_s[i] = 0.0;
+  coefs_s[1] = coefs_s[2] = coefs_s[3] = 0.0;
 
   coefs_t[1] = 1.0;
-  for (unsigned i = 0; i < 4; i++)
-    if (i != 1) coefs_t[i] = 0.0;
+  coefs_t[0] = coefs_t[2] = coefs_t[3] = 0.0;
 }
 
 // *********************************************************************
@@ -183,7 +181,7 @@ Material::Material()
    tex = NULL ;
    coloresCero() ;
 
-   ponerNombre("material sin textura ni iluminación");
+   ponerNombre("material sin textura ni iluminación, por defecto");
 }
 // ---------------------------------------------------------------------
 
@@ -249,7 +247,7 @@ Material::Material( const Tupla3f & colorAmbDif, float ks, float exp )
   tex = NULL;
 
   del.emision =
-  tra.emision = {0.0, 0.0, 0.0, 1.0};
+  tra.emision = {0.0, 0.0, 0.0, 1.0};  // podría ser el color?
 
   del.ambiente =
   del.difusa =
@@ -305,18 +303,21 @@ Material::~Material()
       tex = nullptr ;
    }
 }
+
 //----------------------------------------------------------------------
 
 void Material::ponerNombre( const std::string & nuevo_nombre )
 {
    nombre_mat = nuevo_nombre ;
 }
+
 //----------------------------------------------------------------------
 
 std::string Material::nombre() const
 {
    return nombre_mat ;
 }
+
 //----------------------------------------------------------------------
 
 void Material::activar()
@@ -343,16 +344,16 @@ void Material::activar()
     glMaterialfv(GL_BACK, GL_DIFFUSE, tra.difusa); // M_D
     glMaterialfv(GL_BACK, GL_SPECULAR, tra.especular); // M_S
     glMaterialf(GL_BACK, GL_SHININESS, tra.exp_brillo); // e
+
+    // glLightModeli(GL_LIGHT_MODEL_COLOR_CONTROL, GL_SEPARATE_SPECULAR_COLOR); // M_S en textura
+    // glLightModelf(GL_LIGHT_MODEL_AMBIENT, color); // A_G, por defecto {0.2,0.2,0.2,1.0}
   }
 
   else {
     glDisable(GL_LIGHTING);
     glColor4fv(color);
+    // glDisable(GL_COLOR_MATERIAL); // diapos 109 T3
   }
-
-  glLightModeli(GL_LIGHT_MODEL_COLOR_CONTROL, GL_SEPARATE_SPECULAR_COLOR); // permite M_S en textura
-  // glLightModelf(GL_LIGHT_MODEL_AMBIENT, color); // A_G, por defecto {0.2,0.2,0.2,1.0}
-  // glDisable(GL_COLOR_MATERIAL); // diapos 109 T3
 }
 
 //**********************************************************************
@@ -395,7 +396,7 @@ FuenteLuzPosicional::FuenteLuzPosicional( const Tupla3f & p_ini,
                                           const VectorRGB & p_color )
   : FuenteLuz(p_color)
 {
-  posicion = p_ini;
+  posicion = {p_ini(X), p_ini(Y), p_ini(Z), 1.0};
 }
 
 //----------------------------------------------------------------------
@@ -404,10 +405,8 @@ void FuenteLuzPosicional::activar() {
   if (ind_fuente == -1)
     return;  // No activable
 
-  Tupla4f pos_homogenea = {posicion(X), posicion(Y), posicion(Z), 1.0};
-
   preActivar();
-  glLightfv( GL_LIGHT0+ind_fuente, GL_POSITION, pos_homogenea );
+  glLightfv( GL_LIGHT0+ind_fuente, GL_POSITION, posicion );
 }
 
 //----------------------------------------------------------------------
@@ -427,12 +426,12 @@ void FuenteLuzDireccional::activar() {
   if (ind_fuente == -1)
     return;  // No activable
 
-  Tupla4f z = {0.0, 0.0, 1.0, 0.0};
   preActivar();
+
+  Tupla4f z = {0.0, 0.0, 1.0, 0.0};
 
   glMatrixMode(GL_MODELVIEW);
   glPushMatrix() ;
-
     // (4) hacer M = Identidad
     glLoadIdentity();
     // (3) rotación longi (α) grados en torno a eje Y
@@ -441,7 +440,6 @@ void FuenteLuzDireccional::activar() {
     glRotatef( lati, -1.0, 0.0, 0.0 );
     // (1) hacer l_i : = ( 0, 0, 1 ) (paralela eje Z+)
     glLightfv( GL_LIGHT0+ind_fuente, GL_POSITION, z);
-
   glPopMatrix();
 }
 
@@ -498,6 +496,7 @@ ColFuentesLuz::ColFuentesLuz()
 {
    max_num_fuentes = 8 ;
 }
+
 //----------------------------------------------------------------------
 
 void ColFuentesLuz::insertar( FuenteLuz * pf )  // inserta una nueva
@@ -507,6 +506,7 @@ void ColFuentesLuz::insertar( FuenteLuz * pf )  // inserta una nueva
    pf->ind_fuente = vpf.size() ;
    vpf.push_back( pf ) ;
 }
+
 //----------------------------------------------------------------------
 // activa una colección de fuentes de luz
 
