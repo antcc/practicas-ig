@@ -18,6 +18,7 @@ static unsigned p3_grado_libertad_activo = 0;
 static constexpr int numObjetos3 = 1;
 static unsigned objetoActivo3 = 0;
 static NodoGrafoEscenaParam * objetos3[numObjetos3] = {nullptr};
+static ColFuentesLuz * cf3 = nullptr;
 
 // ---------------------------------------------------------------------
 // Función para implementar en la práctica 3 para inicialización.
@@ -27,6 +28,7 @@ static NodoGrafoEscenaParam * objetos3[numObjetos3] = {nullptr};
 void P3_Inicializar(  )
 {
    cout << "Creando objetos de la práctica 3 .... " << flush ;
+   cf3 = new ColeccionFuentesP3;
    objetos3[0] = new Tendedor;
    cout << "hecho." << endl << flush ;
 }
@@ -145,6 +147,7 @@ bool P3_FGE_PulsarTeclaCaracter( unsigned char tecla )
 
 void P3_DibujarObjetos( ContextoVis & cv )
 {
+  cf3->activar();
   if (objetos3[objetoActivo3] != nullptr)
     objetos3[objetoActivo3]->visualizarGL(cv);
 }

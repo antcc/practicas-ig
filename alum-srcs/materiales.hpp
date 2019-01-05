@@ -281,6 +281,26 @@ class ColFuentesLuz
 } ;
 
 //**********************************************************************
+// Clases concretas para la P3
+// ---------------
+
+class MaterialTendedor : public Material {
+  public:
+    MaterialTendedor();
+};
+
+class MaterialCaja : public Material {
+  public:
+    MaterialCaja();
+};
+
+// Una fuente de luz direccional (0) y otra posicional (1)
+class ColeccionFuentesP3 : public ColFuentesLuz {
+  public:
+    ColeccionFuentesP3();
+};
+
+//**********************************************************************
 // Clases concretas para la P4
 // ---------------
 

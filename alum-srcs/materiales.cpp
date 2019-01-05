@@ -545,6 +545,29 @@ ColFuentesLuz::~ColFuentesLuz()
 
 //**********************************************************************
 
+MaterialTendedor::MaterialTendedor()
+  : Material(NULL, 0.2, 0.0, 0.5, 1.0)
+{
+
+}
+
+MaterialCaja::MaterialCaja()
+  : Material(NULL, 0.5, 0.2, 0.2, 2.0)
+{
+
+}
+
+ColeccionFuentesP3::ColeccionFuentesP3()
+{
+  const VectorRGB color1 = {0.2, 0.2, 0.2, 1.0};
+  const VectorRGB color2 = {0.4, 0.4, 0.4, 1.0};
+
+  insertar(new FuenteLuzDireccional(-10.0, 30.0, color1));
+  insertar(new FuenteLuzPosicional({0.0, 3.0, 3.0}, color2));
+}
+
+//**********************************************************************
+
 MaterialLata::MaterialLata()
   : Material(new Textura("../imgs/lata-coke.jpg"), 0.2, 1.0, 0.5, 1.0)
 {

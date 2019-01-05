@@ -114,6 +114,7 @@ void MallaInd::visualizarDE_MI_Plano(ContextoVis & cv)
     for (unsigned j = 0; j < 3; j++) {
       unsigned iv = tabla_caras[i](j);
       if (texturas.size() > 0) glTexCoord2fv(texturas[iv]);
+      if (color_vertices.size() > 0) glColor3fv(color_vertices[iv]);
       glVertex3fv(tabla_vertices[iv]);
     }
   }
@@ -138,7 +139,7 @@ void MallaInd::visualizarDE_MI( ContextoVis & cv )
         glTexCoord2fv(texturas[iv]);
       }
 
-      else if (color_vertices.size() > 0)
+      if (color_vertices.size() > 0)
         glColor3fv(color_vertices[iv]);
 
       glVertex3fv(tabla_vertices[iv]);
@@ -161,7 +162,7 @@ void MallaInd::visualizarDE_MI( ContextoVis & cv )
     }
   }
 
-  else if (color_vertices.size() > 0) {
+  if (color_vertices.size() > 0) {
     glColorPointer( 3, GL_FLOAT, 0, color_vertices.data() );
     glEnableClientState( GL_COLOR_ARRAY );
   }
@@ -200,7 +201,7 @@ void MallaInd::visualizarDE_VBOs( ContextoVis & cv )
     }
   }
 
-  else if (color_vertices.size() > 0) {
+  if (color_vertices.size() > 0) {
     glBindBuffer(GL_ARRAY_BUFFER, id_vbo_color_ver);
     glColorPointer(3, GL_FLOAT, 0, 0);
     glEnableClientState(GL_COLOR_ARRAY);

@@ -18,7 +18,7 @@ static constexpr float DELTA = 3.0;
 static constexpr int numObjetos4 = 2;
 static unsigned objetoActivo4 = 0;
 static NodoGrafoEscena * objetos4[numObjetos4] = {nullptr, nullptr};
-static ColeccionFuentesP4 * cf4 = nullptr;
+static ColFuentesLuz * cf4 = nullptr;
 static unsigned angulo4 = 0;
 
 // ---------------------------------------------------------------------

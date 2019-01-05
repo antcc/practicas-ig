@@ -24,6 +24,7 @@
 #include "grafo-escena.hpp"
 #include "MallaRevol.hpp"
 #include "MallaPLY.hpp"
+#include "materiales.hpp"
 
 using namespace std ;
 
@@ -87,6 +88,8 @@ EntradaNGE::~EntradaNGE()
 
 void NodoGrafoEscena::visualizarGL( ContextoVis & cv )
 {
+  bool modo_iluminacion = cv.modoVis == modoIluminacionPlano || cv.modoVis == modoIluminacionSuave;
+
   cv.pilaMateriales.push();
   glMatrixMode(GL_MODELVIEW);
   glPushMatrix();
@@ -101,7 +104,7 @@ void NodoGrafoEscena::visualizarGL( ContextoVis & cv )
       glMultMatrixf(*(entradas[i].matriz));
     }
 
-    else if (entradas[i].tipo == TipoEntNGE::material) {
+    else if (entradas[i].tipo == TipoEntNGE::material && modo_iluminacion) {
       cv.pilaMateriales.activarMaterial(entradas[i].material);
     }
   }
@@ -408,6 +411,8 @@ Tendedor::Tendedor()
 
   ponerNombre("raíz del modelo jerárquico");
 
+  agregar(new MaterialCaja);
+
   // Unboxing del objeto
   auto caja = new Caja;
   agregar(caja);
@@ -420,6 +425,8 @@ Tendedor::Tendedor()
   agregar(MAT_Traslacion(0, 0, -18));
 
   // --- Parte central del tendedor ---
+
+  agregar(new MaterialTendedor);
 
   // Mitad izquierda
   auto izqda = new TendedorMitad;
