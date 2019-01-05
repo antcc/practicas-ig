@@ -6,13 +6,6 @@ guiones
 srcs
 include
 
-Camara.cpp
-Camara.hpp
-CamaraInter.cpp
-CamaraInter.hpp
-cauce.cpp
-cauce.hpp
 makefile
 simple_fs.glsl
 simple_vs.glsl
-practica5.*
