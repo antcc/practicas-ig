@@ -564,20 +564,20 @@ ColeccionFuentesP3::ColeccionFuentesP3()
   const VectorRGB color1 = {0.2, 0.2, 0.2, 1.0};
   const VectorRGB color2 = {0.4, 0.4, 0.4, 1.0};
 
-  insertar(new FuenteLuzDireccional(-10.0, 30.0, color1));
-  insertar(new FuenteLuzPosicional({0.0, 3.0, 3.0}, color2));
+  insertar(new FuenteLuzDireccional(20.0, -30.0, color1));
+  insertar(new FuenteLuzPosicional({0.0, 10.0, 0.0}, color2));
 }
 
 //**********************************************************************
 
 MaterialLata::MaterialLata()
-  : Material(new Textura("../imgs/lata-coke.jpg"), 0.2, 1.0, 0.5, 1.0)
+  : Material(new Textura("../imgs/lata-coke.jpg"), 0.3, 0.8, 0.8, 1.0)
 {
 
 }
 
 MaterialTapasLata::MaterialTapasLata()
-  : Material(NULL, 0.2, 1.0, 0.5, 1.0)
+  : Material(NULL, 0.3, 0.8, 0.7, 1.0)
 {
 
 }
@@ -595,16 +595,16 @@ MaterialPeonBlanco::MaterialPeonBlanco()
 }
 
 MaterialPeonMadera::MaterialPeonMadera()
-  : Material(new TexturaXY("../imgs/text-madera.jpg"), 0.2, 1.0, 0.4, 1.0)
+  : Material(new TexturaXY("../imgs/text-madera.jpg"), 0.1, 1.0, 0.4, 1.0)
 {
 
 }
 
 ColeccionFuentesP4::ColeccionFuentesP4()
 {
-  const VectorRGB color1 = {0.4, 0.4, 0.4, 1.0};
+  const VectorRGB color1 = {0.3, 0.3, 0.3, 1.0};
   const VectorRGB color2 = {0.4, 0.4, 0.4, 1.0};
 
   insertar(new FuenteLuzDireccional(-10.0, 30.0, color1));
-  insertar(new FuenteLuzPosicional({0.0, 3.0, 3.0}, color2));
+  insertar(new FuenteLuzPosicional({0.0, 20.0, 0.0}, color2));
 }
