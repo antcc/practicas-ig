@@ -42,7 +42,7 @@ constexpr int
 int
    ventana_tam_x     = 1024,     // ancho inicial y actual de la ventana, en pixels
    ventana_tam_y     = 1024,     // alto inicial actual de la ventana, en pixels
-   practicaActual    = 4 ,       // practica actual (cambiable por teclado) (1,2,3,4 o 5)
+   practicaActual    = 1 ,       // practica actual (cambiable por teclado) (1,2,3,4 o 5)
    mouse_pos_factor  = 1 ,       // factor de conversión para displays "retina" en macOS
    x_ant_mabd,                   // coord. de ratón X anterior en modo arrastrar con botón derecho pulsado
    y_ant_mabd ;                  // idem Y
@@ -587,7 +587,7 @@ void Inicializa_GLFW( int argc, char * argv[] )
 void Inicializa_Vars( )
 {
    // inicializar práctica actual
-   practicaActual = 4 ;
+   practicaActual = 5 ;
    contextoVis.modoVis = modoAlambre;
 }
 

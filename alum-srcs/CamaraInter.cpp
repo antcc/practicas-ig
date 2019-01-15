@@ -1,6 +1,7 @@
 #include <aux.hpp>
 #include "CamaraInter.hpp"
 
+using namespace std;
 
 // -----------------------------------------------------------------------------
 // constructor de cámaras interactivas, los parámetros son:
@@ -17,8 +18,6 @@ CamaraInteractiva::CamaraInteractiva( bool examinar_ini, float ratio_yx_vp_ini,
                                       const Tupla3f & aten_ini, bool pers_ini,
                                       float hfov_grad_ini, float dist_ini  )
 {
-   using namespace std ;
-
    examinar    = examinar_ini ;
    longi       = longi_ini_grad ;
    lati        = lati_ini_grad ;
@@ -30,7 +29,7 @@ CamaraInteractiva::CamaraInteractiva( bool examinar_ini, float ratio_yx_vp_ini,
    dx          = 0.0 ;
    dy          = 0.0 ;
 
-   calcularViewfrustum(  );  // lee: dist, ratio_yx_vp, perspectica
+   calcularViewfrustum();  // lee: dist, ratio_yx_vp, perspectica
    calcularMarcoCamara();    // lee: longi, lati, dist, aten
 }
 
@@ -41,27 +40,21 @@ CamaraInteractiva::CamaraInteractiva( bool examinar_ini, float ratio_yx_vp_ini,
 
 constexpr float n = 0.01 ; // valor 'near' en proy. persp
 
-
 void CamaraInteractiva::calcularViewfrustum(  )
 {
-   using namespace std ;
-
-
-   if ( perspectiva )
-   {
+   if ( perspectiva ) {
       // COMPLETAR: práctica 5: calcular los parámetros del view frustum (vf), y actualiza la matriz de proyección (vf.matrizProy)
       // caso perspectiva: usar hfov_grad, n, ratio_yx_vp, dist, función MAT_Frustum
       // .....
 
    }
-   else
-   {
+
+   else {
       // COMPLETAR: práctica 5: calcular los parámetros del view frustum (vf), y actualiza la matriz de proyección (vf.matrizProy)
       // caso ortográfica: usar ratio_yx_vp, dist, función MAT_Ortografica
       // .....
 
    }
-
 }
 
 //-----------------------------------------------------------------------
@@ -105,13 +98,13 @@ constexpr float urot  = 1,    // unidad de rotación (1 grado)
 
 void CamaraInteractiva::moverHV( float nh, float nv )
 {
-   using namespace std ;
    if ( examinar ) // examinar
    {
       // COMPLETAR: práctica 5: actualizar 'longi' y 'lati' y recalcular marco de cámara
       // .....
 
    }
+
    else // primer persona
    {
       // COMPLETAR: práctica 5: desplazar 'mcv.org' en X e Y y recalcular la matriz de vista
@@ -128,14 +121,13 @@ constexpr float dmin = 2.0*n,  // distancia minima (2*near)
 
 void CamaraInteractiva::desplaZ( float nz )
 {
-   using namespace std ;
-
    if ( examinar ) // examinar
    {
       // COMPLETAR: práctica 5: actualizar 'dist' usando 'nz', 'dmin' y 'porc' y recalcular marco de cámara
       // .....
 
    }
+
    else // primer persona
    {
       // COMPLETAR: práctica 5: desplazar 'mcv.org' en Z, y recalcular la matriz de vista
@@ -157,8 +149,9 @@ void CamaraInteractiva::desplaZ( float nz )
 // fija punt. aten. y activa modo examinar
 void CamaraInteractiva::modoExaminar( const Tupla3f & pAten )
 {
-   // COMPLETAR: práctica 5: fija punt. aten. y activa modo examinar, recalcula marco de camara
-   // .....
+  examinar = true;
+  aten = pAten;
+  calcularMarcoCamara();
 
 }
 // -----------------------------------------------------------------------------
@@ -166,16 +159,12 @@ void CamaraInteractiva::modoExaminar( const Tupla3f & pAten )
 
 void CamaraInteractiva::modoExaminar()
 {
-   // COMPLETAR: práctica 5: activa modo examinar (no es necesario recalcular el marco de cámara)
-   // .....
-
+  examinar = true;
 }
 // -----------------------------------------------------------------------------
 // pasa al modo primera persona
 
 void CamaraInteractiva::modoPrimeraPersona()
 {
-   // COMPLETAR: práctica 5: activa modo primera persona (no es necesario recalcular el marco de cámara)
-   // .....
-
+  examinar = false;
 }

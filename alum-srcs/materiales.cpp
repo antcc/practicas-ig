@@ -345,7 +345,7 @@ void Material::activar()
     glMaterialfv(GL_BACK, GL_SPECULAR, tra.especular); // M_S
     glMaterialf(GL_BACK, GL_SHININESS, tra.exp_brillo); // e
 
-    // glLightModeli(GL_LIGHT_MODEL_COLOR_CONTROL, GL_SEPARATE_SPECULAR_COLOR); // M_S en textura
+    glLightModeli(GL_LIGHT_MODEL_COLOR_CONTROL, GL_SEPARATE_SPECULAR_COLOR); // M_S en textura
     // glLightModelf(GL_LIGHT_MODEL_AMBIENT, color); // A_G, por defecto {0.2,0.2,0.2,1.0}
   }
 
@@ -432,6 +432,7 @@ void FuenteLuzDireccional::activar() {
 
   glMatrixMode(GL_MODELVIEW);
   glPushMatrix() ;
+
     // (4) hacer M = Identidad
     glLoadIdentity();
     // (3) rotación longi (α) grados en torno a eje Y
@@ -440,6 +441,7 @@ void FuenteLuzDireccional::activar() {
     glRotatef( lati, -1.0, 0.0, 0.0 );
     // (1) hacer l_i : = ( 0, 0, 1 ) (paralela eje Z+)
     glLightfv( GL_LIGHT0+ind_fuente, GL_POSITION, z);
+
   glPopMatrix();
 }
 
@@ -581,13 +583,13 @@ MaterialTapasLata::MaterialTapasLata()
 }
 
 MaterialPeonNegro::MaterialPeonNegro()
-  : Material(NULL, 0.0, 0.05, 0.2, 1.0)
+  : Material(NULL, 0.0, 0.05, 0.3, 1.5)
 {
 
 }
 
 MaterialPeonBlanco::MaterialPeonBlanco()
-  : Material(NULL, 0.8, 0.8, 1.0, 5.0)
+  : Material(NULL, 0.8, 0.8, 0.0, 5.0)
 {
 
 }

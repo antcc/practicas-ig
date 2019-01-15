@@ -37,55 +37,50 @@
 class CamaraInteractiva : public Camara
 {
  public:
- bool    examinar; // modo: {\bf true} --> examinar, {\bf false} --> primera persona (inicialmente {\bf false})
- bool    perspectiva ; // true --> camara perspectiva, false --> cámara ortográfica
- float   ratio_yx_vp;  // aspect ratio del viewport (alto/ancho)
- float   longi,     // en modo examinar: ángulo (en radianes) en torno al eje Y (longitud) (inic. 0)
-         lati ;     // en modo examinar: ángulo (en radianes) en torno al eje X (latitud) (inic. 0))
- Tupla3f aten ;     // en modo examinar: punto de atención (inicialmente el origen+dist)
- float   dist ,     // en modo examinar: distancia entre el punto de atención y el observador
-         hfov_grad, // para cámaras perspectiva: angulo de apertura horizontal
-         dx,dy ;    // desplazamientos 'subpixel' para antialiasing (0 por inicialmente)
+   bool    examinar; // modo: {\bf true} --> examinar, {\bf false} --> primera persona (inicialmente {\bf false})
+   bool    perspectiva ; // true --> camara perspectiva, false --> cámara ortográfica
+   float   ratio_yx_vp;  // aspect ratio del viewport (alto/ancho)
+   float   longi,   // en modo examinar: ángulo (en radianes) en torno al eje Y (longitud) (inic. 0)
+           lati ;   // en modo examinar: ángulo (en radianes) en torno al eje X (latitud) (inic. 0))
+   Tupla3f aten ;     // en modo examinar: punto de atención (inicialmente el origen+dist)
+   float   dist ,     // en modo examinar: distancia entre el punto de atención y el observador
+           hfov_grad, // para cámaras perspectiva: angulo de apertura horizontal
+           dx,dy ;    // desplazamientos 'subpixel' para antialiasing (0 por inicialmente)
 
+   // constructor de cámaras interactivas, los parámetros son:
+   //
+   //    * examinar_ini: fija modo examinar (true) o modo primera persona (false)
+   //    * ratio_yx_vp_ini: ratio del viewport (alto/ancho)
+   //    * longi_ini_grad, lati_ini_grad: longitud y latitud iniciales (en grados)
+   //    * aten_ini: punto de atención inicial
+   //    * pers_ini: fija proy. perspectiva (true) u ortográfica (false)
+   //
+   CamaraInteractiva( bool examinar_ini, float ratio_yx_vp_ini,
+                      float longi_ini_grad, float lati_ini_grad,
+                      const Tupla3f & aten_ini, bool pers_ini,
+                      float hfov_grad_ini = 80.0,
+                      float dist_ini      = 1.8 );
 
- // constructor de cámaras interactivas, los parámetros son:
- //
- //    * examinar_ini: fija modo examinar (true) o modo primera persona (false)
- //    * ratio_yx_vp_ini: ratio del viewport (alto/ancho)
- //    * longi_ini_grad, lati_ini_grad: longitud y latitud iniciales (en grados)
- //    * aten_ini: punto de atención inicial
- //    * pers_ini: fija proy. perspectiva (true) u ortográfica (false)
- //
- CamaraInteractiva( bool examinar_ini, float ratio_yx_vp_ini,
-                    float longi_ini_grad, float lati_ini_grad,
-                    const Tupla3f & aten_ini, bool pers_ini,
-                    float hfov_grad_ini = 80.0,
-                    float dist_ini      = 1.8 );
+   //  métodos para manipular (desplazar o rotar) la cámara
+   void moverHV( float nh, float nv ); // desplazar o rotar la cámara en horizontal/vertical
+   void desplaZ( float nz );         // desplazar en el eje Z de la cámara (hacia adelante o hacia detrás)
 
- //  métodos para manipular (desplazar o rotar) la cámara
- void moverHV( float nh, float nv ); // desplazar o rotar la cámara en horizontal/vertical
- void desplaZ( float nz );         // desplazar en el eje Z de la cámara (hacia adelante o hacia detrás)
+   // calcula view-frustum (vf) (la matriz de proyección) usando:
+   //    perspectiva, dist, ratio_yx_vp
+   void calcularViewfrustum(  );
 
- // calcula view-frustum (vf) (la matriz de proyección) usando:
- //    perspectiva, dist, ratio_yx_vp
- void calcularViewfrustum(  );
+   // calcula el marco de referencia de la camara y la matriz de vista (mcv), usando:
+   //     longi, lati, dist, aten
+   void calcularMarcoCamara() ;
 
- // calcula el marco de referencia de la camara y la matriz de vista (mcv), usando:
- //     longi, lati, dist, aten
- void calcularMarcoCamara() ;
+   // métodos para cambiar de modo
+   void modoExaminar( const Tupla3f & pAten ); // fija punt. aten. y activa modo examinar
+   void modoExaminar();                        // pasa a modo examinar (mantiene p.aten.)
+   void modoPrimeraPersona() ;                 // pasa al modo primera persona
 
- // métodos para cambiar de modo
- void modoExaminar( const Tupla3f & pAten ); // fija punt. aten. y activa modo examinar
- void modoExaminar();                        // pasa a modo examinar (mantiene p.aten.)
- void modoPrimeraPersona() ;                 // pasa al modo primera persona
-
-
- // recalcular las matrices del marco de coorda de camara, a partir de:
- // mcv.org, mcv.eje[X/Y/Z]
- void recalcularMatrMCV();
-
-
-
+   // recalcular las matrices del marco de coorda de camara, a partir de:
+   // mcv.org, mcv.eje[X/Y/Z]
+   void recalcularMatrMCV();
 } ;
 
 #endif
