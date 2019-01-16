@@ -63,3 +63,5 @@ a ellos desde las clases Cubo y Tetraedro.
 
 - Se añade un método virtual a Objeto3D llamado 'fijarColorNodo', para proporcionar compatibilidad
 en la implementación (recursiva) del método homónimo en NodoGrafoEscena.
+
+- Se añade un método 'fijarViewport' a la clase Viewport.

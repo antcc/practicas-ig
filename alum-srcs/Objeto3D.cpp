@@ -16,6 +16,7 @@ Objeto3D::Objeto3D()
    ponerIdentificador( 0 );
    ponerNombre("objeto anónimo");
    ponerCentroOC( Tupla3f( 0.0, 0.0, 0.0 ) );
+   centro_calculado = false;
 }
 
 // -----------------------------------------------------------------------------
@@ -63,8 +64,7 @@ Tupla3f Objeto3D::leerCentroOC()
 // (re)calcular centro del objeto, si es necesario
 void Objeto3D::calcularCentroOC()
 {
-   // por defecto no se hace nada: se asume que el centro está bien calculado
-   // en el constructor. Solo se redefine este método en los Nodos de grafo de escena
+
 }
 
 // -----------------------------------------------------------------------------

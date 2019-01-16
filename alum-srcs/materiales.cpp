@@ -239,20 +239,19 @@ Material::Material( Textura * text, float ka, float kd, float ks, float exp )
 // ---------------------------------------------------------------------
 // crea un material con un color único para las componentes ambiental y difusa
 // en el lugar de textura (textura == NULL)
-Material::Material( const Tupla3f & colorAmbDif, float ks, float exp )
+Material::Material( const Tupla3f & colorAmbDif, float ka, float kd, float ks, float exp )
 {
-  color = {colorAmbDif(R), colorAmbDif(G), colorAmbDif(B), 1.0};
-
   iluminacion = true;
   tex = NULL;
 
   del.emision =
-  tra.emision = {0.0, 0.0, 0.0, 1.0};  // podría ser el color?
+  tra.emision = {0.0, 0.0, 0.0, 1.0};
 
   del.ambiente =
+  tra.ambiente = VectorRGB(ka * colorAmbDif(R), ka * colorAmbDif(G), ka * colorAmbDif(B), 1.0);
+
   del.difusa =
-  tra.ambiente =
-  tra.difusa = color;
+  tra.difusa = VectorRGB(kd * colorAmbDif(R), kd * colorAmbDif(G), kd * colorAmbDif(B), 1.0);
 
   del.especular =
   tra.especular = {ks, ks, ks, 1.0};
@@ -515,7 +514,7 @@ void ColFuentesLuz::insertar( FuenteLuz * pf )  // inserta una nueva
 void ColFuentesLuz::activar()
 {
   glEnable(GL_LIGHTING);
-
+  //glEnable(GL_NORMALIZE);
   //glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_FALSE); // true = observador local, false = inf
 
   for (unsigned i = 0; i < vpf.size(); i++)
@@ -583,19 +582,19 @@ MaterialTapasLata::MaterialTapasLata()
 }
 
 MaterialPeonNegro::MaterialPeonNegro()
-  : Material(NULL, 0.0, 0.05, 0.3, 1.5)
+  : Material({0.01, 0.01, 0.01}, 0.0, 0.01, 0.3, 1.5)
 {
 
 }
 
 MaterialPeonBlanco::MaterialPeonBlanco()
-  : Material(NULL, 0.8, 0.8, 0.0, 5.0)
+  : Material({1.0, 1.0, 1.0}, 0.3, 0.7, 0.0, 5.0)
 {
 
 }
 
 MaterialPeonMadera::MaterialPeonMadera()
-  : Material(new TexturaXY("../imgs/text-madera.jpg"), 0.1, 1.0, 0.4, 1.0)
+  : Material(new TexturaXY("../imgs/text-madera.jpg"), 0.1, 0.8, 0.4, 1.5)
 {
 
 }

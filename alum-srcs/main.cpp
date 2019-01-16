@@ -244,7 +244,7 @@ void FGE_PulsarTeclaCaracter( GLFWwindow* window, unsigned int codepoint )
 
    unsigned int tecla = codepoint ;
 
-   if ( practicaActual == 5 )  // las teclas normales de la 5 tienen preferencia sobre las del main.....
+   if ( practicaActual == 5 )  // las ttraeclas normales de la 5 tienen preferencia sobre las del main.....
    if ( P5_FGE_PulsarTeclaCaracter( tecla  ) )
    {
       redibujar_ventana = true ;
@@ -633,7 +633,6 @@ void Inicializa_OpenGL( )
          << flush ;
 
    Inicializa_GLEW();
-
 
    // Habilitar shaders
    shaders = new SimpleSP;

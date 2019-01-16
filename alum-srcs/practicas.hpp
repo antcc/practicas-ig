@@ -40,7 +40,7 @@ const std::string nombreModo[numModosVis] =
       "modoAlambre",
       "modoSolido",
       "modoIluminacionPlano",
-      "modoIluminacionSuave"
+      "modoIluminacionSuave",
    } ;
 
 // --------------------------------------------------------------------
@@ -81,10 +81,5 @@ void FGE_Redibujado();
 void FGE_Desocupado() ;
 void FijarColorIdent( const int ident ) ; // 0 ≤ ident < 2
 int  LeerIdentEnPixel( int xpix, int ypix );
-
-
-
-
-
 
 #endif

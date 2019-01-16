@@ -46,7 +46,7 @@ class CamaraInteractiva : public Camara
    float   dist ,     // en modo examinar: distancia entre el punto de atención y el observador
            hfov_grad, // para cámaras perspectiva: angulo de apertura horizontal
            dx,dy ;    // desplazamientos 'subpixel' para antialiasing (0 por inicialmente)
-
+           
    // constructor de cámaras interactivas, los parámetros son:
    //
    //    * examinar_ini: fija modo examinar (true) o modo primera persona (false)

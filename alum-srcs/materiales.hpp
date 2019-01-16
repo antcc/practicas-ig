@@ -157,7 +157,7 @@ class Material
 
      // crea un material con un color único para las componentes ambiental y difusa
      // en el lugar de textura (textura == NULL)
-     Material( const Tupla3f & colorAmbDif, float ks, float exp ) ;
+     Material( const Tupla3f & colorAmbDif, float ka, float kd, float ks, float exp ) ;
 
      // libera la memoria dinámica ocupada por el material
      ~Material() ;

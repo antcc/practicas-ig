@@ -96,6 +96,10 @@ void NodoGrafoEscena::visualizarGL( ContextoVis & cv )
 
   for (unsigned i = 0; i < entradas.size(); i++) {
     if (entradas[i].tipo == TipoEntNGE::objeto) {
+      if (cv.modoSeleccionFBO && identificador >= 0) {
+        glColor3ub(0, 0, 0);  // color de primi 0,tivas
+        FijarColorIdent(identificador);
+      }
       entradas[i].objeto->visualizarGL(cv);
     }
 
@@ -118,7 +122,7 @@ void NodoGrafoEscena::visualizarGL( ContextoVis & cv )
 
 NodoGrafoEscena::NodoGrafoEscena()
 {
-
+  color = {0.0, 0.1, 0.5};
 }
 
 // -----------------------------------------------------------------------------
@@ -187,11 +191,20 @@ Matriz4f * NodoGrafoEscena::leerPtrMatriz( unsigned indice )
 
 void NodoGrafoEscena::calcularCentroOC()
 {
+  Matriz4f mm = MAT_Ident();
+  vector<Tupla3f> centros_hijos;
 
-   // COMPLETAR: práctica 5: calcular y guardar el centro del nodo
-   //    en coordenadas de objeto (hay que hacerlo recursivamente)
-   //   (si el centro ya ha sido calculado, no volver a hacerlo)
-   // ........
+  for (auto &entrada : entradas) {
+    if (entrada.tipo == TipoEntNGE::objeto) {
+      entrada.objeto->calcularCentroOC();
+      centros_hijos.push_back(mm * entrada.objeto->leerCentroOC());
+    }
+    else if (entrada.tipo == TipoEntNGE::transformacion)
+      mm = mm * (*entrada.matriz);
+  }
+
+  ponerCentroOC(calcularCentroCajaEnglobante(centros_hijos));
+  centro_calculado = true;
 
 }
 // -----------------------------------------------------------------------------
@@ -202,8 +215,28 @@ bool NodoGrafoEscena::buscarObjeto(const int ident_busc,
                                    Objeto3D ** objeto,
                                    Tupla3f & centro_wc)
 {
-   // COMPLETAR: práctica 5: buscar un sub-objeto con un identificador
-   // ........
+  assert( 0 < ident_busc );
+
+  if (!centro_calculado)
+    calcularCentroOC();
+
+  if (identificador == ident_busc) {
+    centro_wc = mmodelado * leerCentroOC();
+    *objeto = this;
+    return true;
+  }
+
+  else {
+    bool found = false;
+    Matriz4f nueva_mmodelado = mmodelado;
+    for (unsigned i = 0; i < entradas.size() && !found; i++) {
+      if (entradas[i].tipo == TipoEntNGE::transformacion)
+        nueva_mmodelado = nueva_mmodelado * (*entradas[i].matriz);
+      else if (entradas[i].tipo == TipoEntNGE::objeto)
+        found = entradas[i].objeto->buscarObjeto(ident_busc, nueva_mmodelado, objeto, centro_wc);
+    }
+    return found;
+  }
 }
 
 // *****************************************************************************
@@ -484,28 +517,46 @@ Tendedor::Tendedor()
 
 Lata::Lata() {
   ponerNombre("lata coke");
+  ponerIdentificador(1);
 
   agregar(MAT_Escalado(1.5, 1.5, 1.5));
 
   agregar(new MaterialTapasLata);
-  agregar(new MallaRevol("../plys/lata-psup.ply", 30, false, false, false));
+  auto tapa1 = new MallaRevol("../plys/lata-psup.ply", 30, false, false, false);
+  tapa1->ponerIdentificador(-1);
+  agregar(tapa1);
+
   agregar(new MaterialLata);
-  agregar(new MallaRevol("../plys/lata-pcue.ply", 30, false, false, true));
+  auto cuerpo = new MallaRevol("../plys/lata-pcue.ply", 30, false, false, true);
+  cuerpo->ponerIdentificador(-1);
+  agregar(cuerpo);
+
   agregar(new MaterialTapasLata);
-  agregar(new MallaRevol("../plys/lata-pinf.ply", 30, false, false, false));
+  auto tapa2 = new MallaRevol("../plys/lata-pinf.ply", 30, false, false, false);
+  tapa2->ponerIdentificador(-1);
+  agregar(tapa2);
 }
 
 Peones::PeonNegro::PeonNegro() {
+  ponerNombre("peón negro");
+  ponerIdentificador(2);
+
   agregar(new MaterialPeonNegro);
   agregar(new MallaRevol("../plys/peon.ply", 30, true, false, false));
 }
 
 Peones::PeonBlanco::PeonBlanco() {
+  ponerNombre("peón blanco");
+  ponerIdentificador(3);
+
   agregar(new MaterialPeonBlanco);
   agregar(new MallaRevol("../plys/peon.ply", 30, true, false, false));
 }
 
 Peones::PeonMadera::PeonMadera() {
+  ponerNombre("peón madera");
+  ponerIdentificador(4);
+
   agregar(new MaterialPeonMadera);
   agregar(new MallaRevol("../plys/peon.ply", 30, true, false, false));
 }
@@ -515,8 +566,16 @@ Peones::Peones() {
 
   agregar(MAT_Escalado(0.5, 0.5, 0.5));
   agregar(new PeonNegro);
-  agregar(MAT_Traslacion(2.0, 0.0, 1.0));
+  agregar(MAT_Traslacion(3.0, 0.0, 1.0));
   agregar(new PeonBlanco);
-  agregar(MAT_Traslacion(-4.0, 0.0, -2.0));
+  agregar(MAT_Traslacion(-6.0, 0.0, -2.0));
   agregar(new PeonMadera);
+}
+
+EscenaP5::EscenaP5() {
+  ponerNombre("escenaP5");
+
+  agregar(new Lata);
+  agregar(MAT_Traslacion(0.0, 0.0, 2.0));
+  agregar(new Peones);
 }

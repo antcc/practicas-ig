@@ -65,15 +65,11 @@ class NodoGrafoEscena : public Objeto3D
      Tupla3f color;
 
    public:
-
      NodoGrafoEscena() ;
 
      // visualiza usando OpenGL
      virtual void visualizarGL( ContextoVis & cv ) ;
      virtual void fijarColorNodo(const Tupla3f& color) ;
-
-     // calcular y obtener la caja englobante
-     //virtual CajaEngf cajaEnglobante() ;
 
      // añadir una entrada al final, hace copia de la entrada
      // devuelve indice de la entrada dentro del vector de entradas
@@ -233,6 +229,14 @@ class Peones : public NodoGrafoEscena {
 
   public:
     Peones();
+};
+
+// ---------------------------------------------------------------------
+// clases para el grafo de escena de la P5
+
+class EscenaP5 : public NodoGrafoEscena {
+  public:
+    EscenaP5();
 };
 
 #endif // GRAFO_ESCENA_HPP

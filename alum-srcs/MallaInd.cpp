@@ -9,6 +9,8 @@
 #include <tuplasg.hpp>
 #include "MallaInd.hpp"   // declaración de 'ContextoVis'
 
+using namespace std;
+
 // Decide si usar glBegin/glVertex/glEnd (0) o glDrawElements (1), ambos en modo inmediato
 #define MODO_INMEDIATO_DRAW_ELEMENTS 1
 
@@ -24,6 +26,21 @@ GLuint VBO_Crear( GLuint tipo, GLuint tamanio, GLvoid * puntero )
   glBufferData( tipo, tamanio, puntero, GL_STATIC_DRAW );
   glBindBuffer( tipo, 0 );
   return id_vbo ;
+}
+
+Tupla3f calcularCentroCajaEnglobante(const std::vector<Tupla3f>& vertices)
+{
+  assert(vertices.size() > 0);
+
+  Tupla3f maximo,
+          minimo = vertices[0]; // puntos diagonales opuestos
+
+  for (auto ver : vertices) {
+    maximo = {max(ver(X), maximo(X)), max(ver(Y), maximo(Y)), max(ver(Z), maximo(Z))};
+    minimo = {min(ver(X), minimo(X)), min(ver(Y), minimo(Y)), min(ver(Z), minimo(Z))};
+  }
+
+  return (maximo + minimo) / 2;
 }
 
 // *****************************************************************************
@@ -139,7 +156,7 @@ void MallaInd::visualizarDE_MI( ContextoVis & cv )
         glTexCoord2fv(texturas[iv]);
       }
 
-      if (color_vertices.size() > 0)
+      if (color_vertices.size() > 0 && ! cv.modoSeleccionFBO)
         glColor3fv(color_vertices[iv]);
 
       glVertex3fv(tabla_vertices[iv]);
@@ -162,8 +179,8 @@ void MallaInd::visualizarDE_MI( ContextoVis & cv )
     }
   }
 
-  if (color_vertices.size() > 0) {
-    glColorPointer( 3, GL_FLOAT, 0, color_vertices.data() );
+  if (color_vertices.size() > 0 && ! cv.modoSeleccionFBO) {
+    glColorPointer(3, GL_FLOAT, 0, color_vertices.data());
     glEnableClientState( GL_COLOR_ARRAY );
   }
 
@@ -192,7 +209,7 @@ void MallaInd::visualizarDE_VBOs( ContextoVis & cv )
   if (usar_texturas) {
     glBindBuffer(GL_ARRAY_BUFFER, id_vbo_normales);
     glNormalPointer(GL_FLOAT, 0, 0);
-    glEnableClientState(GL_NORMAL_ARRAY);
+    glEnableClientState(GL_NORMAL_ARRAY);visualizarDE_MI(cv);
 
     if (texturas.size() > 0) {
       glBindBuffer(GL_ARRAY_BUFFER, id_vbo_texturas);
@@ -237,6 +254,14 @@ void MallaInd::visualizarGL( ContextoVis & cv )
    }
    else if (!normales_creadas)
      calcular_normales();
+
+   // Modo selección P5
+   if (cv.modoSeleccionFBO) {
+     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+     glShadeModel(GL_FLAT);
+     visualizarDE_MI(cv);
+     return;
+   }
 
    GLenum mode;
    switch(cv.modoVis) {
@@ -302,6 +327,15 @@ void MallaInd::fijarColorNodo(const Tupla3f& color) {
     color_vertices.push_back(color);
 }
 
+// -----------------------------------------------------------------------------
+
+void MallaInd::calcularCentroOC() {
+  if (!centro_calculado) {
+    ponerCentroOC(calcularCentroCajaEnglobante(tabla_vertices));
+    centro_calculado = true;
+  }
+}
+
 // *****************************************************************************
 
 Cubo::Cubo()
@@ -317,15 +351,15 @@ Cubo::Cubo(float longitud_arista)
   float l = longitud_arista / 2;
 
   tabla_vertices = {
-    centro_oc + l * Tupla3f{-1.0, -1.0, -1.0},
-    centro_oc + l * Tupla3f{-1.0, 1.0, -1.0},
-    centro_oc + l * Tupla3f{1.0, 1.0, -1.0},
-    centro_oc + l * Tupla3f{1.0, -1.0, -1.0},
+    l * Tupla3f{-1.0, -1.0, -1.0},
+    l * Tupla3f{-1.0, 1.0, -1.0},
+    l * Tupla3f{1.0, 1.0, -1.0},
+    l * Tupla3f{1.0, -1.0, -1.0},
 
-    centro_oc + l * Tupla3f{-1.0, -1.0, 1.0},
-    centro_oc + l * Tupla3f{-1.0, 1.0, 1.0},
-    centro_oc + l * Tupla3f{1.0, 1.0, 1.0},
-    centro_oc + l * Tupla3f{1.0, -1.0, 1.0},
+    l * Tupla3f{-1.0, -1.0, 1.0},
+    l * Tupla3f{-1.0, 1.0, 1.0},
+    l * Tupla3f{1.0, 1.0, 1.0},
+    l * Tupla3f{1.0, -1.0, 1.0},
   };
 
   tabla_caras = {
@@ -356,10 +390,10 @@ Tetraedro::Tetraedro(float longitud_arista)
   float l = longitud_arista / 2;
 
   tabla_vertices = {
-    centro_oc + l * Tupla3f{1.0, 0.0, -1.0/sqrt(2)},
-    centro_oc + l * Tupla3f{0.0, 1.0, 1.0/sqrt(2)},
-    centro_oc + l * Tupla3f{-1.0, 0.0, -1.0/sqrt(2)},
-    centro_oc + l * Tupla3f{0.0, -1.0, 1.0/sqrt(2)}
+    l * Tupla3f{1.0, 0.0, -1.0/sqrt(2)},
+    l * Tupla3f{0.0, 1.0, 1.0/sqrt(2)},
+    l * Tupla3f{-1.0, 0.0, -1.0/sqrt(2)},
+    l * Tupla3f{0.0, -1.0, 1.0/sqrt(2)}
   };
 
   tabla_caras = {

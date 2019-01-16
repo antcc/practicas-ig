@@ -23,14 +23,14 @@ CamaraInteractiva::CamaraInteractiva( bool examinar_ini, float ratio_yx_vp_ini,
    lati        = lati_ini_grad ;
    dist        = dist_ini ;
    aten        = aten_ini ;
-   ratio_yx_vp = ratio_yx_vp_ini; //cout << "ratio_yx_vp_ini == " << ratio_yx_vp_ini << endl ;
+   ratio_yx_vp = ratio_yx_vp_ini;
    perspectiva = pers_ini ;
    hfov_grad   = hfov_grad_ini ;
    dx          = 0.0 ;
    dy          = 0.0 ;
 
    calcularViewfrustum();  // lee: dist, ratio_yx_vp, perspectica
-   calcularMarcoCamara();    // lee: longi, lati, dist, aten
+   calcularMarcoCamara();  // lee: longi, lati, dist, aten
 }
 
 
@@ -40,20 +40,23 @@ CamaraInteractiva::CamaraInteractiva( bool examinar_ini, float ratio_yx_vp_ini,
 
 constexpr float n = 0.01 ; // valor 'near' en proy. persp
 
-void CamaraInteractiva::calcularViewfrustum(  )
+void CamaraInteractiva::calcularViewfrustum( )
 {
-   if ( perspectiva ) {
-      // COMPLETAR: práctica 5: calcular los parámetros del view frustum (vf), y actualiza la matriz de proyección (vf.matrizProy)
-      // caso perspectiva: usar hfov_grad, n, ratio_yx_vp, dist, función MAT_Frustum
-      // .....
-
+   float aspect = (float) 1 / ratio_yx_vp;
+   if (perspectiva) {
+     vf = ViewFrustum(hfov_grad, aspect, n, dist + 20);
    }
 
    else {
-      // COMPLETAR: práctica 5: calcular los parámetros del view frustum (vf), y actualiza la matriz de proyección (vf.matrizProy)
-      // caso ortográfica: usar ratio_yx_vp, dist, función MAT_Ortografica
-      // .....
+    vf.persp = false;
+    vf.left = - dist * aspect;
+    vf.right = dist * aspect;
+    vf.top = dist;
+    vf.bottom = - dist;
+    vf.near = n;
+    vf.far = dist + 20;
 
+    vf.matrizProy = MAT_Ortografica(vf.left, vf.right, vf.bottom, vf.top, vf.near, vf.far);
    }
 }
 
@@ -63,14 +66,17 @@ void CamaraInteractiva::calcularViewfrustum(  )
 
 void CamaraInteractiva::calcularMarcoCamara()
 {
+  Matriz4f m = MAT_Traslacion(aten)
+             * MAT_Rotacion(longi, 0, 1, 0)
+             * MAT_Rotacion(-lati, 1, 0, 0)
+             * MAT_Traslacion(0, 0, dist);
 
-   // COMPLETAR: práctica 5: recalcular 'mcv.matrizVista' y 'mcv.matriVistaInv'
-   //    (1) Matriz = Trasl( aten )*Rotacion( longi, Y )*Rotacion( -lati, X )* Traslacion( (0,0,dist) )
-   //    (2) ejes mcv = ejes mcv * matriz
-   //    (3) recalcular matrices marco camara
-   // .....
+  mcv.eje[0] = m * Tupla4f(1, 0, 0, 0);
+  mcv.eje[1] = m * Tupla4f(0, 1, 0, 0);
+  mcv.eje[2] = m * Tupla4f(0, 0, 1, 0);
+  mcv.org    = m * Tupla4f(0, 0, 0, 1);
 
-
+  recalcularMatrMCV();
 }
 
 
@@ -80,9 +86,8 @@ void CamaraInteractiva::calcularMarcoCamara()
 
 void CamaraInteractiva::recalcularMatrMCV()
 {
-   // COMPLETAR: práctica 5: recalcular 'mcv.matrizVista' y 'mcv.matriVistaInv' en 'mcv' usando 'mcv.eje[X/Y/Z]' y 'mcv.org'
-   // .....
-
+   mcv.matrizVista = MAT_Vista(mcv.eje, mcv.org);
+   mcv.matrizVistaInv = MAT_Vista_inv(mcv.eje, mcv.org);
 }
 
 
@@ -100,17 +105,19 @@ void CamaraInteractiva::moverHV( float nh, float nv )
 {
    if ( examinar ) // examinar
    {
-      // COMPLETAR: práctica 5: actualizar 'longi' y 'lati' y recalcular marco de cámara
-      // .....
-
+      longi += nh;
+      lati += nv;
+      calcularMarcoCamara();
    }
 
-   else // primer persona
+   else // primera persona
    {
-      // COMPLETAR: práctica 5: desplazar 'mcv.org' en X e Y y recalcular la matriz de vista
-      // (y movimiento solidario del punto de atención)
-      // .....
+      mcv.org(X) += nh * udesp;
+      mcv.org(Y) += nv * udesp;
 
+      aten(X) += nh * udesp;
+      aten(Y) += nv * udesp;
+      recalcularMatrMCV();
    }
 }
 // -----------------------------------------------------------------------------
@@ -123,22 +130,19 @@ void CamaraInteractiva::desplaZ( float nz )
 {
    if ( examinar ) // examinar
    {
-      // COMPLETAR: práctica 5: actualizar 'dist' usando 'nz', 'dmin' y 'porc' y recalcular marco de cámara
-      // .....
-
+     dist = dmin + (dist - dmin) * (1.0 - nz * porc / 100.0);
+     calcularMarcoCamara();
    }
 
    else // primer persona
    {
-      // COMPLETAR: práctica 5: desplazar 'mcv.org' en Z, y recalcular la matriz de vista
-      // (y movimiento solidario del punto de atención)
-      // .....
-
+      mcv.org(Z) -= nz * udesp;
+      aten(Z) -= nz * udesp;
+      recalcularMatrMCV();
    }
 
 }
 // -----------------------------------------------------------------------------
-
 
 
 // -----------------------------------------------------------------------------
@@ -152,7 +156,6 @@ void CamaraInteractiva::modoExaminar( const Tupla3f & pAten )
   examinar = true;
   aten = pAten;
   calcularMarcoCamara();
-
 }
 // -----------------------------------------------------------------------------
 // pasa a modo examinar (mantiene p.aten.)
