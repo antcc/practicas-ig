@@ -58,6 +58,7 @@ void P5_Inicializar(  int vp_ancho, int vp_alto )
                                        {0,0,0}, false, 80.0, 3.2);
    cout << "hecho." << endl << flush ;
 }
+
 // ---------------------------------------------------------------------
 
 void P5_FijarMVPOpenGL( int vp_ancho, int vp_alto )

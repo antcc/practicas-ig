@@ -39,8 +39,8 @@ Tupla3f calcularCentroCajaEnglobante(const std::vector<Tupla3f>& vertices)
     maximo = {max(ver(X), maximo(X)), max(ver(Y), maximo(Y)), max(ver(Z), maximo(Z))};
     minimo = {min(ver(X), minimo(X)), min(ver(Y), minimo(Y)), min(ver(Z), minimo(Z))};
   }
-
-  return (maximo + minimo) / 2;
+  
+  return (maximo + minimo) / 2.0;
 }
 
 // *****************************************************************************
