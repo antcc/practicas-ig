@@ -44,17 +44,19 @@ void CamaraInteractiva::calcularViewfrustum( )
 {
    float aspect = (float) 1 / ratio_yx_vp;
    if (perspectiva) {
-     vf = ViewFrustum(hfov_grad, aspect, n, dist + 20);
+     vf = ViewFrustum(hfov_grad, aspect, n, dist + 200);
    }
 
    else {
+    aspect = ratio_yx_vp;
+
     vf.persp = false;
     vf.left = - dist * aspect;
     vf.right = dist * aspect;
     vf.top = dist;
     vf.bottom = - dist;
     vf.near = n;
-    vf.far = dist + 20;
+    vf.far = dist + 200;
 
     vf.matrizProy = MAT_Ortografica(vf.left, vf.right, vf.bottom, vf.top, vf.near, vf.far);
    }

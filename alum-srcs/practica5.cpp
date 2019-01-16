@@ -46,16 +46,16 @@ void P5_Inicializar(  int vp_ancho, int vp_alto )
    float ratio = (float) vp_alto / vp_ancho;
    // Alzado
    camaras[0] = new CamaraInteractiva (true, ratio, 0, 0,
-                                       {0,0,0}, true);
+                                       {0,0,0}, true, 80.0, 1.8);
    // Perfil
    camaras[1] = new CamaraInteractiva (true, ratio, 90, 0,
-                                       {0,0,0}, true);
+                                       {0,0,0}, true, 80.0, 2.0);
    // Planta
    camaras[2] = new CamaraInteractiva (true, ratio, 0, 90,
-                                       {0,0,0}, true);
+                                       {0,0,0}, true, 80.0, 4.0);
    // Alzado ortográfica
    camaras[3] = new CamaraInteractiva (true, ratio, 0, 0,
-                                       {0,0,0}, false);
+                                       {0,0,0}, false, 80.0, 3.2);
    cout << "hecho." << endl << flush ;
 }
 // ---------------------------------------------------------------------

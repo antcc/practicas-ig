@@ -97,7 +97,6 @@ void NodoGrafoEscena::visualizarGL( ContextoVis & cv )
   for (unsigned i = 0; i < entradas.size(); i++) {
     if (entradas[i].tipo == TipoEntNGE::objeto) {
       if (cv.modoSeleccionFBO && identificador >= 0) {
-        glColor3ub(0, 0, 0);  // color de primi 0,tivas
         FijarColorIdent(identificador);
       }
       entradas[i].objeto->visualizarGL(cv);
