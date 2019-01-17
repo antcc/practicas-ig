@@ -34,9 +34,6 @@ MallaPLY::MallaPLY(const std::string & nombre_arch)
 
    // Color
    setColorVertices();
-
-   // Centro
-   calcularCentroOC();
 }
 
 // *****************************************************************************

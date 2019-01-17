@@ -32,14 +32,14 @@ Tupla3f calcularCentroCajaEnglobante(const std::vector<Tupla3f>& vertices)
 {
   assert(vertices.size() > 0);
 
-  Tupla3f maximo,
+  Tupla3f maximo = vertices[0],
           minimo = vertices[0]; // puntos diagonales opuestos
 
   for (auto ver : vertices) {
     maximo = {max(ver(X), maximo(X)), max(ver(Y), maximo(Y)), max(ver(Z), maximo(Z))};
     minimo = {min(ver(X), minimo(X)), min(ver(Y), minimo(Y)), min(ver(Z), minimo(Z))};
   }
-  
+
   return (maximo + minimo) / 2.0;
 }
 

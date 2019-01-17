@@ -204,7 +204,6 @@ void NodoGrafoEscena::calcularCentroOC()
 
   ponerCentroOC(calcularCentroCajaEnglobante(centros_hijos));
   centro_calculado = true;
-
 }
 // -----------------------------------------------------------------------------
 // método para buscar un objeto con un identificador y devolver un puntero al mismo
@@ -216,7 +215,7 @@ bool NodoGrafoEscena::buscarObjeto(const int ident_busc,
 {
   assert( 0 < ident_busc );
 
-  if (!centro_calculado)
+  if (identificador > 0 && !centro_calculado)  // no calcula los centros de cosas no seleccionables
     calcularCentroOC();
 
   if (identificador == ident_busc) {

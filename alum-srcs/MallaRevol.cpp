@@ -53,9 +53,6 @@ MallaRevol::MallaRevol(const std::string & nombre_arch,
 
   inicializarMallaRevol(perfil_original, nperfiles, vertices.size() / 3, crear_tapas,
                         cerrar_malla, crear_texturas);
-
-  // Centro
-  calcularCentroOC();
 }
 
 // *****************************************************************************
@@ -188,9 +185,6 @@ Cilindro::Cilindro(const unsigned num_verts_per,
 
   inicializarMallaRevol(perfil_original, nperfiles, num_verts_per,
                         crear_tapas, cerrar_malla, crear_texturas);
-
-  // Centro
-  calcularCentroOC();
 }
 
 // *****************************************************************************
@@ -217,8 +211,6 @@ Cono::Cono(const unsigned num_verts_per,
 
   inicializarMallaRevol(perfil_original, nperfiles, num_verts_per,
                         crear_tapas, cerrar_malla, crear_texturas);
-  // Centro
-  calcularCentroOC();
 }
 
 // *****************************************************************************
@@ -242,6 +234,4 @@ Esfera::Esfera(const unsigned num_verts_per,
 
   inicializarMallaRevol(perfil_original, nperfiles, num_verts_per,
                         crear_tapas, cerrar_malla, crear_texturas);
-  // Centro
-  calcularCentroOC();
 }
