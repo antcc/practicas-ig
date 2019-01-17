@@ -153,7 +153,7 @@ void MallaInd::visualizarDE_MI( ContextoVis & cv )
 
       if (usar_texturas) {
         glNormal3fv(normales_vertices[iv]);
-        glTexCoord2fv(texturas[iv]);
+        if (texturas.size() > 0) glTexCoord2fv(texturas[iv]);
       }
 
       if (color_vertices.size() > 0 && ! cv.modoSeleccionFBO)
