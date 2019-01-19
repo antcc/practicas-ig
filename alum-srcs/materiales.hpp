@@ -294,12 +294,6 @@ class MaterialCaja : public Material {
     MaterialCaja();
 };
 
-// Una fuente de luz direccional (0) y otra posicional (1)
-class ColeccionFuentesP3 : public ColFuentesLuz {
-  public:
-    ColeccionFuentesP3();
-};
-
 //**********************************************************************
 // Clases concretas para la P4
 // ---------------

@@ -28,7 +28,7 @@ static ColFuentesLuz * cf3 = nullptr;
 void P3_Inicializar(  )
 {
    cout << "Creando objetos de la práctica 3 .... " << flush ;
-   cf3 = new ColeccionFuentesP3;
+   cf3 = new ColeccionFuentesP4;
    objetos3[0] = new Tendedor;
    cout << "hecho." << endl << flush ;
 }
@@ -150,6 +150,7 @@ void P3_DibujarObjetos( ContextoVis & cv )
   cf3->activar();
   if (objetos3[objetoActivo3] != nullptr)
     objetos3[objetoActivo3]->visualizarGL(cv);
+  glDisable(GL_LIGHTING);
 }
 
 //--------------------------------------------------------------------------
