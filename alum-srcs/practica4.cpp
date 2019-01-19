@@ -102,4 +102,5 @@ void P4_DibujarObjetos( ContextoVis & cv )
    cf4->activar();
    if (objetos4[objetoActivo4] != nullptr)
      objetos4[objetoActivo4]->visualizarGL(cv);
+   glDisable(GL_LIGHTING);
 }

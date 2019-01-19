@@ -78,6 +78,7 @@ void P5_DibujarObjetos( ContextoVis & cv )
   cf5->activar();
   if (objetos5[0] != nullptr)
     objetos5[0]->visualizarGL(cv);
+  glDisable(GL_LIGHTING);
 }
 
 // ---------------------------------------------------------------------

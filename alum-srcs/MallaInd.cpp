@@ -209,7 +209,7 @@ void MallaInd::visualizarDE_VBOs( ContextoVis & cv )
   if (usar_texturas) {
     glBindBuffer(GL_ARRAY_BUFFER, id_vbo_normales);
     glNormalPointer(GL_FLOAT, 0, 0);
-    glEnableClientState(GL_NORMAL_ARRAY);visualizarDE_MI(cv);
+    glEnableClientState(GL_NORMAL_ARRAY);
 
     if (texturas.size() > 0) {
       glBindBuffer(GL_ARRAY_BUFFER, id_vbo_texturas);
@@ -223,7 +223,7 @@ void MallaInd::visualizarDE_VBOs( ContextoVis & cv )
     glColorPointer(3, GL_FLOAT, 0, 0);
     glEnableClientState(GL_COLOR_ARRAY);
   }
-
+  
   // Vértices
   glBindBuffer(GL_ARRAY_BUFFER, id_vbo_vertices);
   glVertexPointer(3, GL_FLOAT, 0, 0);
