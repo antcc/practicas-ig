@@ -11,8 +11,9 @@ Arch Linux 64-bit con núcleo 4.18.12-arch1-1-ARCH
 
 == Comentarios P1 ==
 
-- Se ha realizado la programación del cauce gráfico, empleando la clase ShaderProg.
-Los shaders se encuentran en los archivos 'simple_fs.glsl' y 'simple_vs.glsl'.
+- Se ha realizado la programación más básica del cauce gráfico, empleando la clase ShaderProg.
+Los shaders se encuentran en los archivos 'simple_fs.glsl' y 'simple_vs.glsl', y pueden activarse
+poniendo a 'true' el atributo usarShaders de un ContextoVis.
 
 - Se permite visualizar un cubo y un tetraedro (regular) centrados en un punto arbitrario
 y con longitud de aristas también arbitraria.
@@ -23,7 +24,7 @@ fijarColorNodo y setColorVertices.
 - Con la tecla v/V se puede cambiar el modo de envío (inmediato <--> diferido).
 
 - Se permite cambiar la forma de envío dentro del modo inmediato con la macro
-MODO_INMEDIATO_DRAW_ELEMENTS.
+MODO_INMEDIATO_DRAW_ELEMENTS (0 usa glBegin/glEnd, 1 usa glDrawElements).
 
 - Se añade una clase Plano que representa una cara de un cubo (un plano). Se hace uso de ella
 en el modelo jerárquico de la P3.
@@ -31,7 +32,7 @@ en el modelo jerárquico de la P3.
 == Comentarios P2 ==
 
 - Se pueden pasar como parámetros por línea de comandos tanto el nombre del archivo ply
-para contruir el objeto mallaPLY como el del archivo para construir el objeto mallaRevol.
+para contruir el objeto MallaPLY como el del archivo para construir el objeto MallaRevol.
 Si solo se pasa uno, se considera que es para el primero.
 
 - El cilindro, el cono y la esfera pueden tener radio y/o altura variable.
@@ -58,10 +59,9 @@ solo con el objetivo de crear objetos compuestos a partir de ellas.
 
 == Cambios en el código proporcionado ==
 
-- Los datos 'private' de Objeto3D pasan a ser 'protected', para poder acceder
-a ellos desde las clases Cubo y Tetraedro.
+- Los datos 'private' de Objeto3D pasan a ser 'protected'.
 
 - Se añade un método virtual a Objeto3D llamado 'fijarColorNodo', para proporcionar compatibilidad
 en la implementación (recursiva) del método homónimo en NodoGrafoEscena.
 
-- Se añade un método 'fijarViewport' a la clase Viewport.
+- Se añade un método 'fijarViewport' a la clase Viewport, encargado de realizar una llamada a glViewport.
