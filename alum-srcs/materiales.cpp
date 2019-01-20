@@ -547,13 +547,13 @@ ColFuentesLuz::~ColFuentesLuz()
 //**********************************************************************
 
 MaterialTendedor::MaterialTendedor()
-  : Material({0.2, 0.2, 0.9}, 0.2, 0.2, 0.1, 0.01)
+  : Material({0.0, 1.0, 0.0}, 0.2, 0.2, 0.1, 1.0)
 {
 
 }
 
 MaterialCaja::MaterialCaja()
-  : Material({0.0, 0.8, 0.2}, 0.5, 0.2, 0.7, 1.0)
+  : Material({0.0, 0.8, 0.2}, 0.2, 0.2, 0.7, 1.0)
 {
 
 }

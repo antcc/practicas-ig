@@ -457,6 +457,7 @@ Tendedor::Tendedor()
 
   // --- Parte central del tendedor ---
 
+  // Material
   agregar(new MaterialTendedor);
 
   // Mitad izquierda
