@@ -514,7 +514,7 @@ void ColFuentesLuz::insertar( FuenteLuz * pf )  // inserta una nueva
 void ColFuentesLuz::activar()
 {
   glEnable(GL_LIGHTING);
-  //glEnable(GL_NORMALIZE);
+  glEnable(GL_NORMALIZE);
   //glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_FALSE); // true = observador local, false = inf
 
   for (unsigned i = 0; i < vpf.size(); i++)
@@ -561,31 +561,31 @@ MaterialCaja::MaterialCaja()
 //**********************************************************************
 
 MaterialLata::MaterialLata()
-  : Material(new Textura("../imgs/lata-coke.jpg"), 0.3, 0.8, 0.8, 1.0)
+  : Material(new Textura("../imgs/lata-coke.jpg"), 0.6, 0.5, 0.8, 10.0)
 {
 
 }
 
 MaterialTapasLata::MaterialTapasLata()
-  : Material(NULL, 0.3, 0.8, 0.7, 1.0)
+  : Material(NULL, 0.3, 0.8, 0.5, 10.0)
 {
 
 }
 
 MaterialPeonNegro::MaterialPeonNegro()
-  : Material({0.01, 0.01, 0.01}, 0.0, 0.01, 0.3, 1.5)
+  : Material({0.01, 0.01, 0.01}, 0.2, 0.1, 1.0, 5.0)
 {
 
 }
 
 MaterialPeonBlanco::MaterialPeonBlanco()
-  : Material({1.0, 1.0, 1.0}, 0.3, 0.7, 0.0, 5.0)
+  : Material({1.0, 1.0, 1.0}, 0.8, 0.5, 0.0, 1.0)
 {
 
 }
 
 MaterialPeonMadera::MaterialPeonMadera()
-  : Material(new TexturaXY("../imgs/text-madera.jpg"), 0.1, 0.8, 0.4, 1.5)
+  : Material(new TexturaXY("../imgs/text-madera.jpg"), 0.6, 0.4, 1.0, 5.0)
 {
 
 }
@@ -596,5 +596,5 @@ ColeccionFuentesP4::ColeccionFuentesP4()
   const VectorRGB color2 = {0.4, 0.4, 0.4, 1.0};
 
   insertar(new FuenteLuzDireccional(-10.0, 30.0, color1));
-  insertar(new FuenteLuzPosicional({0.0, 20.0, 0.0}, color2));
+  insertar(new FuenteLuzPosicional({1.0, 5.0, 2.0}, color2));
 }

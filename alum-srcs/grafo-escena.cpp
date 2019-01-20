@@ -515,7 +515,7 @@ Tendedor::Tendedor()
 
 Lata::Lata() {
   ponerNombre("lata coke");
-  ponerIdentificador(1);
+  ponerIdentificador(10000);
 
   agregar(MAT_Escalado(1.5, 1.5, 1.5));
 
@@ -537,7 +537,7 @@ Lata::Lata() {
 
 Peones::PeonNegro::PeonNegro() {
   ponerNombre("peón negro");
-  ponerIdentificador(2);
+  ponerIdentificador(200);
 
   agregar(new MaterialPeonNegro);
   agregar(new MallaRevol("../plys/peon.ply", 30, true, false, false));
@@ -545,7 +545,7 @@ Peones::PeonNegro::PeonNegro() {
 
 Peones::PeonBlanco::PeonBlanco() {
   ponerNombre("peón blanco");
-  ponerIdentificador(3);
+  ponerIdentificador(30000);
 
   agregar(new MaterialPeonBlanco);
   agregar(new MallaRevol("../plys/peon.ply", 30, true, false, false));
@@ -553,7 +553,7 @@ Peones::PeonBlanco::PeonBlanco() {
 
 Peones::PeonMadera::PeonMadera() {
   ponerNombre("peón madera");
-  ponerIdentificador(4);
+  ponerIdentificador(40000);
 
   agregar(new MaterialPeonMadera);
   agregar(new MallaRevol("../plys/peon.ply", 30, true, false, false));
