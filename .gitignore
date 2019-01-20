@@ -5,7 +5,4 @@ imgs
 guiones
 srcs
 include
-
 makefile
-simple_fs.glsl
-simple_vs.glsl
