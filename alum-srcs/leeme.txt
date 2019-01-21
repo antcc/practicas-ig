@@ -57,6 +57,18 @@ solo con el objetivo de crear objetos compuestos a partir de ellas.
   de MallaInd que queramos colorear así, y asegurarse de que el vector de colores que pasamos tiene
   tantas entradas como vértices tiene el objeto.
 
+== Comentarios P4 ==
+
+- La escena se compone de dos objetos de tipo 'NodoGrafoEscena': una lata por un lado y tres peones por otro.
+
+- Hay dos luces: una posicional y otra direccional.
+
+- Se han añadido materiales muy simples a la práctica 3.
+
+== Comentarios P5 ==
+
+- Hay cuatro cámaras interactivas: tres en perspectiva de alzado, planta y perfil, y una cuarta en vista ortográfica de alzado.
+
 == Cambios en el código proporcionado ==
 
 - Los datos 'private' de Objeto3D pasan a ser 'protected'.

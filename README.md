@@ -8,5 +8,5 @@ Curso 2018/19.
 P1. Visualización de modelos simples (cubo y tetraedro).    
 P2. Modelos PLY y poligonales.     
 P3. Modelos jerárquicos.
-P4. Materiales, fuentes de luz y texturas.
-P5. Interacción
+P4. Materiales, fuentes de luz y texturas.     
+P5. Interacción      
