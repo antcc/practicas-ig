@@ -34,14 +34,18 @@ static int xant,
 static constexpr int numObjetos5 = 1;
 static NodoGrafoEscena * objetos5[numObjetos5] = {nullptr};
 static ColFuentesLuz * cf5 = nullptr;
+// gestionar modos de cámaras
+typedef enum {EXAMINAR, PRIM_PERS, PRIM_PERS_ROT} ModosCamara;
+static ModosCamara modoCamara;
 
 // ---------------------------------------------------------------------
 
 void P5_Inicializar(  int vp_ancho, int vp_alto )
 {
    cout << "Creando objetos de la práctica 5 .... " << flush ;
+   modoCamara = EXAMINAR;
    cf5 = new ColeccionFuentesP4;
-   objetos5[0] = new EscenaP5;
+   objetos5[0] = new EscenaP4;
    viewport = Viewport(0, 0, vp_ancho, vp_alto);
    float ratio = (float) vp_alto / vp_ancho;
    // Alzado
@@ -86,7 +90,7 @@ void P5_DibujarObjetos( ContextoVis & cv )
 bool P5_FGE_PulsarTeclaCaracter(  unsigned char tecla )
 {
    bool result = true;
-   bool examinar;
+   string modo;
 
    switch (toupper(tecla))
    {
@@ -97,13 +101,24 @@ bool P5_FGE_PulsarTeclaCaracter(  unsigned char tecla )
         break ;
 
       case 'V':
-        examinar = camaras[camaraActiva]->examinar;
-        if (examinar)
-          camaras[camaraActiva]->modoPrimeraPersona();
-        else
-          camaras[camaraActiva]->modoExaminar();
+        modoCamara = ModosCamara((int(modoCamara) + 1) % 3);
+        switch(modoCamara) {
+          case EXAMINAR:
+            camaras[camaraActiva]->modoExaminar();
+            modo = "examinar";
+            break;
+          case PRIM_PERS:
+            camaras[camaraActiva]->modoPrimeraPersona(false);
+            modo = "primera persona";
+            break;
+          case PRIM_PERS_ROT:
+            camaras[camaraActiva]->modoPrimeraPersona(true);
+            modo = "primera persona con rotaciones";
+            break;
+        }
+
         cout << "práctica 5: modo de la cámara " << camaraActiva
-             << " cambiado a " << (examinar ? "primera persona" : "examinar") << endl;
+             << " cambiado a " << modo << endl;
         break ;
 
       case '+': // ¿Es al revés?
@@ -133,24 +148,39 @@ bool P5_FGE_PulsarTeclaEspecial(  int tecla  )
    {
       case GLFW_KEY_LEFT:
          camaras[camaraActiva]->moverHV(-DELTA, 0);
-         cout << "práctica 5: desplazamiento hacia la izquierda" << endl;
+         if (modoCamara == PRIM_PERS_ROT)
+           cout << "práctica 5: rotación horizontal negativa" << endl;
+         else
+           cout << "práctica 5: desplazamiento hacia la izquierda" << endl;
 
          break;
+
       case GLFW_KEY_RIGHT:
         camaras[camaraActiva]->moverHV(DELTA, 0);
-        cout << "práctica 5: desplazamiento hacia la derecha" << endl;
+        if (modoCamara == PRIM_PERS_ROT)
+          cout << "práctica 5: rotación horizontal positiva" << endl;
+        else
+          cout << "práctica 5: desplazamiento hacia la derecha" << endl;
+        break;
 
-         break;
       case GLFW_KEY_UP:
          camaras[camaraActiva]->moverHV(0, DELTA);
-         cout << "práctica 5: desplazamiento hacia arriba" << endl;
+         if (modoCamara == PRIM_PERS_ROT)
+           cout << "práctica 5: rotación vertical positiva" << endl;
+         else
+           cout << "práctica 5: desplazamiento hacia arriba" << endl;
 
          break;
+
       case GLFW_KEY_DOWN:
          camaras[camaraActiva]->moverHV(0, -DELTA);
-         cout << "práctica 5: desplazamiento hacia abajo" << endl;
+         if (modoCamara == PRIM_PERS_ROT)
+           cout << "práctica 5: rotación vertical negativa" << endl;
+         else
+           cout << "práctica 5: desplazamiento hacia abajo" << endl;
 
          break;
+
       default:
          result = false ;
          break ;
@@ -194,6 +224,8 @@ void P5_ClickIzquierdo( int x, int y )
     camaras[camaraActiva]->modoExaminar(centro_wc);
     cout << "práctica 5: seleccionado objeto " << objeto->leerNombre()
          << " con centro " << centro_wc << endl;
+    if (ident == 1)
+      cout << "bingo! has acertado en el dado" << endl;
   }
 
   else {

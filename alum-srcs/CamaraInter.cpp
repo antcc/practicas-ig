@@ -19,6 +19,7 @@ CamaraInteractiva::CamaraInteractiva( bool examinar_ini, float ratio_yx_vp_ini,
                                       float hfov_grad_ini, float dist_ini  )
 {
    examinar    = examinar_ini ;
+   rotaciones  = false;
    longi       = longi_ini_grad ;
    lati        = lati_ini_grad ;
    dist        = dist_ini ;
@@ -114,12 +115,24 @@ void CamaraInteractiva::moverHV( float nh, float nv )
 
    else // primera persona
    {
+     if (rotaciones) {
+       Matriz4f mx = MAT_Rotacion(nv, mcv.eje[0](X), mcv.eje[0](Y), mcv.eje[0](Z));
+       Matriz4f my = MAT_Rotacion(nh, mcv.eje[1](X), mcv.eje[1](Y), mcv.eje[1](Z));
+
+       for (int i = 0; i < 3; i++) {
+         mcv.eje[i] = mx * my * mcv.eje[i];
+       }
+     }
+
+     else {
       mcv.org(X) += nh * udesp;
       mcv.org(Y) += nv * udesp;
 
       aten(X) += nh * udesp;
       aten(Y) += nv * udesp;
-      recalcularMatrMCV();
+     }
+
+     recalcularMatrMCV();
    }
 }
 // -----------------------------------------------------------------------------
@@ -136,7 +149,7 @@ void CamaraInteractiva::desplaZ( float nz )
      calcularMarcoCamara();
    }
 
-   else // primer persona
+   else // primer persona o primera persona con rotaciones
    {
       mcv.org(Z) -= nz * udesp;
       aten(Z) -= nz * udesp;
@@ -169,7 +182,8 @@ void CamaraInteractiva::modoExaminar()
 // -----------------------------------------------------------------------------
 // pasa al modo primera persona
 
-void CamaraInteractiva::modoPrimeraPersona()
+void CamaraInteractiva::modoPrimeraPersona(bool rot)
 {
   examinar = false;
+  rotaciones = rot;
 }

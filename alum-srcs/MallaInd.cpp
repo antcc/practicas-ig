@@ -223,7 +223,7 @@ void MallaInd::visualizarDE_VBOs( ContextoVis & cv )
     glColorPointer(3, GL_FLOAT, 0, 0);
     glEnableClientState(GL_COLOR_ARRAY);
   }
-  
+
   // Vértices
   glBindBuffer(GL_ARRAY_BUFFER, id_vbo_vertices);
   glVertexPointer(3, GL_FLOAT, 0, 0);
@@ -432,4 +432,96 @@ Plano::Plano(float longitud_arista)
 
   // Color
   setColorVertices();
+}
+
+// EXAMEN P45
+
+Dado::Dado()
+{
+  ponerNombre("dado");
+  num_vertices = 24;
+  float l = 1.0;
+
+  tabla_vertices = {
+    // 1, 6
+    l * Tupla3f{-1.0, -1.0, -1.0},
+    l * Tupla3f{-1.0, 1.0, -1.0},
+    l * Tupla3f{1.0, 1.0, -1.0},
+    l * Tupla3f{1.0, -1.0, -1.0},
+    l * Tupla3f{-1.0, -1.0, 1.0},
+    l * Tupla3f{-1.0, 1.0, 1.0},
+    l * Tupla3f{1.0, 1.0, 1.0},
+    l * Tupla3f{1.0, -1.0, 1.0},
+
+    // 3, 4
+    l * Tupla3f{-1.0, -1.0, -1.0},
+    l * Tupla3f{-1.0, 1.0, -1.0},
+    l * Tupla3f{1.0, 1.0, -1.0},
+    l * Tupla3f{1.0, -1.0, -1.0},
+    l * Tupla3f{-1.0, -1.0, 1.0},
+    l * Tupla3f{-1.0, 1.0, 1.0},
+    l * Tupla3f{1.0, 1.0, 1.0},
+    l * Tupla3f{1.0, -1.0, 1.0},
+
+    // 2, 5
+    l * Tupla3f{-1.0, -1.0, -1.0},
+    l * Tupla3f{-1.0, 1.0, -1.0},
+    l * Tupla3f{1.0, 1.0, -1.0},
+    l * Tupla3f{1.0, -1.0, -1.0},
+    l * Tupla3f{-1.0, -1.0, 1.0},
+    l * Tupla3f{-1.0, 1.0, 1.0},
+    l * Tupla3f{1.0, 1.0, 1.0},
+    l * Tupla3f{1.0, -1.0, 1.0}
+  };
+
+  tabla_caras = {
+    // 1, 6
+    {1, 5, 6}, {6, 2, 1},
+    {4, 0, 7}, {7, 0, 3},
+
+    // 3, 4
+    {8, 9, 10}, {10, 11, 8},
+    {12, 14, 13}, {12, 15, 14},
+
+    // 2, 5
+    {20, 21, 17}, {16, 20, 17},
+    {19, 18, 22}, {23, 19, 22}
+  };
+
+  texturas = {
+    // 1, 6
+    {0.5, 2.0/3.0},
+    {0, 0},
+    {0.5, 0},
+    {1.0, 2.0/3.0},
+    {0.5, 1},
+    {0, 1.0/3.0},
+    {0.5, 1.0/3.0},
+    {1, 1},
+
+    // 3, 4
+    {0.5, 2.0/3.0},
+    {0.5, 1.0/3.0},
+    {1, 1.0/3.0},
+    {1, 2.0/3.0},
+    {0, 2.0/3.0},
+    {0, 1.0/3.0},
+    {0.5, 1.0/3.0},
+    {0.5, 2.0/3.0},
+
+    // 2, 5
+    {0, 1},
+    {0, 2.0/3.0},
+    {1, 0},
+    {1, 1.0/3.0},
+    {0.5, 1},
+    {0.5, 2.0/3.0},
+    {0.5, 0},
+    {0.5, 1.0/3.0}
+  };
+
+  setColorVertices();
+
+  calcular_normales();
+  normales_creadas = true;
 }

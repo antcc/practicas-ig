@@ -231,12 +231,14 @@ class Peones : public NodoGrafoEscena {
     Peones();
 };
 
-// ---------------------------------------------------------------------
-// clases para el grafo de escena de la P5
-
-class EscenaP5 : public NodoGrafoEscena {
+class EscenaP4 : public NodoGrafoEscena {
   public:
-    EscenaP5();
+    EscenaP4();
+};
+
+class DadoTextura : public NodoGrafoEscena {
+  public:
+    DadoTextura();
 };
 
 #endif // GRAFO_ESCENA_HPP

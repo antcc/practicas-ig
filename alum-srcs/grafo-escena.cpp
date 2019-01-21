@@ -565,16 +565,27 @@ Peones::Peones() {
 
   agregar(MAT_Escalado(0.5, 0.5, 0.5));
   agregar(new PeonNegro);
-  agregar(MAT_Traslacion(3.0, 0.0, 1.0));
+  agregar(MAT_Traslacion(3.0, 0.0, 0.0));
   agregar(new PeonBlanco);
-  agregar(MAT_Traslacion(-6.0, 0.0, -2.0));
+  agregar(MAT_Traslacion(-6.0, 0.0, 0.0));
   agregar(new PeonMadera);
 }
 
-EscenaP5::EscenaP5() {
-  ponerNombre("escenaP5");
+EscenaP4::EscenaP4() {
+  ponerNombre("escenaP4");
 
   agregar(new Lata);
-  agregar(MAT_Traslacion(0.0, 0.0, 2.0));
+  agregar(MAT_Traslacion(1.0, 0.25, 1.0));
   agregar(new Peones);
+  agregar(MAT_Traslacion(-1.0, 0.0, 2.5));
+  agregar(new DadoTextura);
+}
+
+DadoTextura::DadoTextura() {
+  ponerNombre("escena dado");
+  ponerIdentificador(1);
+
+  agregar(MAT_Escalado(0.25, 0.25, 0.25));
+  agregar(new Material(new Textura("../imgs/textura-dado-nr.jpg"), 0.4, 0.6, 0.0, 0.0));
+  agregar(new Dado);
 }

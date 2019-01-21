@@ -115,4 +115,12 @@ class Plano : public MallaInd
       Plano(float longitud_arista);
 };
 
+// EXAMEN P45
+
+class Dado : public MallaInd
+{
+  public:
+    Dado();
+};
+
 #endif

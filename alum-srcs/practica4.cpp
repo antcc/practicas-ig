@@ -30,8 +30,7 @@ void P4_Inicializar(  )
 {
    cout << "Creando objetos de la práctica 4 .... " << flush ;
    cf4 = new ColeccionFuentesP4;
-   objetos4[0] = new Lata;
-   objetos4[1] = new Peones;
+   objetos4[0] = new EscenaP4;
    cout << "hecho." << endl << flush ;
 }
 
